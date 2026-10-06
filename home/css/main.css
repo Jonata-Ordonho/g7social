@@ -1,0 +1,113 @@
+@charset "utf-8";
+/***** CSS Document *****/
+
+@import url('https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+@import url(icones/css/fontello.css);
+
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    color: #000;
+    text-decoration: none;
+    transition: all .2s linear;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.alerta {
+    display: block;
+    text-align: center;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.sucesso {
+    background-color: #dff0d8;
+    color: #3c763d;
+    border: 1px solid #C2DEAB;
+}
+
+.falha {
+    background-color: #f2dede;
+    color: #a94442;
+    border: 1px solid #ebccd1;
+}
+
+.notificacao {
+    background-color: #dee4f2;
+    color: #3d56a1;
+    border: 1px solid #bec6e0;
+}
+
+input,
+select {
+    background-color: #eee;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline-style: none;
+    width: 100%;
+    padding: 15px;
+}
+
+input:focus,
+select:focus {
+    background-color: #fec;
+    box-shadow: 0 0 5px #09C;
+}
+
+.but {
+    background: #F90;
+    color: #FFF;
+    font-family: Raleway;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+    border: none;
+    display: block;
+    cursor: pointer;
+    transition: all .3s linear;
+    border-radius: 5px;
+    width: 100%;
+    padding: 15px;
+}
+
+.but:hover {
+    background: #F60;
+    text-decoration: none;
+}
+
+.but-alt{
+    background: #06C;
+}
+
+.but-alt:hover{
+    background: #03C;
+}
+
+.but-small {
+    font-size: .75rem;
+}
+
+.parsley-errors-list {
+    color: #D00;
+    margin-top: 5px;
+    margin-left: 20px;
+}
+
+#rodape {
+    font-size: .75rem;
+    text-align: center;
+    color: #999;
+    position: absolute;
+    bottom: 20px;
+}

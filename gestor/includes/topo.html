@@ -1,0 +1,64 @@
+<header id="cabecalho">
+    <button id="but-menu" class="ocultar_impressao" aria-label="Abrir menu" aria-expanded="false">
+        <svg width="28px" height="28px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 6H20M4 12H20M4 18H20" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+    <img src="../images/logo_white.png" class="logo logo-desktop" alt="logo" draggable="false">
+    <img src="../images/logo_black.png" class="logo logo-print" alt="logo">
+    <div class="usuario-box">
+        <button type="button" id="usuario" aria-haspopup="true" aria-expanded="false">
+            <span class="avatar"><?php echo htmlspecialchars(mb_strtoupper(mb_substr($_SESSION['SS_UserName'], 0, 1))); ?></span>
+            <span class="nome-usuario"><?php echo htmlspecialchars($_SESSION['SS_UserName']); ?></span>
+            <span class="seta" aria-hidden="true"></span>
+        </button>
+        <div class="usuario-dropdown" role="menu">
+            <div class="usuario-info">
+                <strong><?php echo htmlspecialchars($_SESSION['SS_UserName']); ?></strong>
+                <small><?php echo htmlspecialchars($_SESSION['SS_UserEmail']); ?></small>
+            </div>
+            <a href="../views/usuario_dados.php" class="icon-user" role="menuitem">Alterar dados pessoais</a>
+            <a href="../includes/logout.php" class="icon-logout sair" role="menuitem">Sair</a>
+        </div>
+    </div>
+</header>
+<div id="menu-fundo"></div>
+
+<script>
+    // Menu lateral em gaveta (celular)
+    const button = document.querySelector("#but-menu");
+    const menuFundo = document.querySelector("#menu-fundo");
+    const alternarMenu = (abrir) => {
+        const menu = document.querySelector("#menu");
+        menu.classList.toggle("aberto", abrir);
+        button.classList.toggle("aberto", abrir);
+        document.body.classList.toggle("menu-aberto", abrir);
+        button.setAttribute("aria-expanded", abrir ? "true" : "false");
+    };
+    button.addEventListener("click", () => {
+        alternarMenu(!document.body.classList.contains("menu-aberto"));
+    });
+    menuFundo.addEventListener("click", () => alternarMenu(false));
+
+    // Menu do usuário (dados pessoais / sair)
+    const usuarioBox = document.querySelector(".usuario-box");
+    const usuarioBotao = document.querySelector("#usuario");
+    const fecharMenuUsuario = () => {
+        usuarioBox.classList.remove("aberto");
+        usuarioBotao.setAttribute("aria-expanded", "false");
+    };
+    usuarioBotao.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const aberto = usuarioBox.classList.toggle("aberto");
+        usuarioBotao.setAttribute("aria-expanded", aberto ? "true" : "false");
+    });
+    document.addEventListener("click", (e) => {
+        if (!usuarioBox.contains(e.target)) { fecharMenuUsuario(); }
+    });
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+            fecharMenuUsuario();
+            alternarMenu(false);
+        }
+    });
+</script>

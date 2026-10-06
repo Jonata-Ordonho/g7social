@@ -1,0 +1,85 @@
+@charset "utf-8";
+/***** CSS Document *****/
+
+#container-login {
+    height: 100vh;
+}
+
+#container-login {
+    display: flex;
+}
+
+#container-login > div {
+    flex: 1;
+    position: relative;
+    padding: 30px;
+}
+
+#container-login #logo {
+    position: absolute;
+    top: 50%;
+    right: 50px;
+    translate: 0 -50%;
+    width: 300px;
+}
+
+#container-login > div:first-child {
+    background: linear-gradient(to right, rgb(255, 187, 0, 0.9), rgba(0, 102, 204, 0.8) 50%), url(../images/fundo_login.jpg) no-repeat right;
+    background-size: cover;
+}
+
+#container-login > div:last-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#container-login #box-login {
+    width: 400px;
+}
+
+#container-login #box-login h1 {
+    font-family: Raleway;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+#container-login #form-login fieldset {
+    border: none;
+}
+
+#container-login #form-login fieldset div {
+    margin-bottom: 20px;
+}
+
+#container-login #form-login legend {
+    display: none;
+}
+
+#container-login #form-login label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+@media only screen and (max-width: 900px) {
+    #container-login {
+        display: block;
+    }
+
+    #container-login > div {
+        position: static;
+    }
+
+    #container-login #logo {
+        position: static;
+        width: 150px;
+        margin: auto;
+        display: block;
+        translate: initial;
+    }
+
+    #rodape {
+        font-size: .5rem;
+    }
+
+}

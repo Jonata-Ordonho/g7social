@@ -1,0 +1,11 @@
+{
+    "name": "gruposete/g7social",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/",
+            "DataBase\\": "connections/"
+        }
+    },
+    "require": {
+    }
+}

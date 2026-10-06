@@ -1,0 +1,321 @@
+@charset "utf-8";
+/***** CSS Document *****/
+
+#internas {
+    background-color: #069;
+    padding: 10px;
+}
+
+#cabecalho {
+    position: relative;
+}
+
+#cabecalho .logo {
+    width: 200px;
+    margin-bottom: 20px;
+}
+
+#cabecalho #menu {
+    display: flex;
+    gap: 5px;
+    margin-left: 10px;
+    list-style: none;
+}
+
+#cabecalho #menu a {
+    color: #FFF;
+    padding: 10px 15px;
+    display: block;
+    border: 1px solid #FFF;
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+}
+
+#cabecalho #menu a:hover {
+    background-color: #F90;
+    border-color: #F90;
+    text-decoration: none;
+}
+
+#cabecalho #menu a.selected {
+    background-color: #F90;
+    border-color: #F90;
+    text-decoration: none;
+}
+
+#cabecalho #usuario {
+    position: absolute;
+    top: 10px;
+    right: 0;
+}
+
+#cabecalho #sair {
+    color: #FFF;
+}
+
+#cabecalho #sair::before {
+    margin-right: 5px;
+}
+
+#cabecalho #sair:hover {
+    color: #F90;
+    text-decoration: none;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+}
+
+#conteudo {
+    background-color: #FFF;
+    padding: 30px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.titulo {
+    font-family: Raleway;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: #09C;
+    margin-bottom: 30px;
+}
+
+.obs {
+    font-size: 0.75rem;
+    display: block;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}
+
+/* PÁGINA ATIVIDADES */
+
+.atividades .item-atividade{
+    display: block;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.atividades .item-atividade:hover {
+    background-color: #fff3cd;
+    text-decoration: none;
+}
+
+.atividades .item-atividade:hover .dados-valor {
+    background-color: #FFF;
+}
+
+.atividades .titulo {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+
+.atividades div:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.atividades .data {
+    color: #F60;
+    display: block;
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+}
+
+.atividades .data-alt{
+    color: #09C;
+}
+
+.atividades .dados-valor {
+    background-color: #EEE;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.atividades .valor {
+    display: block;
+    color: #09C;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.atividades .alerta{
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+/* PÁGINA PARTICIPANTES */
+
+.participante-item {
+    padding: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+.participante-item .alerta {
+    margin-bottom: 0;
+}
+
+.participante-item div {
+    border-radius: 5px;
+}
+
+.participante-item .dados {
+    line-height: 1.5rem;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.participante-item .dados + div{
+    margin-top: 10px;
+}
+
+.participante-item .dados > div,
+.participante-item .status {
+    background-color: #EEE;
+    padding: 10px;
+}
+
+.participante-item .dados .detalhes{
+    flex: 1 1 210px;
+}
+
+.participante-item .dados .valor{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.participante-item .dados .valor strong {
+    font-size: 1.5rem;
+    color: #09C;
+}
+
+.participante-item .dados .valor strong span {
+    font-size: 1rem;
+}
+
+.participante-item input[type=checkbox]{
+    width: auto;
+}
+
+
+/* PÁGINA PAGAMENTOS */
+
+.participante-small-item {
+    max-width: 500px;
+}
+
+
+/* INFORMAÇÕES ATIVIDADE */
+
+.info-atividade {
+    line-height: 1.5rem;
+    margin-bottom: 30px;
+}
+
+.info-atividade div{
+    margin-bottom: 30px;
+}
+
+.info-atividade .conteudo-atividade p {
+    margin-bottom: 15px;
+}
+
+.info-atividade .conteudo-atividade ul {
+    margin: 0;
+    padding-left: 0;
+    list-style-position: inside;
+}
+
+.info-atividade .conteudo-atividade table {
+    min-width: 600px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border: 1px solid #000;
+    border-collapse: collapse;
+}
+
+.info-atividade .conteudo-atividade table th,
+.info-atividade .conteudo-atividade table td {
+    padding: 5px;
+    border: 1px solid #000
+}
+
+.info-atividade .conteudo-atividade .container-table {
+    overflow: auto;
+}
+
+
+/* RODAPÉ DO SISTEMA */
+
+#rodape {
+    color: #FFF;
+    position: static;
+}
+
+@media only screen and (max-width: 600px){
+    #conteudo {
+        padding: 20px;
+    }
+
+    #rodape {
+        font-size: 0.5rem;
+    }
+}
+
+@media only screen and (max-width: 600px){
+    .grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+/* PÁGINA DE INSCRIÇÃO DE VOLUNTÁRIOS */
+
+.projeto-inscricao {
+    display: block;
+    color: #F60;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.subtitulo-inscricao {
+    font-family: Raleway;
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+}
+
+.dados-inscricao {
+    list-style: none;
+    background-color: #EEE;
+    border-radius: 10px;
+    padding: 15px 20px;
+}
+
+.dados-inscricao li + li {
+    margin-top: 5px;
+}
+
+#form-inscricao .campo {
+    margin-bottom: 20px;
+}
+
+#form-inscricao label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#form-inscricao .campo-oculto {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}

@@ -1,0 +1,31 @@
+<?php
+
+namespace DataBase;
+
+class Connections{
+    private $pdo;
+
+    public function __construct(){
+        $url = 'mysql:host=IP_DO_HOST;dbname=NOME_BANCO';
+        $user = 'USUARIO';
+        $passwd = 'SENHA';
+
+        $this->pdo = new \PDO($url, $user, $passwd);
+        //$this->pdo->setAttribute(\PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->pdo->exec('set names utf8');
+    }
+
+    public function connectBd(){
+        return $this->pdo;
+    }
+
+    public function connectTurnstile(){
+        $turnstile = array(
+            'site_key' => 'SITE_KEY',
+            'secret' => 'SECRET_KEY',
+            'url' => 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
+        );
+
+        return $turnstile;
+    }
+}

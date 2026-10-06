@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1650" height="1000" viewBox="0 0 1650 1000" font-family="Segoe UI, Inter, Arial, sans-serif">
+<defs>
+  <marker id="seta" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" orient="auto" markerUnits="userSpaceOnUse">
+    <path d="M1 1 L11 6 L1 11" fill="none" stroke="#4f5b6a" stroke-width="1.6"/></marker>
+  <marker id="heranca" viewBox="0 0 18 18" refX="17" refY="9" markerWidth="18" markerHeight="18" orient="auto" markerUnits="userSpaceOnUse">
+    <path d="M1 1 L17 9 L1 17 Z" fill="#fff" stroke="#1f2933" stroke-width="1.6"/></marker>
+</defs>
+<rect width="100%" height="100%" fill="#f3f5f8"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#1f2933">G7 Social — Diagrama de Casos de Uso</text>
+<rect x="300" y="70" width="860" height="900" rx="12" fill="#fff" stroke="#9aa6b5" stroke-width="1.5"/>
+<text x="730" y="98" font-size="15" font-weight="700" text-anchor="middle" fill="#00649e">Gestor — área administrativa</text>
+<rect x="1210" y="270" width="270" height="470" rx="12" fill="#fff" stroke="#9aa6b5" stroke-width="1.5"/>
+<text x="1345" y="298" font-size="15" font-weight="700" text-anchor="middle" fill="#00649e">Home — página pública</text>
+<line x1="156" y1="365" x2="432" y2="140" stroke="#1f2933" stroke-width="1.3"/>
+<line x1="156" y1="365" x2="432" y2="215" stroke="#1f2933" stroke-width="1.3"/>
+<line x1="156" y1="365" x2="432" y2="290" stroke="#1f2933" stroke-width="1.3"/>
+<line x1="156" y1="365" x2="432" y2="375" stroke="#1f2933" stroke-width="1.3"/>
+<line x1="156" y1="365" x2="432" y2="450" stroke="#1f2933" stroke-width="1.3"/>
+<line x1="156" y1="365" x2="432" y2="535" stroke="#1f2933" stroke-width="1.3"/>
+<line x1="156" y1="365" x2="432" y2="620" stroke="#1f2933" stroke-width="1.3"/>
+<line x1="156" y1="730" x2="432" y2="720" stroke="#1f2933" stroke-width="1.3"/>
+<line x1="156" y1="730" x2="432" y2="800" stroke="#1f2933" stroke-width="1.3"/>
+<line x1="156" y1="880" x2="432" y2="895" stroke="#1f2933" stroke-width="1.3"/>
+<line x1="1529" y1="420" x2="1457" y2="360" stroke="#1f2933" stroke-width="1.3"/>
+<line x1="1529" y1="420" x2="1457" y2="495" stroke="#1f2933" stroke-width="1.3"/>
+<line x1="130" y1="692" x2="130" y2="448" stroke="#1f2933" stroke-width="1.5" marker-end="url(#heranca)"/>
+<line x1="130" y1="842" x2="130" y2="812" stroke="#1f2933" stroke-width="1.5" marker-end="url(#heranca)"/>
+<polyline points="815,338 690,368" fill="none" stroke="#4f5b6a" stroke-width="1.3" stroke-dasharray="6 4" marker-end="url(#seta)"/>
+<text x="755" y="336" font-size="11.5" fill="#4f5b6a" text-anchor="middle">«extend»</text>
+<polyline points="802,412 690,382" fill="none" stroke="#4f5b6a" stroke-width="1.3" stroke-dasharray="6 4" marker-end="url(#seta)"/>
+<text x="738" y="418" font-size="11.5" fill="#4f5b6a" text-anchor="middle">«extend»</text>
+<polyline points="815,535 690,535" fill="none" stroke="#4f5b6a" stroke-width="1.3" stroke-dasharray="6 4" marker-end="url(#seta)"/>
+<text x="750" y="527" font-size="11.5" fill="#4f5b6a" text-anchor="middle">«extend»</text>
+<polyline points="690,620 800,620" fill="none" stroke="#4f5b6a" stroke-width="1.3" stroke-dasharray="6 4" marker-end="url(#seta)"/>
+<text x="750" y="612" font-size="11.5" fill="#4f5b6a" text-anchor="middle">«include»</text>
+<polyline points="1345,527 1345,606" fill="none" stroke="#4f5b6a" stroke-width="1.3" stroke-dasharray="6 4" marker-end="url(#seta)"/>
+<text x="1395" y="572" font-size="11.5" fill="#4f5b6a" text-anchor="middle">«include»</text>
+<ellipse cx="560" cy="140" rx="128" ry="30" fill="#e6f2fa" stroke="#007DC5" stroke-width="1.6"/>
+<text x="560" y="145" font-size="13" text-anchor="middle" fill="#1f2933">Fazer login</text>
+<ellipse cx="560" cy="215" rx="128" ry="30" fill="#e6f2fa" stroke="#007DC5" stroke-width="1.6"/>
+<text x="560" y="220" font-size="13" text-anchor="middle" fill="#1f2933">Alterar dados pessoais</text>
+<ellipse cx="560" cy="290" rx="128" ry="30" fill="#e6f2fa" stroke="#007DC5" stroke-width="1.6"/>
+<text x="560" y="287" font-size="13" text-anchor="middle" fill="#1f2933">Consultar e alterar</text>
+<text x="560" y="303" font-size="13" text-anchor="middle" fill="#1f2933">projetos sociais</text>
+<ellipse cx="560" cy="375" rx="128" ry="30" fill="#e6f2fa" stroke="#007DC5" stroke-width="1.6"/>
+<text x="560" y="380" font-size="13" text-anchor="middle" fill="#1f2933">Gerenciar atividades</text>
+<ellipse cx="560" cy="450" rx="128" ry="30" fill="#e6f2fa" stroke="#007DC5" stroke-width="1.6"/>
+<text x="560" y="447" font-size="13" text-anchor="middle" fill="#1f2933">Gerenciar voluntários</text>
+<text x="560" y="463" font-size="13" text-anchor="middle" fill="#1f2933">da atividade</text>
+<ellipse cx="560" cy="535" rx="128" ry="30" fill="#e6f2fa" stroke="#007DC5" stroke-width="1.6"/>
+<text x="560" y="540" font-size="13" text-anchor="middle" fill="#1f2933">Gerenciar doadores</text>
+<ellipse cx="560" cy="620" rx="128" ry="30" fill="#e6f2fa" stroke="#007DC5" stroke-width="1.6"/>
+<text x="560" y="625" font-size="13" text-anchor="middle" fill="#1f2933">Gerenciar arrecadações</text>
+<ellipse cx="560" cy="720" rx="128" ry="30" fill="#fff1e6" stroke="#f60" stroke-width="1.6"/>
+<text x="560" y="725" font-size="13" text-anchor="middle" fill="#1f2933">Listar usuários</text>
+<ellipse cx="560" cy="800" rx="128" ry="30" fill="#fff1e6" stroke="#f60" stroke-width="1.6"/>
+<text x="560" y="805" font-size="13" text-anchor="middle" fill="#1f2933">Cadastrar usuário</text>
+<ellipse cx="560" cy="895" rx="128" ry="30" fill="#fdecec" stroke="#c53030" stroke-width="1.6"/>
+<text x="560" y="892" font-size="13" text-anchor="middle" fill="#1f2933">Alterar dados e status</text>
+<text x="560" y="908" font-size="13" text-anchor="middle" fill="#1f2933">de usuários</text>
+<ellipse cx="930" cy="330" rx="128" ry="30" fill="#f5f7fa" stroke="#8a94a3" stroke-width="1.6"/>
+<text x="930" y="327" font-size="13" text-anchor="middle" fill="#1f2933">Ativar/desativar</text>
+<text x="930" y="343" font-size="13" text-anchor="middle" fill="#1f2933">inscrições</text>
+<ellipse cx="930" cy="415" rx="128" ry="30" fill="#f5f7fa" stroke="#8a94a3" stroke-width="1.6"/>
+<text x="930" y="420" font-size="13" text-anchor="middle" fill="#1f2933">Copiar link de inscrição</text>
+<ellipse cx="930" cy="535" rx="128" ry="30" fill="#f5f7fa" stroke="#8a94a3" stroke-width="1.6"/>
+<text x="930" y="532" font-size="13" text-anchor="middle" fill="#1f2933">Detalhar doador</text>
+<text x="930" y="548" font-size="13" text-anchor="middle" fill="#1f2933">e suas doações</text>
+<ellipse cx="930" cy="620" rx="128" ry="30" fill="#f5f7fa" stroke="#8a94a3" stroke-width="1.6"/>
+<text x="930" y="625" font-size="13" text-anchor="middle" fill="#1f2933">Selecionar doador</text>
+<ellipse cx="1345" cy="360" rx="112" ry="30" fill="#e6f5ec" stroke="#2e9e5b" stroke-width="1.6"/>
+<text x="1345" y="357" font-size="13" text-anchor="middle" fill="#1f2933">Acessar página</text>
+<text x="1345" y="373" font-size="13" text-anchor="middle" fill="#1f2933">da atividade</text>
+<ellipse cx="1345" cy="495" rx="112" ry="30" fill="#e6f5ec" stroke="#2e9e5b" stroke-width="1.6"/>
+<text x="1345" y="492" font-size="13" text-anchor="middle" fill="#1f2933">Inscrever-se como</text>
+<text x="1345" y="508" font-size="13" text-anchor="middle" fill="#1f2933">voluntário</text>
+<ellipse cx="1345" cy="640" rx="112" ry="30" fill="#f5f7fa" stroke="#8a94a3" stroke-width="1.6"/>
+<text x="1345" y="637" font-size="13" text-anchor="middle" fill="#1f2933">Validar vagas e</text>
+<text x="1345" y="653" font-size="13" text-anchor="middle" fill="#1f2933">e-mail repetido</text>
+<circle cx="130" cy="337" r="11" fill="#fff" stroke="#007DC5" stroke-width="2"/>
+<path d="M130 348 V383 M108 361 H152 M130 383 L114 409 M130 383 L146 409" fill="none" stroke="#007DC5" stroke-width="2" stroke-linecap="round"/>
+<text x="130" y="429" font-size="13.5" font-weight="700" text-anchor="middle" fill="#1f2933">Gestor</text>
+<circle cx="130" cy="702" r="11" fill="#fff" stroke="#f60" stroke-width="2"/>
+<path d="M130 713 V748 M108 726 H152 M130 748 L114 774 M130 748 L146 774" fill="none" stroke="#f60" stroke-width="2" stroke-linecap="round"/>
+<text x="130" y="794" font-size="13.5" font-weight="700" text-anchor="middle" fill="#1f2933">Administrador</text>
+<circle cx="130" cy="852" r="11" fill="#fff" stroke="#c53030" stroke-width="2"/>
+<path d="M130 863 V898 M108 876 H152 M130 898 L114 924 M130 898 L146 924" fill="none" stroke="#c53030" stroke-width="2" stroke-linecap="round"/>
+<text x="130" y="944" font-size="13.5" font-weight="700" text-anchor="middle" fill="#1f2933">Admin master (DEV)</text>
+<circle cx="1555" cy="392" r="11" fill="#fff" stroke="#2e9e5b" stroke-width="2"/>
+<path d="M1555 403 V438 M1533 416 H1577 M1555 438 L1539 464 M1555 438 L1571 464" fill="none" stroke="#2e9e5b" stroke-width="2" stroke-linecap="round"/>
+<text x="1555" y="484" font-size="13.5" font-weight="700" text-anchor="middle" fill="#1f2933">Voluntário</text>
+<text x="1210" y="770" font-size="12" fill="#4f5b6a">A página pública só aceita inscrições quando a</text>
+<text x="1210" y="786" font-size="12" fill="#4f5b6a">atividade está ativa, dentro do prazo e com vagas.</text>
+<text x="1210" y="812" font-size="12" fill="#4f5b6a">O link é gerado em «Copiar link de inscrição».</text>
+<rect x="1210" y="840" width="410" height="130" rx="8" fill="#fff" stroke="#c9d1db"/>
+<text x="1224" y="864" font-size="14" font-weight="700" fill="#1f2933">Legenda</text>
+<ellipse cx="1240" cy="884" rx="14" ry="8" fill="#e6f2fa" stroke="#007DC5" stroke-width="1.5"/>
+<text x="1260" y="888" font-size="11.5" fill="#1f2933">Todos os usuários do gestor</text>
+<ellipse cx="1440" cy="884" rx="14" ry="8" fill="#fff1e6" stroke="#f60" stroke-width="1.5"/>
+<text x="1460" y="888" font-size="11.5" fill="#1f2933">Administrador e admin master</text>
+<ellipse cx="1240" cy="910" rx="14" ry="8" fill="#fdecec" stroke="#c53030" stroke-width="1.5"/>
+<text x="1260" y="914" font-size="11.5" fill="#1f2933">Somente admin master</text>
+<ellipse cx="1440" cy="910" rx="14" ry="8" fill="#e6f5ec" stroke="#2e9e5b" stroke-width="1.5"/>
+<text x="1460" y="914" font-size="11.5" fill="#1f2933">Público (sem login)</text>
+<line x1="1226" y1="948" x2="1260" y2="948" stroke="#1f2933" stroke-width="1.5" marker-end="url(#heranca)"/>
+<text x="1270" y="952" font-size="11.5" fill="#1f2933">herda os casos de uso</text>
+<line x1="1406" y1="948" x2="1440" y2="948" stroke="#4f5b6a" stroke-width="1.3" stroke-dasharray="6 4" marker-end="url(#seta)"/>
+<text x="1450" y="952" font-size="11.5" fill="#1f2933">«include» / «extend»</text>
+</svg>

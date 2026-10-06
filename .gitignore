@@ -1,0 +1,12 @@
+.idea/
+connections/Connections.php
+vendor/
+media/*
+!media/.gitkeep
+
+# Editores
+.vscode/
+
+# Sistema operacional
+Thumbs.db
+.DS_Store
