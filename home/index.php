@@ -31,7 +31,7 @@ if (!isset($_SESSION)) {
 <body>
     <div id="container-login">
         <div>
-            <img src="images/logo_colegio_sete_branco.png" id="logo" alt="Logo Grupo Sete">
+            <img src="images/logo_grupo_sete_branco.png" id="logo" alt="Logo Grupo Sete">
         </div>
 
         <div>

@@ -119,7 +119,7 @@ if($disponivel && !$encerrada && !$vagasEsgotadas && isset($_POST['MM_insert']) 
 <body>
     <div class="container">
         <header class="topo-publico">
-            <img src="../images/logo_colegio_sete_branco.png" class="logo" alt="Logo Grupo Sete">
+            <img src="../images/logo_grupo_sete_branco.png" class="logo" alt="Logo Grupo Sete">
             <span class="selo">Inscrição de voluntários</span>
         </header>
 
@@ -164,6 +164,12 @@ if($disponivel && !$encerrada && !$vagasEsgotadas && isset($_POST['MM_insert']) 
                                     </div>
                                 </li>
                             <?php } ?>
+                            <li class="icon-home">
+                                <div>
+                                    <span>Local</span>
+                                    <strong><?php echo htmlspecialchars($atividade['local']); ?></strong>
+                                </div>
+                            </li>
                             <?php if($vagasRestantes !== NULL){ ?>
                                 <li class="icon-users">
                                     <div>
@@ -172,12 +178,6 @@ if($disponivel && !$encerrada && !$vagasEsgotadas && isset($_POST['MM_insert']) 
                                     </div>
                                 </li>
                             <?php } ?>
-                            <li class="icon-home largo">
-                                <div>
-                                    <span>Local</span>
-                                    <strong><?php echo htmlspecialchars($atividade['local']); ?></strong>
-                                </div>
-                            </li>
                         </ul>
                     </section>
 

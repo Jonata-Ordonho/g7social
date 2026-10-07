@@ -177,7 +177,8 @@ a {
     font-size: .92rem;
 }
 
-.dados-atividade li.largo {
+/* Último item sozinho na linha ocupa a largura toda */
+.dados-atividade li:last-child:nth-child(odd) {
     grid-column: 1 / -1;
 }
 
@@ -391,7 +392,33 @@ input.parsley-error {
         font-size: 1.4rem;
     }
 
+    /* Informações compactas para o formulário aparecer logo ao abrir a página */
+    .info-atividade .descricao {
+        font-size: .88rem;
+        margin-bottom: 14px;
+    }
+
     .dados-atividade {
-        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .dados-atividade li {
+        gap: 8px;
+        padding: 8px 10px;
+    }
+
+    .dados-atividade li::before {
+        width: 26px;
+        height: 26px;
+        font-size: .8rem;
+    }
+
+    .dados-atividade li span {
+        font-size: .65rem;
+    }
+
+    .dados-atividade li strong {
+        font-size: .82rem;
+        line-height: 1.35;
     }
 }

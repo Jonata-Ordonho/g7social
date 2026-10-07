@@ -66,7 +66,6 @@ O **gestor** (área administrativa) controla projetos sociais, atividades, volun
 - [ ] Reativar o CAPTCHA do login em `gestor/index.php` (está comentado para o desenvolvimento local, marcado com `TODO`).
 - [ ] Trocar a senha do usuário inicial.
 - [ ] Ativar CAPTCHA também na página pública de inscrição (`home/views/inscricao.php`), que hoje tem apenas um campo anti-robô.
-- [ ] Trocar os logos em `gestor/images/` e `home/images/` (ainda são os do C7 Atividades / Colégio Sete).
 
 ## Estrutura
 
