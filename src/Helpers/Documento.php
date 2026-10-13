@@ -56,6 +56,14 @@ class Documento{
         return preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1.$2.$3-$4', $cpf);
     }
 
+    // CPF parcialmente oculto para relatórios: ***.982.247-**
+    public static function mascararCPF($cpf){
+        if (strlen((string) $cpf) != 11) {
+            return '';
+        }
+        return '***.' . substr($cpf, 3, 3) . '.' . substr($cpf, 6, 3) . '-**';
+    }
+
     public static function formatarCNPJ($cnpj){
         return preg_replace('/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/', '$1.$2.$3/$4-$5', $cnpj);
     }

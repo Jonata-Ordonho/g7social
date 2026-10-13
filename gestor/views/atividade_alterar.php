@@ -4,13 +4,14 @@ require_once __DIR__.'/../includes/verificar_login.php';
 
 use App\Controllers\ProjetoController;
 use App\Controllers\AtividadeController;
-use App\Controllers\VoluntarioController;
+use App\Controllers\InscricaoController;
 use App\Controllers\LogController;
+use App\Helpers\Permissao;
 use App\Models\Atividade;
 
 $controllerProjeto = new ProjetoController;
 $controllerAtividade = new AtividadeController;
-$controllerVoluntario = new VoluntarioController;
+$controllerInscricao = new InscricaoController;
 $controllerLogs = new LogController;
 
 $idActivity = isset($_GET['id']) ? (int) $_GET['id'] : 0;
@@ -23,6 +24,13 @@ if($atividade == NULL){
 }
 
 $idProject = $atividade['id_projeto'];
+
+// Somente administradores alteram atividades
+if(!Permissao::podeGerenciarAtividades($_SESSION['SS_UserType'])){
+    header("Location: atividade_listar.php?id_projeto=".$idProject."&semPermissao=true");
+    exit;
+}
+
 $projeto = $controllerProjeto->getProjectByID($idProject);
 
 $dados = $atividade;
@@ -39,12 +47,14 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
     $dados['vagas'] = trim($_POST['vagas']);
     $dados['status'] = (isset($_POST['status']) && $_POST['status'] == 'off') ? 'off' : 'on';
 
-    $totalVoluntarios = $controllerVoluntario->getVolunteersTotalByActivity($idActivity);
+    $totalVoluntarios = $controllerInscricao->getInscriptionsTotalByActivity($idActivity);
 
     if($dados['titulo'] == '' || $dados['local'] == '' || !strtotime($dados['data_inicio']) || !strtotime($dados['data_fim'])){
         $erro = 'Preencha o título, o local e as datas da atividade.';
     }elseif($dados['data_fim'] < $dados['data_inicio']){
         $erro = 'A data final da atividade não pode ser anterior à data inicial.';
+    }elseif($dados['data_inicio'] < $projeto['data_inicio'] || $dados['data_fim'] > $projeto['data_fim']){
+        $erro = 'As datas da atividade devem ficar dentro do período do projeto ('.date('d/m/Y', strtotime($projeto['data_inicio'])).' a '.date('d/m/Y', strtotime($projeto['data_fim'])).').';
     }elseif($dados['vagas'] != '' && !ctype_digit($dados['vagas'])){
         $erro = 'O número de vagas deve ser um número inteiro.';
     }elseif($dados['vagas'] != '' && (int) $dados['vagas'] < $totalVoluntarios){

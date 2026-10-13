@@ -15,6 +15,26 @@ class Permissao{
         return isset(self::TIPOS[$tipo]) ? self::TIPOS[$tipo] : $tipo;
     }
 
+    // Somente admin master e admin cadastram e alteram projetos sociais
+    public static function podeGerenciarProjetos($tipoLogado){
+        return in_array($tipoLogado, array('admin_master', 'admin'));
+    }
+
+    // Somente admin master e admin excluem inscrições de voluntários
+    public static function podeExcluirVoluntario($tipoLogado){
+        return in_array($tipoLogado, array('admin_master', 'admin'));
+    }
+
+    // Somente admin master e admin cadastram, alteram e ativam/desativam atividades
+    public static function podeGerenciarAtividades($tipoLogado){
+        return in_array($tipoLogado, array('admin_master', 'admin'));
+    }
+
+    // Somente admin master e admin inscrevem voluntários pelo gestor e alteram os dados do banco de voluntários
+    public static function podeGerenciarVoluntarios($tipoLogado){
+        return in_array($tipoLogado, array('admin_master', 'admin'));
+    }
+
     // Admin master e admin veem o bloco de usuários e podem cadastrar
     public static function podeGerenciarUsuarios($tipoLogado){
         return in_array($tipoLogado, array('admin_master', 'admin'));

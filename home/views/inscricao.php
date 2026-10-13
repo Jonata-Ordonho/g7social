@@ -4,11 +4,13 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 date_default_timezone_set('America/Fortaleza');
 
 use App\Controllers\AtividadeController;
+use App\Controllers\InscricaoController;
+use App\Controllers\ProjetoController;
 use App\Controllers\VoluntarioController;
 use App\Helpers\Documento;
-use App\Models\Voluntario;
 
 $controllerAtividade = new AtividadeController;
+$controllerInscricao = new InscricaoController;
 $controllerVoluntario = new VoluntarioController;
 
 $codigo = isset($_GET['c']) ? preg_replace('/[^a-f0-9]/', '', strtolower($_GET['c'])) : '';
@@ -25,7 +27,8 @@ $encerrada = false;
 $vagasEsgotadas = false;
 $vagasRestantes = NULL;
 if($disponivel){
-    $encerrada = $atividade['data_fim'] < date('Y-m-d');
+    // Encerrada quando a atividade ou o projeto já terminaram
+    $encerrada = $atividade['data_fim'] < date('Y-m-d') || $atividade['projeto_data_fim'] < date('Y-m-d');
     if($atividade['vagas'] != NULL){
         $vagasRestantes = max(0, $atividade['vagas'] - $atividade['total_voluntarios']);
         $vagasEsgotadas = $vagasRestantes == 0;
@@ -34,44 +37,75 @@ if($disponivel){
 
 $dados = array(
     'nome' => '',
+    'cpf' => '',
     'telefone' => '',
     'email' => ''
 );
 
 $erro = '';
 
-if($disponivel && !$encerrada && !$vagasEsgotadas && isset($_POST['MM_insert']) && $_POST['MM_insert'] == 'form1'){
+// Etapa 1: só o CPF. Etapa 2: nome, telefone e e-mail (preenchidos se o CPF já está no banco de voluntários)
+$etapa = 'cpf';
+$voluntarioExistente = NULL;
+
+$aberta = $disponivel && !$encerrada && !$vagasEsgotadas;
+$envioCpf = $aberta && isset($_POST['MM_cpf']) && $_POST['MM_cpf'] == 'form_cpf';
+$envioDados = $aberta && isset($_POST['MM_insert']) && $_POST['MM_insert'] == 'form1';
+
+if($envioCpf || $envioDados){
+    $dados['cpf'] = isset($_POST['cpf']) ? trim($_POST['cpf']) : '';
+    $cpf = Documento::somenteNumeros($dados['cpf']);
+
+    if(isset($_POST['website']) && $_POST['website'] != ''){
+        // Campo invisível preenchido: envio automatizado (spam)
+        $erro = 'Não foi possível realizar a inscrição.';
+    }elseif(!Documento::validarCPF($cpf)){
+        $erro = 'Informe um CPF válido.';
+    }else{
+        $dados['cpf'] = Documento::formatarCPF($cpf);
+        $voluntarioExistente = $controllerVoluntario->getVolunteerByCPF($cpf);
+
+        if($voluntarioExistente != NULL && $controllerInscricao->checkInscription($voluntarioExistente['id_voluntario'], $atividade['id_atividade'])){
+            $erro = 'Este CPF já está inscrito nesta atividade.';
+        }else{
+            $etapa = 'dados';
+        }
+    }
+}
+
+if($etapa == 'dados' && $envioCpf && $voluntarioExistente != NULL){
+    // Traz os dados cadastrados para o voluntário conferir e atualizar
+    $dados['nome'] = $voluntarioExistente['nome'];
+    $dados['email'] = (string) $voluntarioExistente['email'];
+    $dados['telefone'] = Documento::formatarTelefone((string) $voluntarioExistente['telefone']);
+}
+
+if($etapa == 'dados' && $envioDados){
     $dados['nome'] = trim($_POST['nome']);
     $dados['telefone'] = trim($_POST['telefone']);
     $dados['email'] = trim($_POST['email']);
 
     $telefone = Documento::somenteNumeros($dados['telefone']);
 
-    if(isset($_POST['website']) && $_POST['website'] != ''){
-        // Campo invisível preenchido: envio automatizado (spam)
-        $erro = 'Não foi possível realizar a inscrição.';
-    }elseif($dados['nome'] == ''){
+    if($dados['nome'] == ''){
         $erro = 'Informe o seu nome.';
     }elseif(strlen($telefone) != 10 && strlen($telefone) != 11){
         $erro = 'Informe o telefone com DDD.';
     }elseif(!filter_var($dados['email'], FILTER_VALIDATE_EMAIL)){
         $erro = 'Informe um e-mail válido.';
-    }elseif($controllerVoluntario->checkVolunteerEmail($atividade['id_atividade'], $dados['email'])){
-        $erro = 'Este e-mail já está inscrito nesta atividade.';
-    }elseif($atividade['vagas'] != NULL && $controllerVoluntario->getVolunteersTotalByActivity($atividade['id_atividade']) >= $atividade['vagas']){
-        $erro = 'Desculpe, as vagas desta atividade acabaram de ser preenchidas.';
     }else{
-        $objVoluntario = new Voluntario;
-        $objVoluntario->setAtividadeID($atividade['id_atividade']);
-        $objVoluntario->setNome($dados['nome']);
-        $objVoluntario->setTelefone($telefone);
-        $objVoluntario->setEmail($dados['email']);
+        // CPF novo: cria o voluntário. CPF já cadastrado: atualiza os dados conforme o formulário.
+        $resultado = $controllerInscricao->registerInscription(array(
+            'nome' => $dados['nome'], 'cpf' => $cpf, 'email' => $dados['email'], 'telefone' => $telefone
+        ), $atividade, true);
 
-        if($controllerVoluntario->insertVolunteer($objVoluntario)){
-            header("Location: inscricao.php?c=".$codigo."&ok=1");
+        if($resultado['erro'] == ''){
+            // Volta para a listagem de atividades do projeto com a mensagem de sucesso
+            $codigoProjeto = (new ProjetoController)->getProjectCode($atividade['id_projeto'], $atividade['projeto_codigo']);
+            header("Location: projeto.php?c=".$codigoProjeto."&inscricao=ok");
             exit;
         }else{
-            $erro = 'Não foi possível realizar a inscrição. Tente novamente.';
+            $erro = $resultado['erro'];
         }
     }
 }
@@ -103,6 +137,8 @@ if($disponivel && !$encerrada && !$vagasEsgotadas && isset($_POST['MM_insert']) 
         window.Parsley.setLocale('pt-br');
 
         $(document).ready(function(){
+            $('#cpf').mask('000.000.000-00');
+
             // Telefone fixo (10 dígitos) ou celular (11 dígitos)
             var mascaraTelefone = function (val) {
                 return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
@@ -119,9 +155,16 @@ if($disponivel && !$encerrada && !$vagasEsgotadas && isset($_POST['MM_insert']) 
 <body>
     <div class="container">
         <header class="topo-publico">
-            <img src="../images/logo_grupo_sete_branco.png" class="logo" alt="Logo Grupo Sete">
+            <div class="marca">
+                <img src="../images/logo_g7.png" alt="">
+                <span class="marca-nome">G7<span>social</span></span>
+            </div>
             <span class="selo">Inscrição de voluntários</span>
         </header>
+
+        <?php if($atividade != NULL && $atividade['projeto_codigo'] != NULL){ ?>
+            <a href="projeto.php?c=<?php echo $atividade['projeto_codigo']; ?>" class="voltar-projeto">« Ver todas as atividades do projeto</a>
+        <?php } ?>
 
         <main class="cartao">
             <?php if(!$disponivel){ ?>
@@ -182,45 +225,76 @@ if($disponivel && !$encerrada && !$vagasEsgotadas && isset($_POST['MM_insert']) 
                     </section>
 
                     <section class="area-formulario">
-                        <?php if(isset($_GET['ok'])){ ?>
-                            <span class="alerta sucesso">Inscrição realizada com sucesso! Obrigado por se voluntariar.</span>
-                        <?php } ?>
-
                         <?php if($encerrada){ ?>
-                            <span class="alerta notificacao">Esta atividade já foi encerrada. As inscrições estão fechadas.</span>
+                            <span class="alerta notificacao"><?php echo $atividade['projeto_data_fim'] < date('Y-m-d') ? 'Este projeto foi finalizado. As inscrições estão encerradas.' : 'Esta atividade já foi encerrada. As inscrições estão fechadas.'; ?></span>
                         <?php }elseif($vagasEsgotadas){ ?>
                             <span class="alerta notificacao">As vagas desta atividade foram todas preenchidas.</span>
                         <?php }else{ ?>
                             <h2>Quero ser voluntário</h2>
-                            <span class="subtitulo">Preencha seus dados para confirmar a inscrição.</span>
 
-                            <?php if($erro != ''){ echo '<span class="alerta falha">'.$erro.'</span>'; } ?>
+                            <?php if($etapa == 'cpf'){ ?>
+                                <span class="subtitulo">Informe o seu CPF para começar a inscrição.</span>
 
-                            <form method="POST" action="inscricao.php?c=<?php echo $codigo; ?>" id="form-inscricao" data-parsley-validate="">
-                                <div class="campo">
-                                    <label for="nome">Nome completo</label>
-                                    <input type="text" name="nome" id="nome" maxlength="150" required autocomplete="name" value="<?php echo htmlspecialchars($dados['nome']); ?>">
-                                </div>
+                                <?php if($erro != ''){ echo '<span class="alerta falha">'.$erro.'</span>'; } ?>
 
-                                <div class="campo">
-                                    <label for="telefone">Telefone</label>
-                                    <input type="text" name="telefone" id="telefone" placeholder="(00) 00000-0000" required autocomplete="tel" inputmode="tel" value="<?php echo htmlspecialchars($dados['telefone']); ?>">
-                                </div>
+                                <form method="POST" action="inscricao.php?c=<?php echo $codigo; ?>" id="form-inscricao" data-parsley-validate="">
+                                    <div class="campo">
+                                        <label for="cpf">CPF</label>
+                                        <input type="text" name="cpf" id="cpf" placeholder="000.000.000-00" required inputmode="numeric" autofocus value="<?php echo htmlspecialchars($dados['cpf']); ?>">
+                                    </div>
 
-                                <div class="campo">
-                                    <label for="email">E-mail</label>
-                                    <input type="email" name="email" id="email" maxlength="150" required autocomplete="email" value="<?php echo htmlspecialchars($dados['email']); ?>">
-                                </div>
+                                    <div class="campo-oculto" aria-hidden="true">
+                                        <label for="website">Não preencha este campo</label>
+                                        <input type="text" name="website" id="website" tabindex="-1" autocomplete="off">
+                                    </div>
 
-                                <div class="campo-oculto" aria-hidden="true">
-                                    <label for="website">Não preencha este campo</label>
-                                    <input type="text" name="website" id="website" tabindex="-1" autocomplete="off">
-                                </div>
+                                    <input type="hidden" name="MM_cpf" value="form_cpf">
+                                    <input type="submit" value="Continuar" class="but">
+                                </form>
+                            <?php }else{ ?>
+                                <?php if($voluntarioExistente != NULL){ ?>
+                                    <span class="subtitulo">Encontramos o seu cadastro. Confira se os seus dados estão atualizados e confirme a inscrição.</span>
+                                <?php }else{ ?>
+                                    <span class="subtitulo">Preencha seus dados para confirmar a inscrição.</span>
+                                <?php } ?>
 
-                                <input type="hidden" name="MM_insert" value="form1">
-                                <input type="submit" value="Confirmar inscrição" class="but">
-                                <small class="aviso-privacidade">Seus dados serão usados apenas para contato sobre esta atividade.</small>
-                            </form>
+                                <?php if($erro != ''){ echo '<span class="alerta falha">'.$erro.'</span>'; } ?>
+
+                                <form method="POST" action="inscricao.php?c=<?php echo $codigo; ?>" id="form-inscricao" data-parsley-validate="">
+                                    <div class="campo">
+                                        <label for="cpf-confirmado">CPF</label>
+                                        <div class="cpf-confirmado">
+                                            <input type="text" id="cpf-confirmado" value="<?php echo htmlspecialchars($dados['cpf']); ?>" readonly>
+                                            <a href="inscricao.php?c=<?php echo $codigo; ?>">Trocar CPF</a>
+                                        </div>
+                                        <input type="hidden" name="cpf" value="<?php echo htmlspecialchars($dados['cpf']); ?>">
+                                    </div>
+    
+                                    <div class="campo">
+                                        <label for="nome">Nome completo</label>
+                                        <input type="text" name="nome" id="nome" maxlength="150" required autocomplete="name" value="<?php echo htmlspecialchars($dados['nome']); ?>">
+                                    </div>
+    
+                                    <div class="campo">
+                                        <label for="telefone">Telefone</label>
+                                        <input type="text" name="telefone" id="telefone" placeholder="(00) 00000-0000" required autocomplete="tel" inputmode="tel" value="<?php echo htmlspecialchars($dados['telefone']); ?>">
+                                    </div>
+    
+                                    <div class="campo">
+                                        <label for="email">E-mail</label>
+                                        <input type="email" name="email" id="email" maxlength="150" required autocomplete="email" value="<?php echo htmlspecialchars($dados['email']); ?>">
+                                    </div>
+    
+                                    <div class="campo-oculto" aria-hidden="true">
+                                        <label for="website">Não preencha este campo</label>
+                                        <input type="text" name="website" id="website" tabindex="-1" autocomplete="off">
+                                    </div>
+    
+                                    <input type="hidden" name="MM_insert" value="form1">
+                                    <input type="submit" value="Confirmar inscrição" class="but">
+                                    <small class="aviso-privacidade">Seus dados serão usados apenas para contato sobre esta atividade.</small>
+                                </form>
+                            <?php } ?>
                         <?php } ?>
                     </section>
                 </div>

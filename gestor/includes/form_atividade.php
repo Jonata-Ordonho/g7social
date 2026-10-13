@@ -17,12 +17,13 @@
 
     <div>
         <label>Data de início</label>
-        <input type="date" name="data_inicio" required value="<?php echo htmlspecialchars($dados['data_inicio']); ?>">
+        <input type="date" name="data_inicio" required min="<?php echo $projeto['data_inicio']; ?>" max="<?php echo $projeto['data_fim']; ?>" value="<?php echo htmlspecialchars($dados['data_inicio']); ?>">
+        <span class="dica-campo">Período do projeto: <?php echo date('d/m/Y', strtotime($projeto['data_inicio'])).' a '.date('d/m/Y', strtotime($projeto['data_fim'])); ?></span>
     </div>
 
     <div>
         <label>Data de término</label>
-        <input type="date" name="data_fim" required value="<?php echo htmlspecialchars($dados['data_fim']); ?>">
+        <input type="date" name="data_fim" required min="<?php echo $projeto['data_inicio']; ?>" max="<?php echo $projeto['data_fim']; ?>" value="<?php echo htmlspecialchars($dados['data_fim']); ?>">
     </div>
 
     <div>

@@ -4,6 +4,9 @@ require_once __DIR__.'/../includes/verificar_login.php';
 
 use App\Controllers\ProjetoController;
 use App\Controllers\AtividadeController;
+use App\Helpers\Permissao;
+
+$gerenciaAtividades = Permissao::podeGerenciarAtividades($_SESSION['SS_UserType']);
 
 $controllerProjeto = new ProjetoController;
 $controllerAtividade = new AtividadeController;
@@ -18,11 +21,6 @@ if($projeto == NULL){
 }
 
 $atividades = $controllerAtividade->getActivitiesByProject($idProject);
-
-// Endereço base da página pública de inscrição (home/views/inscricao.php)
-$raizSistema = rtrim(str_replace('\\', '/', dirname(dirname(dirname($_SERVER['SCRIPT_NAME'])))), '/');
-$protocolo = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? 'https' : 'http';
-$linkInscricao = $protocolo.'://'.$_SERVER['HTTP_HOST'].$raizSistema.'/home/views/inscricao.php?c=';
 
 ?>
 
@@ -46,13 +44,16 @@ $linkInscricao = $protocolo.'://'.$_SERVER['HTTP_HOST'].$raizSistema.'/home/view
     <div id="conteudo">
         <h2 class="titulo titulo-acao">
             <span>Atividades - <b><?php echo htmlspecialchars($projeto['titulo']); ?></b></span>
-            <a href="atividade_cadastrar.php?id_projeto=<?php echo $idProject; ?>" title="Cadastrar atividade" class="but-novo icon-plus">Cadastrar atividade</a>
+            <?php if($gerenciaAtividades){ ?>
+                <a href="atividade_cadastrar.php?id_projeto=<?php echo $idProject; ?>" title="Cadastrar atividade" class="but-novo icon-plus">Cadastrar atividade</a>
+            <?php } ?>
         </h2>
 
         <?php if(isset($_GET['newActivity'])){echo '<span class="alerta sucesso">Atividade cadastrada com sucesso!</span>';}?>
         <?php if(isset($_GET['updateActivity'])){echo '<span class="alerta sucesso">Atividade alterada com sucesso!</span>';}?>
         <?php if(isset($_GET['errorInfo'])){echo '<span class="alerta">Nenhum dado de atividade encontrado!</span>';}?>
-        <?php if(isset($_GET['statusActivity'])){echo '<span class="alerta sucesso">Atividade '.($_GET['statusActivity'] == 'off' ? 'desativada. A página de inscrição ficou indisponível.' : 'ativada. A página de inscrição está disponível.').'</span>';}?>
+        <?php if(isset($_GET['semPermissao'])){echo '<span class="alerta">Somente administradores podem cadastrar, alterar, ativar ou desativar atividades.</span>';}?>
+        <?php if(isset($_GET['statusActivity'])){echo '<span class="alerta sucesso">Atividade '.($_GET['statusActivity'] == 'off' ? 'desativada. Ela não aparece mais na página de inscrição do projeto.' : 'ativada. Ela passou a aparecer na página de inscrição do projeto.').'</span>';}?>
 
         <?php if(count($atividades) > 0){ ?>
             <table cellspacing="0" cellpadding="0" class="tab-listagem">
@@ -62,8 +63,8 @@ $linkInscricao = $protocolo.'://'.$_SERVER['HTTP_HOST'].$raizSistema.'/home/view
                     <th>Atividade</th>
                     <th width="190">Período</th>
                     <th width="200">Local</th>
-                    <th width="110">Voluntários</th>
-                    <th width="170">Ação</th>
+                    <th width="140">Voluntários</th>
+                    <th width="120">Ação</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -87,19 +88,41 @@ $linkInscricao = $protocolo.'://'.$_SERVER['HTTP_HOST'].$raizSistema.'/home/view
                         </td>
                         <td><?php echo htmlspecialchars($atividade['local']); ?></td>
                         <td align="center">
-                            <?php echo $atividade['vagas'] != NULL ? $atividade['total_voluntarios'].' de '.$atividade['vagas'] : $atividade['total_voluntarios'].' <small>(sem limite)</small>'; ?>
+                            <?php if($atividade['vagas'] != NULL && $atividade['vagas'] > 0){
+                                $percentual = floor($atividade['total_voluntarios'] / $atividade['vagas'] * 100);
+                                $lotada = $percentual >= 100; ?>
+                                <div class="progresso-vagas" title="<?php echo $percentual; ?>% das vagas preenchidas">
+                                    <span class="progresso-valores"><b><?php echo $atividade['total_voluntarios']; ?></b> de <?php echo $atividade['vagas']; ?></span>
+                                    <div class="progresso-trilho">
+                                        <div class="progresso-barra<?php if($lotada){ echo ' atingida'; } ?>" style="width: <?php echo min(100, $percentual); ?>%"></div>
+                                    </div>
+                                    <small class="progresso-percentual<?php if($lotada){ echo ' atingida'; } ?>"><?php echo $lotada ? 'Lotada' : $percentual.'%'; ?></small>
+                                </div>
+                            <?php }else{
+                                echo $atividade['total_voluntarios'].' <small>(sem limite)</small>';
+                            } ?>
                         </td>
                         <td class="actions">
-                            <a href="atividade_alterar.php?id=<?php echo $atividade['id_atividade']; ?>" title="Alterar atividade" class="icon-pencil">Alterar</a>
-                            <a href="voluntario_listar.php?id_atividade=<?php echo $atividade['id_atividade']; ?>" title="Voluntários da atividade" class="icon-users">Voluntários</a>
-                            <?php if($atividade['status'] == 'on'){ ?>
-                                <a href="<?php echo $linkInscricao.$atividade['codigo']; ?>" target="_blank" rel="noopener" title="Abrir página de inscrição" class="icon-link-ext">Abrir link</a>
-                                <a href="#" data-link="<?php echo $linkInscricao.$atividade['codigo']; ?>" title="Copiar link de inscrição" class="icon-docs copiar-link">Copiar link</a>
-                                <a href="atividade_status.php?id=<?php echo $atividade['id_atividade']; ?>&status=off" onclick="return confirm('Deseja desativar esta atividade? A página de inscrição ficará indisponível.');" title="Desativar (fechar inscrições)" class="icon-down-big">Desativar</a>
+                            <?php if($gerenciaAtividades){ ?>
+                                <a href="atividade_alterar.php?id=<?php echo $atividade['id_atividade']; ?>" title="Alterar atividade" class="icon-pencil">Alterar</a>
                             <?php }else{ ?>
-                                <a title="Ative a atividade para liberar o link de inscrição" class="icon-link-ext desativar">Link indisponível</a>
-                                <a title="Ative a atividade para liberar o link de inscrição" class="icon-docs desativar">Link indisponível</a>
-                                <a href="atividade_status.php?id=<?php echo $atividade['id_atividade']; ?>&status=on" onclick="return confirm('Deseja ativar esta atividade? A página de inscrição ficará disponível.');" title="Ativar (abrir inscrições)" class="icon-up-big">Ativar</a>
+                                <a title="Somente administradores podem alterar atividades" class="icon-pencil desativar">Alterar</a>
+                            <?php } ?>
+                            <a href="inscricao_listar.php?id_atividade=<?php echo $atividade['id_atividade']; ?>" title="Voluntários da atividade" class="icon-users">Voluntários</a>
+                            <?php if(!$gerenciaAtividades){ ?>
+                                <a title="Somente administradores podem ativar ou desativar atividades" class="<?php echo $atividade['status'] == 'on' ? 'icon-down-big' : 'icon-up-big'; ?> desativar"><?php echo $atividade['status'] == 'on' ? 'Desativar' : 'Ativar'; ?></a>
+                            <?php }elseif($atividade['status'] == 'on'){ ?>
+                                <form method="POST" action="atividade_status.php" onsubmit="return confirm('Deseja desativar esta atividade? Ela deixará de aparecer na página de inscrição do projeto.');">
+                                    <input type="hidden" name="id_atividade" value="<?php echo $atividade['id_atividade']; ?>">
+                                    <input type="hidden" name="status" value="off">
+                                    <button type="submit" title="Desativar (fechar inscrições)" class="icon-down-big">Desativar</button>
+                                </form>
+                            <?php }else{ ?>
+                                <form method="POST" action="atividade_status.php" onsubmit="return confirm('Deseja ativar esta atividade? Ela passará a aparecer na página de inscrição do projeto.');">
+                                    <input type="hidden" name="id_atividade" value="<?php echo $atividade['id_atividade']; ?>">
+                                    <input type="hidden" name="status" value="on">
+                                    <button type="submit" title="Ativar (abrir inscrições)" class="icon-up-big">Ativar</button>
+                                </form>
                             <?php } ?>
                         </td>
                     </tr>
@@ -116,21 +139,5 @@ $linkInscricao = $protocolo.'://'.$_SERVER['HTTP_HOST'].$raizSistema.'/home/view
     </div>
 </div>
 <?php include '../includes/rodape.html'; ?>
-<script>
-    // Copia o link de inscrição (com alternativa para navegadores sem acesso à área de transferência)
-    document.querySelectorAll('.copiar-link').forEach(function (botao) {
-        botao.addEventListener('click', function (e) {
-            e.preventDefault();
-            var link = botao.getAttribute('data-link');
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(link).then(function () {
-                    alert('Link de inscrição copiado!');
-                });
-            } else {
-                window.prompt('Copie o link de inscrição:', link);
-            }
-        });
-    });
-</script>
 </body>
 </html>

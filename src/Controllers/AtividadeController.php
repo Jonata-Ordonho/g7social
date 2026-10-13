@@ -15,12 +15,30 @@ class AtividadeController{
 
     public function getActivitiesByProject($idProject){
         try {
-            $query = "SELECT a.*, (SELECT COUNT(*) FROM voluntarios AS v WHERE v.id_atividade = a.id_atividade) AS total_voluntarios
+            $query = "SELECT a.*, (SELECT COUNT(*) FROM inscricoes AS ins WHERE ins.id_atividade = a.id_atividade) AS total_voluntarios
                       FROM atividades AS a
                       WHERE a.id_projeto = :id_projeto
                       ORDER BY a.data_inicio ASC, a.id_atividade ASC";
             $stmt = $this->conn->connectBd()->prepare($query);
             $stmt->bindValue(':id_projeto', $idProject, \PDO::PARAM_INT);
+            $stmt->execute();
+
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    // Atividades com inscrição aberta na página pública do projeto: ativas e ainda não encerradas
+    public function getOpenActivitiesByProject($idProject, $today){
+        try {
+            $query = "SELECT a.*, (SELECT COUNT(*) FROM inscricoes AS ins WHERE ins.id_atividade = a.id_atividade) AS total_voluntarios
+                      FROM atividades AS a
+                      WHERE a.id_projeto = :id_projeto AND a.status = 'on' AND a.data_fim >= :hoje
+                      ORDER BY a.data_inicio ASC, a.id_atividade ASC";
+            $stmt = $this->conn->connectBd()->prepare($query);
+            $stmt->bindValue(':id_projeto', $idProject, \PDO::PARAM_INT);
+            $stmt->bindValue(':hoje', $today, \PDO::PARAM_STR);
             $stmt->execute();
 
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -48,8 +66,8 @@ class AtividadeController{
 
     public function getActivityByCode($code){
         try {
-            $query = "SELECT a.*, p.titulo AS projeto_titulo, p.descricao AS projeto_descricao,
-                        (SELECT COUNT(*) FROM voluntarios AS v WHERE v.id_atividade = a.id_atividade) AS total_voluntarios
+            $query = "SELECT a.*, p.titulo AS projeto_titulo, p.descricao AS projeto_descricao, p.codigo AS projeto_codigo, p.data_fim AS projeto_data_fim,
+                        (SELECT COUNT(*) FROM inscricoes AS ins WHERE ins.id_atividade = a.id_atividade) AS total_voluntarios
                       FROM atividades AS a
                       INNER JOIN projetos AS p ON p.id_projeto = a.id_projeto
                       WHERE a.codigo = :codigo";

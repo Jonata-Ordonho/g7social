@@ -7,10 +7,9 @@ class Projeto{
     private $projetoID;
     private $titulo;
     private $descricao;
-    private $captacaoEmpresas;
-    private $captacaoVoluntarios;
     private $dataInicio;
     private $dataFim;
+    private $arrecadacaoEstimada;
     private $usuarioID;
 
     /**
@@ -64,38 +63,6 @@ class Projeto{
     /**
      * @return mixed
      */
-    public function getCaptacaoEmpresas()
-    {
-        return $this->captacaoEmpresas;
-    }
-
-    /**
-     * @param mixed $captacaoEmpresas
-     */
-    public function setCaptacaoEmpresas($captacaoEmpresas)
-    {
-        $this->captacaoEmpresas = $captacaoEmpresas;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCaptacaoVoluntarios()
-    {
-        return $this->captacaoVoluntarios;
-    }
-
-    /**
-     * @param mixed $captacaoVoluntarios
-     */
-    public function setCaptacaoVoluntarios($captacaoVoluntarios)
-    {
-        $this->captacaoVoluntarios = $captacaoVoluntarios;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getDataInicio()
     {
         return $this->dataInicio;
@@ -123,6 +90,22 @@ class Projeto{
     public function setDataFim($dataFim)
     {
         $this->dataFim = $dataFim;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getArrecadacaoEstimada()
+    {
+        return $this->arrecadacaoEstimada;
+    }
+
+    /**
+     * @param mixed $arrecadacaoEstimada
+     */
+    public function setArrecadacaoEstimada($arrecadacaoEstimada)
+    {
+        $this->arrecadacaoEstimada = $arrecadacaoEstimada;
     }
 
     /**

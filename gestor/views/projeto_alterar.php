@@ -1,9 +1,11 @@
 <?php
 require_once __DIR__.'/../../vendor/autoload.php';
-require_once __DIR__.'/../includes/verificar_login.php';
+require_once __DIR__.'/../includes/verificar_gestao_projetos.php';
 
 use App\Controllers\ProjetoController;
+use App\Controllers\AtividadeController;
 use App\Controllers\LogController;
+use App\Helpers\Moeda;
 use App\Models\Projeto;
 
 $controllerProjeto = new ProjetoController;
@@ -18,29 +20,42 @@ if($projeto == NULL){
     exit;
 }
 
+$projeto['arrecadacao_estimada_campo'] = Moeda::paraCampo($projeto['arrecadacao_estimada']);
+
+// Período ocupado pelas atividades: o novo período do projeto precisa continuar contendo todas elas
+$atividadeInicio = NULL;
+$atividadeFim = NULL;
+foreach ((new AtividadeController)->getActivitiesByProject($idProject) as $a) {
+    $atividadeInicio = $atividadeInicio === NULL ? $a['data_inicio'] : min($atividadeInicio, $a['data_inicio']);
+    $atividadeFim = $atividadeFim === NULL ? $a['data_fim'] : max($atividadeFim, $a['data_fim']);
+}
+
 $erro = '';
 
 if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
     $projeto['titulo'] = trim($_POST['titulo']);
     $projeto['descricao'] = trim($_POST['descricao']);
-    $projeto['captacao_empresas'] = isset($_POST['captacao_empresas']) ? 's' : 'n';
-    $projeto['captacao_voluntarios'] = isset($_POST['captacao_voluntarios']) ? 's' : 'n';
     $projeto['data_inicio'] = $_POST['data_inicio'];
     $projeto['data_fim'] = $_POST['data_fim'];
+    $projeto['arrecadacao_estimada_campo'] = isset($_POST['arrecadacao_estimada']) ? trim($_POST['arrecadacao_estimada']) : '';
+    $estimada = Moeda::paraDecimal($projeto['arrecadacao_estimada_campo']);
 
     if($projeto['titulo'] == '' || !strtotime($projeto['data_inicio']) || !strtotime($projeto['data_fim'])){
         $erro = 'Preencha o título e as datas do período de captação.';
     }elseif($projeto['data_fim'] < $projeto['data_inicio']){
         $erro = 'A data final da captação não pode ser anterior à data inicial.';
+    }elseif($atividadeInicio !== NULL && ($projeto['data_inicio'] > $atividadeInicio || $projeto['data_fim'] < $atividadeFim)){
+        $erro = 'O período do projeto precisa incluir todas as suas atividades, que vão de '.date('d/m/Y', strtotime($atividadeInicio)).' a '.date('d/m/Y', strtotime($atividadeFim)).'. Altere as atividades antes ou escolha um período maior.';
+    }elseif($estimada === FALSE || ($estimada !== NULL && $estimada <= 0)){
+        $erro = 'Informe uma arrecadação estimada válida ou deixe o campo em branco.';
     }else{
         $objProjeto = new Projeto;
         $objProjeto->setProjetoID($idProject);
         $objProjeto->setTitulo($projeto['titulo']);
         $objProjeto->setDescricao($projeto['descricao']);
-        $objProjeto->setCaptacaoEmpresas($projeto['captacao_empresas']);
-        $objProjeto->setCaptacaoVoluntarios($projeto['captacao_voluntarios']);
         $objProjeto->setDataInicio($projeto['data_inicio']);
         $objProjeto->setDataFim($projeto['data_fim']);
+        $objProjeto->setArrecadacaoEstimada($estimada);
 
         if($controllerProjeto->updateProject($objProjeto)){
             $controllerLogs->insertActionUserLog(2, $_SESSION['SS_UserID'], 'Projeto ID '.$idProject);
@@ -67,6 +82,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
     <link href="../css/css.css" rel="stylesheet" type="text/css" media="screen">
     <link rel="icon" href="../images/favicon.png">
     <script type="text/javascript" src="../../js/jquery.js"></script>
+    <script type="text/javascript" src="../../js/jquery.mask.js"></script>
     <script type="text/javascript" src="../../js/parsley.min.js"></script>
 </head>
 
@@ -80,35 +96,9 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
         <?php if($erro != ''){ echo '<span class="alerta">'.$erro.'</span>'; } ?>
 
         <form method="POST" name="form1" id="form1" action="projeto_alterar.php?id=<?php echo $idProject; ?>" data-parsley-validate="">
+            <?php include '../includes/form_projeto.php'; ?>
+
             <div class="formulario">
-                <div>
-                    <label>Título</label>
-                    <input type="text" name="titulo" maxlength="200" required value="<?php echo htmlspecialchars($projeto['titulo']); ?>">
-                </div>
-
-                <div>
-                    <label>Descrição</label>
-                    <textarea name="descricao" rows="5"><?php echo htmlspecialchars($projeto['descricao']); ?></textarea>
-                </div>
-
-                <div id="areas">
-                    <label>Captação</label>
-                    <div>
-                        <label><input type="checkbox" name="captacao_empresas" value="s" <?php if($projeto['captacao_empresas'] == 's'){ echo 'checked'; } ?>> Doações de empresas</label><br>
-                        <label><input type="checkbox" name="captacao_voluntarios" value="s" <?php if($projeto['captacao_voluntarios'] == 's'){ echo 'checked'; } ?>> Voluntários</label>
-                    </div>
-                </div>
-
-                <div>
-                    <label>Início da captação</label>
-                    <input type="date" name="data_inicio" required value="<?php echo htmlspecialchars($projeto['data_inicio']); ?>">
-                </div>
-
-                <div>
-                    <label>Fim da captação</label>
-                    <input type="date" name="data_fim" required value="<?php echo htmlspecialchars($projeto['data_fim']); ?>">
-                </div>
-
                 <div class="acao-buts">
                     <input type="hidden" name="MM_update" value="form1">
                     <input type="submit" value="Atualizar" class="but">

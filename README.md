@@ -2,15 +2,18 @@
 
 Sistema de gestão das atividades sociais do Grupo Sete de Setembro.
 
-O **gestor** (área administrativa) controla projetos sociais, atividades, voluntários, doadores e arrecadações. A **home** (área pública) tem a página de inscrição de voluntários, acessada pelo link de cada atividade.
+O **gestor** (área administrativa) controla projetos sociais, atividades, voluntários, doadores e arrecadações. A **home** (área pública) tem as páginas de inscrição de voluntários: cada projeto tem um link que lista as atividades com inscrições abertas.
 
 ## Funcionalidades
 
-- **Projetos sociais**: listagem com situação (Ativo/Finalizado pela data fim), total de doações e valor arrecadado.
-- **Atividades**: várias por projeto, com período, local, horário, vagas e status (ativa/desativada). Cada atividade tem um link público de inscrição.
-- **Voluntários**: inscritos por atividade, pelo gestor ou pela página pública, respeitando o limite de vagas.
+- **Painel**: página inicial após o login, com indicadores (projetos ativos, atividades abertas, voluntários, valor arrecadado, doadores), arrecadação em dinheiro por mês, progresso dos projetos ativos, próximas atividades e últimas arrecadações.
+- **Projetos sociais**: listagem com situação (Ativo/Finalizado pela data fim), total de doações e valor arrecadado. Cada projeto tem um link público de inscrição de voluntários (botão "Abrir link" na listagem).
+- **Atividades**: várias por projeto, com período, local, horário, vagas e status. Só as atividades ativas e ainda não encerradas aparecem na página pública do projeto.
+- **Inscrições**: voluntários inscritos por atividade, pelo gestor ou pela página pública, respeitando o limite de vagas. Na página pública, o voluntário informa primeiro o CPF: se já estiver no banco, confere e atualiza os seus dados; se não, preenche o cadastro.
+- **Banco de voluntários**: uma ficha por pessoa (nome, CPF, e-mail, telefone), com listagem, alteração de dados e detalhamento (datas de cadastro e da última atualização e os projetos/atividades em que participou).
 - **Doadores**: empresas (CNPJ) e pessoas (CPF), com validação dos documentos e histórico de doações.
 - **Arrecadações**: doações em dinheiro ou itens, vinculadas a um projeto e a um doador.
+- **Relatórios**: geral (projetos de um período, com resumo, arrecadação por mês, maiores doadores e voluntários mais ativos) e por projeto (atividades, voluntários inscritos, arrecadações e doadores). Podem ser impressos/salvos em PDF pelo navegador e exportados em Excel (.xlsx). Toda exportação fica registrada no log.
 - **Usuários**: três perfis de acesso (veja abaixo).
 - Layout responsivo (desktop, tablet e celular).
 
@@ -24,7 +27,7 @@ O **gestor** (área administrativa) controla projetos sociais, atividades, volun
 
 ## Requisitos
 
-- PHP 8.0 ou superior, com as extensões `pdo_mysql` e `curl`
+- PHP 8.1 ou superior, com as extensões `pdo_mysql`, `curl`, `zip`, `gd`, `mbstring` e `xml` (as quatro últimas são usadas pela exportação em Excel, via PhpSpreadsheet)
 - MySQL 8 ou MariaDB 10.4+
 - Apache (o desenvolvimento foi feito no WampServer)
 - [Composer](https://getcomposer.org/)
@@ -65,7 +68,7 @@ O **gestor** (área administrativa) controla projetos sociais, atividades, volun
 
 - [ ] Reativar o CAPTCHA do login em `gestor/index.php` (está comentado para o desenvolvimento local, marcado com `TODO`).
 - [ ] Trocar a senha do usuário inicial.
-- [ ] Ativar CAPTCHA também na página pública de inscrição (`home/views/inscricao.php`), que hoje tem apenas um campo anti-robô.
+- [ ] Ativar CAPTCHA também no formulário público de inscrição (`home/views/inscricao.php`), que hoje tem apenas um campo anti-robô.
 
 ## Estrutura
 
@@ -78,7 +81,8 @@ gestor/            Área administrativa
   includes/        Topo, menu, rodapé, verificações de login/permissão, formulários compartilhados
   views/           Telas do gestor
 home/              Área pública
-  views/inscricao.php   Página de inscrição de voluntários
+  views/projeto.php     Página pública do projeto: lista as atividades com inscrições abertas
+  views/inscricao.php   Formulário de inscrição em uma atividade
 js/                jQuery, máscara e validação de formulários
 src/
   Controllers/     Acesso ao banco (PDO)

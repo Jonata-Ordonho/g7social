@@ -20,8 +20,8 @@
 <text x="610" y="462" font-size="12" font-style="italic" fill="#4f5b6a">cadastra</text>
 <polyline points="610,60 610,48 1280,48 1280,60" fill="none" stroke="#1f2933" stroke-width="1.6" marker-start="url(#zeroum)" marker-end="url(#muitos)"/>
 <text x="1040" y="42" font-size="12" font-style="italic" fill="#4f5b6a">cadastra</text>
-<polyline points="910,311 910,400" fill="none" stroke="#1f2933" stroke-width="1.6" marker-start="url(#um)" marker-end="url(#muitos)"/>
-<text x="918" y="362" font-size="12" font-style="italic" fill="#4f5b6a">possui</text>
+<polyline points="910,334 910,400" fill="none" stroke="#1f2933" stroke-width="1.6" marker-start="url(#um)" marker-end="url(#muitos)"/>
+<text x="918" y="372" font-size="12" font-style="italic" fill="#4f5b6a">possui</text>
 <polyline points="770,640 680,640" fill="none" stroke="#1f2933" stroke-width="1.6" marker-start="url(#um)" marker-end="url(#muitos)"/>
 <text x="696" y="632" font-size="12" font-style="italic" fill="#4f5b6a">recebe</text>
 <polyline points="1050,200 1100,200 1100,480 1140,480" fill="none" stroke="#1f2933" stroke-width="1.6" marker-start="url(#um)" marker-end="url(#muitos)"/>
@@ -105,7 +105,7 @@
 <rect x="401" y="715" width="278" height="23" fill="#f5f7fa"/>
 <text x="444" y="731" font-size="13" fill="#1f2933">data_registro</text>
 <text x="668" y="731" font-size="11.5" text-anchor="end" fill="#6f7a89">DATETIME</text>
-<g filter="url(#sombra)"><rect x="770" y="60" width="280" height="251" rx="8" fill="#fff" stroke="#c9d1db"/></g>
+<g filter="url(#sombra)"><rect x="770" y="60" width="280" height="274" rx="8" fill="#fff" stroke="#c9d1db"/></g>
 <path d="M770 96 V68 Q770 60 778 60 H1042 Q1050 60 1050 68 V96 Z" fill="#007DC5"/>
 <text x="784" y="84" font-size="15" font-weight="700" fill="#fff">projetos</text>
 <rect x="780" y="104" width="26" height="15" rx="3" fill="#fff4d6"/>
@@ -128,12 +128,17 @@
 <text x="814" y="254" font-size="13" fill="#1f2933">data_fim</text>
 <text x="1038" y="254" font-size="11.5" text-anchor="end" fill="#6f7a89">DATE</text>
 <rect x="771" y="261" width="278" height="23" fill="#f5f7fa"/>
-<rect x="780" y="265" width="26" height="15" rx="3" fill="#e6f2fa"/>
-<text x="793" y="276.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#00649e">FK</text>
-<text x="814" y="277" font-size="13" fill="#1f2933">id_usuario</text>
-<text x="1038" y="277" font-size="11.5" text-anchor="end" fill="#6f7a89">INT</text>
-<text x="814" y="300" font-size="13" fill="#1f2933">data_registro</text>
-<text x="1038" y="300" font-size="11.5" text-anchor="end" fill="#6f7a89">DATETIME</text>
+<rect x="780" y="265" width="26" height="15" rx="3" fill="#eceff3"/>
+<text x="793" y="276.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#4f5b6a">UK</text>
+<text x="814" y="277" font-size="13" fill="#1f2933">codigo</text>
+<text x="1038" y="277" font-size="11.5" text-anchor="end" fill="#6f7a89">CHAR(32)</text>
+<rect x="780" y="288" width="26" height="15" rx="3" fill="#e6f2fa"/>
+<text x="793" y="299.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#00649e">FK</text>
+<text x="814" y="300" font-size="13" fill="#1f2933">id_usuario</text>
+<text x="1038" y="300" font-size="11.5" text-anchor="end" fill="#6f7a89">INT</text>
+<rect x="771" y="307" width="278" height="23" fill="#f5f7fa"/>
+<text x="814" y="323" font-size="13" fill="#1f2933">data_registro</text>
+<text x="1038" y="323" font-size="11.5" text-anchor="end" fill="#6f7a89">DATETIME</text>
 <g filter="url(#sombra)"><rect x="770" y="400" width="280" height="343" rx="8" fill="#fff" stroke="#c9d1db"/></g>
 <path d="M770 436 V408 Q770 400 778 400 H1042 Q1050 400 1050 408 V436 Z" fill="#007DC5"/>
 <text x="784" y="424" font-size="15" font-weight="700" fill="#fff">atividades</text>

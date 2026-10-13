@@ -19,7 +19,8 @@ $ent = array(
  'projetos' => array(770, 60, array(
    array('id_projeto', 'INT', 'PK'), array('titulo', 'VARCHAR(200)', ''), array('descricao', 'TEXT', ''),
    array('captacao_empresas', 'ENUM', ''), array('captacao_voluntarios', 'ENUM', ''), array('data_inicio', 'DATE', ''),
-   array('data_fim', 'DATE', ''), array('id_usuario', 'INT', 'FK'), array('data_registro', 'DATETIME', ''))),
+   array('data_fim', 'DATE', ''), array('codigo', 'CHAR(32)', 'UK'), array('id_usuario', 'INT', 'FK'),
+   array('data_registro', 'DATETIME', ''))),
  'atividades' => array(770, 400, array(
    array('id_atividade', 'INT', 'PK'), array('id_projeto', 'INT', 'FK'), array('titulo', 'VARCHAR(200)', ''),
    array('descricao', 'TEXT', ''), array('local', 'VARCHAR(200)', ''), array('data_inicio', 'DATE', ''),
@@ -60,7 +61,7 @@ $rel = array(
  array('680,150 770,150', 'zeroum', 'muitos', 'cadastra', 698, 142),
  array('540,265 540,470 770,470', 'zeroum', 'muitos', 'cadastra', 610, 462),
  array('610,60 610,48 1280,48 1280,60', 'zeroum', 'muitos', 'cadastra', 1040, 42),
- array('910,311 910,400', 'um', 'muitos', 'possui', 918, 362),
+ array('910,334 910,400', 'um', 'muitos', 'possui', 918, 372),
  array('770,640 680,640', 'um', 'muitos', 'recebe', 696, 632),
  array('1050,200 1100,200 1100,480 1140,480', 'um', 'muitos', 'recebe', 1050, 340),
  array('1280,288 1280,400', 'um', 'muitos', 'faz', 1288, 350),

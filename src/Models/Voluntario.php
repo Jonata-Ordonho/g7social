@@ -5,8 +5,8 @@ namespace App\Models;
 class Voluntario{
 
     private $voluntarioID;
-    private $atividadeID;
     private $nome;
+    private $cpf;
     private $email;
     private $telefone;
 
@@ -29,22 +29,6 @@ class Voluntario{
     /**
      * @return mixed
      */
-    public function getAtividadeID()
-    {
-        return $this->atividadeID;
-    }
-
-    /**
-     * @param mixed $atividadeID
-     */
-    public function setAtividadeID($atividadeID)
-    {
-        $this->atividadeID = $atividadeID;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getNome()
     {
         return $this->nome;
@@ -56,6 +40,22 @@ class Voluntario{
     public function setNome($nome)
     {
         $this->nome = $nome;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCpf()
+    {
+        return $this->cpf;
+    }
+
+    /**
+     * @param mixed $cpf
+     */
+    public function setCpf($cpf)
+    {
+        $this->cpf = $cpf;
     }
 
     /**

@@ -2,70 +2,73 @@
 require_once __DIR__.'/../../vendor/autoload.php';
 require_once __DIR__.'/../includes/verificar_login.php';
 
-use App\Controllers\ProjetoController;
-use App\Controllers\AtividadeController;
 use App\Controllers\VoluntarioController;
 use App\Controllers\LogController;
 use App\Helpers\Documento;
+use App\Helpers\Permissao;
 use App\Models\Voluntario;
 
-$controllerProjeto = new ProjetoController;
-$controllerAtividade = new AtividadeController;
 $controllerVoluntario = new VoluntarioController;
 $controllerLogs = new LogController;
 
-$idActivity = isset($_GET['id_atividade']) ? (int) $_GET['id_atividade'] : 0;
+$idVolunteer = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 
-$atividade = $controllerAtividade->getActivityByID($idActivity);
+$voluntario = $controllerVoluntario->getVolunteerByID($idVolunteer);
 
-if($atividade == NULL){
-    header("Location: projeto_listar.php?errorInfo=true");
+if($voluntario == NULL){
+    header("Location: voluntario_listar.php?errorInfo=true");
     exit;
 }
 
-$projeto = $controllerProjeto->getProjectByID($atividade['id_projeto']);
+// Somente administradores alteram os dados do banco de voluntários
+if(!Permissao::podeGerenciarVoluntarios($_SESSION['SS_UserType'])){
+    header("Location: voluntario_detalhar.php?id=".$idVolunteer."&semPermissao=true");
+    exit;
+}
 
 $dados = array(
-    'nome' => '',
-    'telefone' => '',
-    'email' => ''
+    'nome' => $voluntario['nome'],
+    'cpf' => $voluntario['cpf'] != NULL ? Documento::formatarCPF($voluntario['cpf']) : '',
+    'email' => (string) $voluntario['email'],
+    'telefone' => Documento::formatarTelefone((string) $voluntario['telefone'])
 );
 
 $erro = '';
 
-if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
+if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
     $dados['nome'] = trim($_POST['nome']);
-    $dados['telefone'] = trim($_POST['telefone']);
+    $dados['cpf'] = trim($_POST['cpf']);
     $dados['email'] = trim($_POST['email']);
+    $dados['telefone'] = trim($_POST['telefone']);
 
+    $cpf = Documento::somenteNumeros($dados['cpf']);
     $telefone = Documento::somenteNumeros($dados['telefone']);
 
     if($dados['nome'] == ''){
         $erro = 'Informe o nome do voluntário.';
-    }elseif(strlen($telefone) != 10 && strlen($telefone) != 11){
-        $erro = 'Informe o telefone com DDD.';
+    }elseif(!Documento::validarCPF($cpf)){
+        $erro = 'Informe um CPF válido.';
     }elseif(!filter_var($dados['email'], FILTER_VALIDATE_EMAIL)){
         $erro = 'Informe um e-mail válido.';
-    }elseif($controllerVoluntario->checkVolunteerEmail($idActivity, $dados['email'])){
-        $erro = 'Já existe um voluntário cadastrado com este e-mail nesta atividade.';
-    }elseif($atividade['vagas'] != NULL && $controllerVoluntario->getVolunteersTotalByActivity($idActivity) >= $atividade['vagas']){
-        $erro = 'Todas as vagas desta atividade já foram preenchidas.';
+    }elseif($telefone != '' && strlen($telefone) != 10 && strlen($telefone) != 11){
+        $erro = 'Informe o telefone com DDD.';
+    }elseif($controllerVoluntario->checkVolunteerCPF($cpf, $idVolunteer)){
+        $erro = 'Já existe outro voluntário cadastrado com este CPF.';
     }else{
         $objVoluntario = new Voluntario;
-        $objVoluntario->setAtividadeID($idActivity);
+        $objVoluntario->setVoluntarioID($idVolunteer);
         $objVoluntario->setNome($dados['nome']);
-        $objVoluntario->setTelefone($telefone);
+        $objVoluntario->setCpf($cpf);
         $objVoluntario->setEmail($dados['email']);
+        $objVoluntario->setTelefone($telefone != '' ? $telefone : NULL);
 
-        $idVoluntario = $controllerVoluntario->insertVolunteer($objVoluntario);
+        if($controllerVoluntario->updateVolunteer($objVoluntario)){
+            $controllerLogs->insertActionUserLog(17, $_SESSION['SS_UserID'], 'Voluntário ID '.$idVolunteer);
 
-        if($idVoluntario){
-            $controllerLogs->insertActionUserLog(9, $_SESSION['SS_UserID'], 'Voluntário ID '.$idVoluntario.' - Atividade ID '.$idActivity);
-
-            header("Location: voluntario_listar.php?id_atividade=".$idActivity."&newVolunteer=true");
+            header("Location: voluntario_detalhar.php?id=".$idVolunteer."&updateVolunteer=true");
             exit;
         }else{
-            $erro = 'Não foi possível cadastrar o voluntário.';
+            $erro = 'Não foi possível alterar os dados do voluntário.';
         }
     }
 }
@@ -89,6 +92,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 
     <script>
         $(document).ready(function(){
+            $('#cpf').mask('000.000.000-00');
+
             // Telefone fixo (10 dígitos) ou celular (11 dígitos)
             var mascaraTelefone = function (val) {
                 return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
@@ -107,20 +112,21 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 <?php include '../includes/menu.php'; ?>
 <div id="container">
     <div id="conteudo">
-        <h2 class="titulo">Cadastrar Voluntário - <b><?php echo htmlspecialchars($atividade['titulo']); ?></b> <small>(<?php echo htmlspecialchars($projeto['titulo']); ?>)</small></h2>
+        <h2 class="titulo">Alterar Dados do Voluntário</h2>
 
         <?php if($erro != ''){ echo '<span class="alerta">'.$erro.'</span>'; } ?>
+        <?php if($voluntario['cpf'] == NULL && $erro == ''){ echo '<span class="alerta">Este voluntário ainda não tem CPF cadastrado. Informe o CPF para salvar.</span>'; } ?>
 
-        <form method="POST" name="form1" id="form1" action="voluntario_cadastrar.php?id_atividade=<?php echo $idActivity; ?>" data-parsley-validate="">
+        <form method="POST" name="form1" id="form1" action="voluntario_alterar.php?id=<?php echo $idVolunteer; ?>" data-parsley-validate="">
             <div class="formulario">
                 <div>
-                    <label>Nome</label>
+                    <label>Nome completo</label>
                     <input type="text" name="nome" maxlength="150" required value="<?php echo htmlspecialchars($dados['nome']); ?>">
                 </div>
 
                 <div>
-                    <label>Telefone</label>
-                    <input type="text" name="telefone" id="telefone" placeholder="(00) 00000-0000" required value="<?php echo htmlspecialchars($dados['telefone']); ?>">
+                    <label>CPF</label>
+                    <input type="text" name="cpf" id="cpf" placeholder="000.000.000-00" required value="<?php echo htmlspecialchars($dados['cpf']); ?>">
                 </div>
 
                 <div>
@@ -128,10 +134,15 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                     <input type="email" name="email" maxlength="150" required value="<?php echo htmlspecialchars($dados['email']); ?>">
                 </div>
 
+                <div>
+                    <label>Telefone <span>(opcional)</span></label>
+                    <input type="text" name="telefone" id="telefone" placeholder="(00) 00000-0000" value="<?php echo htmlspecialchars($dados['telefone']); ?>">
+                </div>
+
                 <div class="acao-buts">
-                    <input type="hidden" name="MM_insert" value="form1">
-                    <input type="submit" value="Cadastrar" class="but">
-                    <a href="voluntario_listar.php?id_atividade=<?php echo $idActivity; ?>" class="but but-secundario">Cancelar</a>
+                    <input type="hidden" name="MM_update" value="form1">
+                    <input type="submit" value="Atualizar" class="but">
+                    <a href="voluntario_listar.php" class="but but-secundario">Cancelar</a>
                 </div>
             </div>
         </form>

@@ -233,14 +233,44 @@ a.but-secundario:hover {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-#cabecalho .logo {
-    height: 44px;
-    display: block;
+/* Marca: símbolo em imagem + nome do sistema em texto */
+.marca {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    text-decoration: none;
     user-select: none;
 }
 
-#cabecalho .logo-print {
-    display: none;
+.marca img {
+    display: block;
+    width: auto;
+    height: 40px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.28));
+    transition: transform .2s ease;
+}
+
+.marca-nome {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.22), 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+.marca-nome span {
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.86);
+    margin-left: 1px;
+}
+
+#cabecalho .marca:hover {
+    color: #fff;
+}
+
+#cabecalho .marca:hover img {
+    transform: rotate(-6deg) scale(1.05);
 }
 
 #cabecalho .usuario-box {
@@ -632,35 +662,59 @@ table td {
     white-space: nowrap;
 }
 
-.tab-listagem td.actions a {
+.tab-listagem td.actions a,
+.tab-listagem td.actions button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 30px;
     height: 30px;
     margin: 1px;
+    padding: 0;
     font-size: 0;
     color: var(--azul);
     background-color: var(--azul-claro);
     border: 1px solid #c4dff1;
     border-radius: var(--raio-pequeno);
     cursor: pointer;
+    vertical-align: middle;
+}
+
+/* Botões de ação enviados por formulário (ex.: excluir) ficam na mesma linha dos links */
+.tab-listagem td.actions form {
+    display: inline;
 }
 
 /* Na linha sob o mouse, os botões ficam brancos para se destacarem do fundo */
-.tab-listagem tbody tr:hover td.actions a:not(.desativar):not(:hover) {
+.tab-listagem tbody tr:hover td.actions a:not(.desativar):not(:hover),
+.tab-listagem tbody tr:hover td.actions button:not(:hover) {
     background-color: #fff;
 }
 
-.tab-listagem td.actions a::before {
+.tab-listagem td.actions a::before,
+.tab-listagem td.actions button::before {
     font-size: 15px;
     margin: 0;
 }
 
-.tab-listagem td.actions a:hover {
+.tab-listagem td.actions a:hover,
+.tab-listagem td.actions button:hover {
     background-color: var(--azul);
     border-color: var(--azul);
     color: #fff;
+}
+
+/* Ação destrutiva (excluir) em vermelho */
+.tab-listagem td.actions .acao-excluir {
+    color: var(--vermelho);
+    background-color: var(--vermelho-claro);
+    border-color: #f3c4c4;
+}
+
+.tab-listagem td.actions .acao-excluir:hover {
+    color: #fff;
+    background-color: var(--vermelho);
+    border-color: var(--vermelho);
 }
 
 .tab-listagem td.actions a.desativar,
@@ -669,6 +723,606 @@ table td {
     border-color: var(--borda);
     color: #9aa4b1;
     cursor: not-allowed;
+}
+
+/***** PROGRESSO DA ARRECADAÇÃO (listagem de projetos) *****/
+
+.progresso-arrecadacao {
+    min-width: 160px;
+    text-align: right;
+}
+
+.progresso-valores b {
+    font-weight: 600;
+}
+
+.progresso-valores small {
+    display: block;
+    font-size: .72rem;
+}
+
+.progresso-trilho {
+    display: block;
+    height: 8px;
+    background-color: var(--azul-claro);
+    border-radius: 999px;
+    overflow: hidden;
+    margin: 5px 0 3px;
+}
+
+.progresso-barra {
+    display: block;
+    height: 100%;
+    background-color: var(--azul);
+    border-radius: 999px;
+}
+
+.progresso-barra.atingida {
+    background-color: var(--verde);
+}
+
+.progresso-percentual {
+    font-size: .72rem;
+    font-weight: 600;
+}
+
+.progresso-percentual.atingida {
+    color: var(--verde-escuro);
+}
+
+/* Vagas preenchidas (listagem de atividades) */
+.progresso-vagas {
+    min-width: 110px;
+    text-align: center;
+}
+
+/***** RELATÓRIOS *****/
+
+.relatorio-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.relatorio-acoes .but {
+    padding: 9px 16px;
+}
+
+.relatorio-info {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 12px;
+    color: var(--texto-suave);
+    font-size: .85rem;
+    margin-bottom: 16px;
+}
+
+.relatorio-info b {
+    color: var(--texto);
+}
+
+.relatorio-info span:last-child {
+    margin-left: auto;
+    font-size: .78rem;
+}
+
+.relatorio-descricao {
+    color: var(--texto-suave);
+    font-size: .88rem;
+    margin: -6px 0 16px;
+}
+
+#conteudo.relatorio h3 {
+    margin: 28px 0 12px;
+}
+
+#conteudo.relatorio .painel-cartao h3 {
+    margin: 0;
+}
+
+.relatorio-grade {
+    margin-top: 28px;
+}
+
+.relatorio-seletor {
+    min-width: 340px;
+}
+
+/* Valores dos indicadores numa linha só (ex.: R$ 2.850,50) */
+.relatorio .indicador-valor {
+    font-size: 1.5rem;
+    white-space: nowrap;
+}
+
+/* Barra de progresso dentro de um indicador */
+.indicador .progresso-trilho {
+    margin: 2px 0 6px;
+}
+
+/* Linha de grupo (ex.: atividade) dentro de uma tabela */
+.tab-agrupada tr.grupo td {
+    background-color: var(--azul-claro);
+    color: var(--azul-escuro);
+    font-weight: 600;
+}
+
+.tab-agrupada tr.grupo small {
+    color: var(--texto-suave);
+    font-weight: 400;
+    margin-left: 6px;
+}
+
+/* Gráfico com muitos meses: esconde os valores sobre as colunas (continuam na dica e na tabela) */
+.grafico-denso .grafico-valor {
+    display: none;
+}
+
+.grafico-denso .grafico-mes {
+    font-size: .6rem;
+}
+
+@media screen and (max-width: 64rem) {
+    .tab-agrupada tbody tr.grupo {
+        background: none;
+        border: none;
+        box-shadow: none;
+        margin: 18px 0 8px;
+        padding: 0;
+    }
+
+    .tab-agrupada tbody tr.grupo td {
+        background: none;
+        border: none;
+        text-align: left !important;
+        padding: 0;
+        min-height: 0;
+    }
+
+    .tab-agrupada tbody tr.grupo td::before {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 48rem) {
+    .relatorio-acoes {
+        width: 100%;
+    }
+
+    .relatorio-acoes > * {
+        flex: 1 1 auto;
+    }
+
+    .relatorio-info span:last-child {
+        margin-left: 0;
+    }
+
+    .relatorio .indicador-valor {
+        font-size: 1.2rem;
+    }
+
+    .relatorio-seletor {
+        min-width: 0;
+        width: 100%;
+    }
+}
+
+@media print {
+    @page {
+        margin: 12mm;
+    }
+
+    body {
+        background: #fff;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .relatorio-acoes,
+    .filtro-toggle,
+    .painel-tabela,
+    .grafico-dica {
+        display: none !important;
+    }
+
+    .relatorio .painel-grade {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .relatorio .painel-indicadores {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .relatorio .indicador,
+    .relatorio .painel-cartao {
+        box-shadow: none;
+        break-inside: avoid;
+    }
+
+    .relatorio .painel-indicadores {
+        gap: 8px;
+    }
+
+    .relatorio .indicador {
+        padding: 10px 12px;
+    }
+
+    .relatorio .indicador::before {
+        display: none;
+    }
+
+    .relatorio .indicador-rotulo {
+        min-height: 0;
+        padding-right: 0;
+    }
+
+    .relatorio .indicador-valor {
+        font-size: 1.1rem;
+    }
+
+    .relatorio table th,
+    .relatorio table td {
+        font-size: .72rem;
+        padding: 6px 8px;
+    }
+
+    .relatorio .tab-listagem tr {
+        break-inside: avoid;
+    }
+
+    .relatorio h3 {
+        break-after: avoid;
+    }
+}
+
+/***** PAINEL INICIAL *****/
+
+.painel-cabecalho {
+    margin-bottom: 20px;
+}
+
+.painel-cabecalho h2 {
+    font-size: 1.45rem;
+    font-weight: 600;
+}
+
+.painel-cabecalho span {
+    color: var(--texto-suave);
+    font-size: .88rem;
+}
+
+/* Indicadores (cartões com número) */
+
+.painel-indicadores {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.indicador {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color: var(--superficie);
+    border: 1px solid var(--borda);
+    border-radius: var(--raio);
+    box-shadow: var(--sombra);
+    color: var(--texto);
+    padding: 18px 18px 16px;
+}
+
+a.indicador:hover {
+    color: var(--texto);
+    border-color: var(--azul);
+}
+
+/* Ícone do indicador no canto superior direito */
+.indicador::before {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    margin: 0;
+    font-size: 15px;
+    color: var(--azul);
+    background-color: var(--azul-claro);
+    border-radius: 50%;
+}
+
+.indicador-rotulo {
+    color: var(--texto-suave);
+    font-size: .8rem;
+    font-weight: 500;
+    line-height: 1.35;
+    /* Espaço para duas linhas: os valores ficam alinhados entre os cartões */
+    min-height: 2.7em;
+    padding-right: 40px;
+}
+
+.indicador-valor {
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+    margin: 6px 0 4px;
+}
+
+.indicador-contexto {
+    color: var(--texto-suave);
+    font-size: .76rem;
+}
+
+/* Cartões de conteúdo */
+
+.painel-grade {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.painel-cartao {
+    background-color: var(--superficie);
+    border: 1px solid var(--borda);
+    border-radius: var(--raio);
+    box-shadow: var(--sombra);
+    padding: 20px;
+    min-width: 0;
+}
+
+.painel-cartao h3 {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.painel-subtitulo {
+    display: block;
+    color: var(--texto-suave);
+    font-size: .78rem;
+    margin-bottom: 16px;
+}
+
+.painel-vazio {
+    color: var(--texto-suave);
+    font-size: .88rem;
+    margin: 16px 0;
+}
+
+/* Gráfico de colunas (série única) */
+
+.grafico-colunas {
+    display: flex;
+    align-items: stretch;
+    height: 210px;
+    border-bottom: 1px solid var(--borda);
+}
+
+.grafico-coluna {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    outline: none;
+    cursor: default;
+}
+
+.grafico-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.grafico-valor {
+    color: var(--texto-suave);
+    font-size: .72rem;
+    font-weight: 600;
+    white-space: nowrap;
+    margin-bottom: 4px;
+}
+
+.grafico-barra {
+    display: block;
+    width: 24px;
+    max-width: 60%;
+    background-color: var(--azul);
+    border-radius: 4px 4px 0 0;
+    transition: background-color .15s ease;
+}
+
+.grafico-mes {
+    position: absolute;
+    bottom: -22px;
+    left: 0;
+    right: 0;
+    color: var(--texto-suave);
+    font-size: .72rem;
+    text-align: center;
+}
+
+.grafico-coluna:hover .grafico-barra,
+.grafico-coluna:focus .grafico-barra {
+    background-color: var(--azul-escuro);
+}
+
+.grafico-coluna:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--azul-claro);
+    border-radius: var(--raio-pequeno);
+}
+
+/* Dica ao passar o mouse ou focar com o teclado */
+.grafico-dica {
+    display: none;
+    position: absolute;
+    bottom: calc(100% - 12px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    background-color: var(--texto);
+    color: #fff;
+    font-size: .75rem;
+    white-space: nowrap;
+    border-radius: var(--raio-pequeno);
+    box-shadow: var(--sombra-media);
+    padding: 6px 10px;
+}
+
+.grafico-dica strong {
+    display: block;
+    font-size: .85rem;
+}
+
+.grafico-coluna:hover .grafico-dica,
+.grafico-coluna:focus .grafico-dica {
+    display: block;
+}
+
+.painel-tabela {
+    margin-top: 34px;
+    font-size: .82rem;
+}
+
+.painel-tabela summary {
+    color: var(--azul);
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+/* Listas dos cartões */
+
+.painel-lista {
+    list-style: none;
+}
+
+.painel-lista li + li {
+    border-top: 1px solid var(--borda);
+}
+
+.painel-lista a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--texto);
+    border-radius: var(--raio-pequeno);
+    padding: 10px 6px;
+}
+
+.painel-lista a:hover {
+    background-color: var(--cinza-claro);
+    color: var(--texto);
+}
+
+.painel-lista a.painel-item-projeto {
+    display: block;
+}
+
+.painel-item-texto {
+    flex: 1;
+    min-width: 0;
+}
+
+.painel-item-titulo {
+    display: block;
+    font-size: .88rem;
+    font-weight: 600;
+}
+
+.painel-item-detalhe {
+    display: block;
+    color: var(--texto-suave);
+    font-size: .78rem;
+}
+
+.painel-item-detalhe .progresso-percentual {
+    float: right;
+}
+
+.painel-item-projeto .progresso-trilho {
+    margin-top: 6px;
+}
+
+.painel-data {
+    flex-shrink: 0;
+    width: 46px;
+    color: var(--azul-escuro);
+    font-size: .7rem;
+    text-align: center;
+    text-transform: uppercase;
+    background-color: var(--azul-claro);
+    border-radius: var(--raio-pequeno);
+    padding: 4px 0;
+}
+
+.painel-data b {
+    display: block;
+    font-size: 1.1rem;
+    line-height: 1.1;
+}
+
+.painel-vagas,
+.painel-valor {
+    flex-shrink: 0;
+    color: var(--texto-suave);
+    font-size: .8rem;
+    text-align: right;
+}
+
+.painel-vagas b,
+.painel-valor {
+    color: var(--texto);
+    font-weight: 600;
+}
+
+.painel-valor small {
+    color: var(--texto-suave);
+    font-weight: 400;
+}
+
+@media screen and (max-width: 64rem) {
+    .painel-grade {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media screen and (max-width: 48rem) {
+    .painel-indicadores {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .indicador {
+        padding: 14px;
+    }
+
+    /* Último indicador sozinho na linha ocupa a largura toda */
+    .indicador:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+    }
+
+    .indicador::before {
+        display: none;
+    }
+
+    .indicador-rotulo {
+        padding-right: 0;
+    }
+
+    .indicador-valor {
+        font-size: 1.35rem;
+    }
+
+    .painel-cartao {
+        padding: 16px;
+    }
+
+    .grafico-valor {
+        font-size: .65rem;
+    }
 }
 
 /***** TABELA DE DETALHES *****/
@@ -869,11 +1523,16 @@ body#pag-login {
     margin-bottom: 28px;
 }
 
-#container-login header img {
-    display: block;
-    max-width: 340px;
-    width: 100%;
-    user-select: none;
+#container-login .marca {
+    gap: 14px;
+}
+
+#container-login .marca img {
+    height: 64px;
+}
+
+#container-login .marca-nome {
+    font-size: 2.6rem;
 }
 
 #login {
@@ -951,15 +1610,23 @@ body#pag-login {
 }
 
 /* Tablets e celulares (até 1024px): menu em gaveta e tabelas em cartões */
-@media (max-width: 64rem) {
+@media screen and (max-width: 64rem) {
     /* Cabeçalho */
     #cabecalho {
         gap: 10px;
         padding: 0 12px;
     }
 
-    #cabecalho .logo {
-        height: 34px;
+    #cabecalho .marca {
+        gap: 8px;
+    }
+
+    #cabecalho .marca img {
+        height: 32px;
+    }
+
+    #cabecalho .marca-nome {
+        font-size: 1.25rem;
     }
 
     #cabecalho #usuario .nome-usuario,
@@ -1140,13 +1807,15 @@ body#pag-login {
         display: none;
     }
 
-    .tab-listagem tbody td.actions a {
+    .tab-listagem tbody td.actions a,
+    .tab-listagem tbody td.actions button {
         width: 40px;
         height: 40px;
         margin: 0;
     }
 
-    .tab-listagem tbody td.actions a::before {
+    .tab-listagem tbody td.actions a::before,
+    .tab-listagem tbody td.actions button::before {
         font-size: 17px;
     }
 
@@ -1184,7 +1853,7 @@ body#pag-login {
 }
 
 /* Tablets (769px a 1024px): cartões em duas colunas */
-@media (min-width: 48.01rem) and (max-width: 64rem) {
+@media screen and (min-width: 48.01rem) and (max-width: 64rem) {
     .tab-listagem tbody {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -1201,7 +1870,7 @@ body#pag-login {
 }
 
 /* Celulares (até 768px) */
-@media (max-width: 48rem) {
+@media screen and (max-width: 48rem) {
     /* Filtros recolhíveis: lupa no canto do cartão */
     #conteudo.tem-filtro > h2:first-child:not(.titulo-acao),
     #conteudo.tem-filtro > h2.titulo-acao:first-child > span {
@@ -1333,12 +2002,15 @@ body#pag-login {
         box-shadow: none;
     }
 
-    #cabecalho .logo-desktop {
-        display: none;
+    #cabecalho .marca,
+    #cabecalho .marca-nome span {
+        color: #000;
     }
 
-    #cabecalho .logo-print {
-        display: block;
+    #cabecalho .marca img,
+    #cabecalho .marca-nome {
+        filter: none;
+        text-shadow: none;
     }
 
     #container,

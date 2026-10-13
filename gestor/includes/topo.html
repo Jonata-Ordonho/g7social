@@ -4,8 +4,10 @@
             <path d="M4 6H20M4 12H20M4 18H20" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
     </button>
-    <img src="../images/logo_white.png" class="logo logo-desktop" alt="logo" draggable="false">
-    <img src="../images/logo_black.png" class="logo logo-print" alt="logo">
+    <a href="../views/painel.php" class="marca" title="Ir para o painel">
+        <img src="../images/logo_g7.png" alt="" draggable="false">
+        <span class="marca-nome">G7<span>social</span></span>
+    </a>
     <div class="usuario-box">
         <button type="button" id="usuario" aria-haspopup="true" aria-expanded="false">
             <span class="avatar"><?php echo htmlspecialchars(mb_strtoupper(mb_substr($_SESSION['SS_UserName'], 0, 1))); ?></span>

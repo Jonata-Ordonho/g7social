@@ -37,13 +37,13 @@ $uc = array(
  'cad_u'      => array(560, 800, 'Cadastrar usuário', 'a'),
  'alt_u'      => array(560, 895, 'Alterar dados e status|de usuários', 'm'),
  // casos estendidos / incluídos
- 'status_at'  => array(930, 330, 'Ativar/desativar|inscrições', 'x'),
- 'link'       => array(930, 415, 'Copiar link de inscrição', 'x'),
+ 'link'       => array(930, 255, 'Copiar link de inscrição|do projeto', 'x'),
+ 'status_at'  => array(930, 375, 'Ativar/desativar atividade|na página pública', 'x'),
  'detalhar'   => array(930, 535, 'Detalhar doador|e suas doações', 'x'),
  'sel_doador' => array(930, 620, 'Selecionar doador', 'x'),
  // página pública
- 'acessar'    => array(1345, 360, 'Acessar página|da atividade', 'p'),
- 'inscrever'  => array(1345, 495, 'Inscrever-se como|voluntário', 'p'),
+ 'acessar'    => array(1345, 360, 'Acessar página do projeto|e ver as atividades', 'p'),
+ 'inscrever'  => array(1345, 495, 'Inscrever-se em|uma atividade', 'p'),
  'validar'    => array(1345, 640, 'Validar vagas e|e-mail repetido', 'x'),
 );
 $cores = array(
@@ -86,8 +86,8 @@ function dep($de, $para, $rotulo, $lx, $ly, $pontos = null) {
     $svg[] = '<polyline points="'.$pontos.'" fill="none" stroke="#4f5b6a" stroke-width="1.3" stroke-dasharray="6 4" marker-end="url(#seta)"/>';
     $svg[] = '<text x="'.$lx.'" y="'.$ly.'" font-size="11.5" fill="#4f5b6a" text-anchor="middle">«'.$rotulo.'»</text>';
 }
-dep('status_at', 'atividades', 'extend', 755, 336, '815,338 690,368');
-dep('link', 'atividades', 'extend', 738, 418, '802,412 690,382');
+dep('link', 'projetos', 'extend', 745, 260, '802,260 690,284');
+dep('status_at', 'atividades', 'extend', 746, 367, '802,375 690,375');
 dep('detalhar', 'doadores', 'extend', 750, 527, '815,535 690,535');
 dep('arrecad', 'sel_doador', 'include', 750, 612, '690,620 800,620');
 dep('inscrever', 'validar', 'include', 1395, 572, '1345,527 1345,606');
@@ -115,9 +115,9 @@ foreach ($atores as $id => $a) {
 }
 
 // Notas
-$svg[] = '<text x="1210" y="770" font-size="12" fill="#4f5b6a">A página pública só aceita inscrições quando a</text>';
-$svg[] = '<text x="1210" y="786" font-size="12" fill="#4f5b6a">atividade está ativa, dentro do prazo e com vagas.</text>';
-$svg[] = '<text x="1210" y="812" font-size="12" fill="#4f5b6a">O link é gerado em «Copiar link de inscrição».</text>';
+$svg[] = '<text x="1210" y="770" font-size="12" fill="#4f5b6a">Cada projeto tem um link («Copiar link de inscrição»).</text>';
+$svg[] = '<text x="1210" y="786" font-size="12" fill="#4f5b6a">A página lista só as atividades ativas e não encerradas;</text>';
+$svg[] = '<text x="1210" y="802" font-size="12" fill="#4f5b6a">atividades sem vagas aparecem com inscrição encerrada.</text>';
 
 // Legenda
 $lx = 1210; $ly = 840;

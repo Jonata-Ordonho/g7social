@@ -6,6 +6,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 use DataBase\Connections;
 use App\Models\Voluntario;
 
+// Banco de voluntários (uma linha por pessoa). As inscrições em atividades ficam no InscricaoController.
 class VoluntarioController{
     private $conn;
 
@@ -13,11 +14,38 @@ class VoluntarioController{
         $this->conn = new Connections;
     }
 
-    public function getVolunteersByActivity($idActivity){
+    private function getFilterSql($filter){
+        $sqlFilter = '';
+        if (isset($filter['consulta'])) {
+            $sqlFilter .= " AND (v.nome LIKE :consulta OR v.email LIKE :consulta";
+            if (isset($filter['consulta_numeros'])) {
+                $sqlFilter .= " OR v.cpf LIKE :consulta_numeros";
+            }
+            $sqlFilter .= ") ";
+        }
+        return $sqlFilter;
+    }
+
+    private function bindFilterValues($stmt, $filter){
+        if (isset($filter['consulta'])) {
+            $stmt->bindValue(':consulta', '%' . $filter['consulta'] . '%', \PDO::PARAM_STR);
+            if (isset($filter['consulta_numeros'])) {
+                $stmt->bindValue(':consulta_numeros', '%' . $filter['consulta_numeros'] . '%', \PDO::PARAM_STR);
+            }
+        }
+    }
+
+    public function getVolunteersList($filter, $startRow, $maxRows){
         try {
-            $query = "SELECT * FROM voluntarios WHERE id_atividade = :id_atividade ORDER BY nome ASC";
+            $query = "SELECT v.*, (SELECT COUNT(*) FROM inscricoes AS i WHERE i.id_voluntario = v.id_voluntario) AS total_inscricoes
+                      FROM voluntarios AS v
+                      WHERE v.id_voluntario IS NOT NULL" . $this->getFilterSql($filter) . "
+                      ORDER BY v.nome ASC
+                      LIMIT :inicio, :fim";
             $stmt = $this->conn->connectBd()->prepare($query);
-            $stmt->bindValue(':id_atividade', $idActivity, \PDO::PARAM_INT);
+            $this->bindFilterValues($stmt, $filter);
+            $stmt->bindValue(':inicio', $startRow, \PDO::PARAM_INT);
+            $stmt->bindValue(':fim', $maxRows, \PDO::PARAM_INT);
             $stmt->execute();
 
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -26,11 +54,11 @@ class VoluntarioController{
         }
     }
 
-    public function getVolunteersTotalByActivity($idActivity){
+    public function getVolunteersTotal($filter){
         try {
-            $query = "SELECT COUNT(*) FROM voluntarios WHERE id_atividade = :id_atividade";
+            $query = "SELECT COUNT(*) FROM voluntarios AS v WHERE v.id_voluntario IS NOT NULL" . $this->getFilterSql($filter);
             $stmt = $this->conn->connectBd()->prepare($query);
-            $stmt->bindValue(':id_atividade', $idActivity, \PDO::PARAM_INT);
+            $this->bindFilterValues($stmt, $filter);
             $stmt->execute();
 
             return (int) $stmt->fetchColumn();
@@ -39,12 +67,47 @@ class VoluntarioController{
         }
     }
 
-    public function checkVolunteerEmail($idActivity, $email){
+    public function getVolunteerByID($idVolunteer){
         try {
-            $query = "SELECT id_voluntario FROM voluntarios WHERE id_atividade = :id_atividade AND email = :email";
+            $query = "SELECT * FROM voluntarios WHERE id_voluntario = :id";
             $stmt = $this->conn->connectBd()->prepare($query);
-            $stmt->bindValue(':id_atividade', $idActivity, \PDO::PARAM_INT);
-            $stmt->bindValue(':email', $email, \PDO::PARAM_STR);
+            $stmt->bindValue(':id', $idVolunteer, \PDO::PARAM_INT);
+            $stmt->execute();
+
+            if ($stmt->rowCount() != 0) {
+                return $stmt->fetch(\PDO::FETCH_ASSOC);
+            } else {
+                return NULL;
+            }
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function getVolunteerByCPF($cpf){
+        try {
+            $query = "SELECT * FROM voluntarios WHERE cpf = :cpf";
+            $stmt = $this->conn->connectBd()->prepare($query);
+            $stmt->bindValue(':cpf', $cpf, \PDO::PARAM_STR);
+            $stmt->execute();
+
+            if ($stmt->rowCount() != 0) {
+                return $stmt->fetch(\PDO::FETCH_ASSOC);
+            } else {
+                return NULL;
+            }
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    // TRUE se o CPF já pertence a outro voluntário
+    public function checkVolunteerCPF($cpf, $ignoreID = 0){
+        try {
+            $query = "SELECT id_voluntario FROM voluntarios WHERE cpf = :cpf AND id_voluntario <> :ignorar";
+            $stmt = $this->conn->connectBd()->prepare($query);
+            $stmt->bindValue(':cpf', $cpf, \PDO::PARAM_STR);
+            $stmt->bindValue(':ignorar', $ignoreID, \PDO::PARAM_INT);
             $stmt->execute();
 
             return $stmt->rowCount() != 0;
@@ -55,12 +118,12 @@ class VoluntarioController{
 
     public function insertVolunteer(Voluntario $obj){
         try {
-            $query = "INSERT INTO voluntarios (id_atividade, nome, email, telefone) VALUES (:id_atividade, :nome, :email, :telefone)";
+            $query = "INSERT INTO voluntarios (nome, cpf, email, telefone) VALUES (:nome, :cpf, :email, :telefone)";
             $insert = $this->conn->connectBd()->prepare($query);
-            $insert->bindValue(':id_atividade', $obj->getAtividadeID(), \PDO::PARAM_INT);
             $insert->bindValue(':nome', $obj->getNome(), \PDO::PARAM_STR);
+            $insert->bindValue(':cpf', $obj->getCpf(), \PDO::PARAM_STR);
             $insert->bindValue(':email', $obj->getEmail(), \PDO::PARAM_STR);
-            $insert->bindValue(':telefone', $obj->getTelefone(), \PDO::PARAM_STR);
+            $insert->bindValue(':telefone', $obj->getTelefone(), $obj->getTelefone() === NULL ? \PDO::PARAM_NULL : \PDO::PARAM_STR);
             $result = $insert->execute();
 
             if ($result) {
@@ -68,6 +131,42 @@ class VoluntarioController{
             } else {
                 return 0;
             }
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function updateVolunteer(Voluntario $obj){
+        try {
+            $query = "UPDATE voluntarios SET nome = :nome, cpf = :cpf, email = :email, telefone = :telefone WHERE id_voluntario = :id";
+            $update = $this->conn->connectBd()->prepare($query);
+            $update->bindValue(':nome', $obj->getNome(), \PDO::PARAM_STR);
+            $update->bindValue(':cpf', $obj->getCpf(), \PDO::PARAM_STR);
+            $update->bindValue(':email', $obj->getEmail(), \PDO::PARAM_STR);
+            $update->bindValue(':telefone', $obj->getTelefone(), $obj->getTelefone() === NULL ? \PDO::PARAM_NULL : \PDO::PARAM_STR);
+            $update->bindValue(':id', $obj->getVoluntarioID(), \PDO::PARAM_INT);
+
+            return $update->execute();
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    // Projetos e atividades em que o voluntário se inscreveu
+    public function getParticipations($idVolunteer){
+        try {
+            $query = "SELECT i.id_inscricao, i.data_inscricao, a.id_atividade, a.titulo AS atividade_titulo, a.data_inicio, a.data_fim,
+                             p.id_projeto, p.titulo AS projeto_titulo
+                      FROM inscricoes AS i
+                      INNER JOIN atividades AS a ON a.id_atividade = i.id_atividade
+                      INNER JOIN projetos AS p ON p.id_projeto = a.id_projeto
+                      WHERE i.id_voluntario = :id
+                      ORDER BY a.data_inicio DESC, i.data_inscricao DESC";
+            $stmt = $this->conn->connectBd()->prepare($query);
+            $stmt->bindValue(':id', $idVolunteer, \PDO::PARAM_INT);
+            $stmt->execute();
+
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             echo $e->getMessage();
         }

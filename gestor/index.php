@@ -34,7 +34,7 @@ if (isset($_POST['usu_email'])) {
         $email = $_POST['usu_email'];
         $password = $_POST['usu_senha'];
 
-        $MM_redirectLoginSuccess = "views/projeto_listar.php";
+        $MM_redirectLoginSuccess = "views/painel.php";
 
         $dadosLogin = $controllerUsers->authenticationUserLogin($email, $password);
 
@@ -91,7 +91,10 @@ if (isset($_POST['usu_email'])) {
 <body id="pag-login">
     <div id="container-login">
         <header>
-            <img src="images/logo_white.png" alt="Grupo Sete" draggable="false">
+            <div class="marca">
+                <img src="images/logo_g7.png" alt="" draggable="false">
+                <span class="marca-nome">G7<span>social</span></span>
+            </div>
         </header>
 
         <div id="login">
