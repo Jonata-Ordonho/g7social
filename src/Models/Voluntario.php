@@ -9,6 +9,7 @@ class Voluntario{
     private $cpf;
     private $email;
     private $telefone;
+    private $grupoSete;
 
     /**
      * @return mixed
@@ -88,5 +89,21 @@ class Voluntario{
     public function setTelefone($telefone)
     {
         $this->telefone = $telefone;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGrupoSete()
+    {
+        return $this->grupoSete;
+    }
+
+    /**
+     * @param mixed $grupoSete
+     */
+    public function setGrupoSete($grupoSete)
+    {
+        $this->grupoSete = $grupoSete;
     }
 }

@@ -4,6 +4,7 @@ require_once __DIR__.'/../includes/verificar_login.php';
 
 use App\Controllers\ArrecadacaoController;
 use App\Controllers\LogController;
+use App\Helpers\Comprovante;
 use App\Helpers\Permissao;
 
 $controllerArrecadacao = new ArrecadacaoController;
@@ -31,6 +32,8 @@ if(!Permissao::podeExcluirArrecadacao($_SESSION['SS_UserType'])){
 }
 
 if($controllerArrecadacao->deleteDonation($idDonation)){
+    Comprovante::excluir(isset($arrecadacao['comprovante']) ? (string) $arrecadacao['comprovante'] : '');
+
     $detalhe = $arrecadacao['tipo'] == 'dinheiro' ? 'R$ '.number_format($arrecadacao['valor'], 2, ',', '.') : 'itens: '.$arrecadacao['descricao'];
     $controllerLogs->insertActionUserLog(19, $_SESSION['SS_UserID'], 'Arrecadação ID '.$idDonation.' - Projeto ID '.$arrecadacao['id_projeto'].' - Doador ID '.$arrecadacao['id_doador'].' - '.$detalhe);
     header("Location: ".$voltar."&deletedDonation=true");

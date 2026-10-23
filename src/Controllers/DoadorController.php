@@ -84,18 +84,6 @@ class DoadorController{
         }
     }
 
-    public function getAllDonors(){
-        try {
-            $query = "SELECT id_doador, tipo, nome, documento FROM doadores ORDER BY nome ASC";
-            $stmt = $this->conn->connectBd()->prepare($query);
-            $stmt->execute();
-
-            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        } catch (\PDOException $e) {
-            echo $e->getMessage();
-        }
-    }
-
     public function getDonorByID($idDonor){
         try {
             $query = "SELECT * FROM doadores WHERE id_doador = :id";

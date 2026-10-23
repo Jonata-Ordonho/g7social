@@ -80,13 +80,14 @@ class ArrecadacaoController{
 
     public function updateDonation(Arrecadacao $obj){
         try {
-            $query = "UPDATE arrecadacoes SET id_doador = :id_doador, tipo = :tipo, valor = :valor, descricao = :descricao, data_arrecadacao = :data_arrecadacao WHERE id_arrecadacao = :id";
+            $query = "UPDATE arrecadacoes SET id_doador = :id_doador, tipo = :tipo, valor = :valor, descricao = :descricao, data_arrecadacao = :data_arrecadacao, comprovante = :comprovante WHERE id_arrecadacao = :id";
             $update = $this->conn->connectBd()->prepare($query);
             $update->bindValue(':id_doador', $obj->getDoadorID(), \PDO::PARAM_INT);
             $update->bindValue(':tipo', $obj->getTipo(), \PDO::PARAM_STR);
             $update->bindValue(':valor', $obj->getValor(), $obj->getValor() === NULL ? \PDO::PARAM_NULL : \PDO::PARAM_STR);
             $update->bindValue(':descricao', $obj->getDescricao(), $obj->getDescricao() === NULL ? \PDO::PARAM_NULL : \PDO::PARAM_STR);
             $update->bindValue(':data_arrecadacao', $obj->getDataArrecadacao(), \PDO::PARAM_STR);
+            $update->bindValue(':comprovante', $obj->getComprovante(), $obj->getComprovante() === NULL ? \PDO::PARAM_NULL : \PDO::PARAM_STR);
             $update->bindValue(':id', $obj->getArrecadacaoID(), \PDO::PARAM_INT);
 
             return $update->execute();
@@ -97,7 +98,7 @@ class ArrecadacaoController{
 
     public function insertDonation(Arrecadacao $obj){
         try {
-            $query = "INSERT INTO arrecadacoes (id_projeto, id_doador, tipo, valor, descricao, data_arrecadacao) VALUES (:id_projeto, :id_doador, :tipo, :valor, :descricao, :data_arrecadacao)";
+            $query = "INSERT INTO arrecadacoes (id_projeto, id_doador, tipo, valor, descricao, data_arrecadacao, comprovante) VALUES (:id_projeto, :id_doador, :tipo, :valor, :descricao, :data_arrecadacao, :comprovante)";
             $insert = $this->conn->connectBd()->prepare($query);
             $insert->bindValue(':id_projeto', $obj->getProjetoID(), \PDO::PARAM_INT);
             $insert->bindValue(':id_doador', $obj->getDoadorID(), \PDO::PARAM_INT);
@@ -105,6 +106,7 @@ class ArrecadacaoController{
             $insert->bindValue(':valor', $obj->getValor(), $obj->getValor() === NULL ? \PDO::PARAM_NULL : \PDO::PARAM_STR);
             $insert->bindValue(':descricao', $obj->getDescricao(), $obj->getDescricao() === NULL ? \PDO::PARAM_NULL : \PDO::PARAM_STR);
             $insert->bindValue(':data_arrecadacao', $obj->getDataArrecadacao(), \PDO::PARAM_STR);
+            $insert->bindValue(':comprovante', $obj->getComprovante(), $obj->getComprovante() === NULL ? \PDO::PARAM_NULL : \PDO::PARAM_STR);
             $result = $insert->execute();
 
             if ($result) {

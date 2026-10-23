@@ -3,6 +3,9 @@ connections/Connections.php
 vendor/
 media/*
 !media/.gitkeep
+!media/comprovantes/
+media/comprovantes/*
+!media/comprovantes/.htaccess
 
 # Editores
 .vscode/

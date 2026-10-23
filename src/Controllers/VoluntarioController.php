@@ -23,6 +23,9 @@ class VoluntarioController{
             }
             $sqlFilter .= ") ";
         }
+        if (isset($filter['grupo_sete'])) {
+            $sqlFilter .= " AND v.grupo_sete = :grupo_sete ";
+        }
         return $sqlFilter;
     }
 
@@ -32,6 +35,9 @@ class VoluntarioController{
             if (isset($filter['consulta_numeros'])) {
                 $stmt->bindValue(':consulta_numeros', '%' . $filter['consulta_numeros'] . '%', \PDO::PARAM_STR);
             }
+        }
+        if (isset($filter['grupo_sete'])) {
+            $stmt->bindValue(':grupo_sete', $filter['grupo_sete'], \PDO::PARAM_INT);
         }
     }
 
@@ -118,12 +124,13 @@ class VoluntarioController{
 
     public function insertVolunteer(Voluntario $obj){
         try {
-            $query = "INSERT INTO voluntarios (nome, cpf, email, telefone) VALUES (:nome, :cpf, :email, :telefone)";
+            $query = "INSERT INTO voluntarios (nome, cpf, email, telefone, grupo_sete) VALUES (:nome, :cpf, :email, :telefone, :grupo_sete)";
             $insert = $this->conn->connectBd()->prepare($query);
             $insert->bindValue(':nome', $obj->getNome(), \PDO::PARAM_STR);
             $insert->bindValue(':cpf', $obj->getCpf(), \PDO::PARAM_STR);
             $insert->bindValue(':email', $obj->getEmail(), \PDO::PARAM_STR);
             $insert->bindValue(':telefone', $obj->getTelefone(), $obj->getTelefone() === NULL ? \PDO::PARAM_NULL : \PDO::PARAM_STR);
+            $insert->bindValue(':grupo_sete', $obj->getGrupoSete() ? 1 : 0, \PDO::PARAM_INT);
             $result = $insert->execute();
 
             if ($result) {
@@ -138,12 +145,13 @@ class VoluntarioController{
 
     public function updateVolunteer(Voluntario $obj){
         try {
-            $query = "UPDATE voluntarios SET nome = :nome, cpf = :cpf, email = :email, telefone = :telefone WHERE id_voluntario = :id";
+            $query = "UPDATE voluntarios SET nome = :nome, cpf = :cpf, email = :email, telefone = :telefone, grupo_sete = :grupo_sete WHERE id_voluntario = :id";
             $update = $this->conn->connectBd()->prepare($query);
             $update->bindValue(':nome', $obj->getNome(), \PDO::PARAM_STR);
             $update->bindValue(':cpf', $obj->getCpf(), \PDO::PARAM_STR);
             $update->bindValue(':email', $obj->getEmail(), \PDO::PARAM_STR);
             $update->bindValue(':telefone', $obj->getTelefone(), $obj->getTelefone() === NULL ? \PDO::PARAM_NULL : \PDO::PARAM_STR);
+            $update->bindValue(':grupo_sete', $obj->getGrupoSete() ? 1 : 0, \PDO::PARAM_INT);
             $update->bindValue(':id', $obj->getVoluntarioID(), \PDO::PARAM_INT);
 
             return $update->execute();

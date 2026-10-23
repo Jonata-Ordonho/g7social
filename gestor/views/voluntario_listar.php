@@ -28,6 +28,13 @@ if(isset($_GET['consulta']) && trim($_GET['consulta']) != ''){
     }
 }
 
+// Grupo Sete: 'sim' (internos) ou 'nao' (externos)
+$grupoSete = '';
+if(isset($_GET['grupo_sete']) && in_array($_GET['grupo_sete'], array('sim', 'nao'))){
+    $grupoSete = $_GET['grupo_sete'];
+    $filter['grupo_sete'] = $grupoSete == 'sim' ? 1 : 0;
+}
+
 $controllerVoluntario = new VoluntarioController;
 
 $voluntarios = $controllerVoluntario->getVolunteersList($filter, $startRow, $maxRows);
@@ -78,6 +85,11 @@ if (!empty($_SERVER['QUERY_STRING'])) {
         <div id="filtro">
             <form name="form-busca" method="GET" action="" id="form-busca">
                 <input type="text" name="consulta" id="consulta" class="long" placeholder="Nome/CPF/E-mail" value="<?php if(isset($filter['consulta'])){ echo htmlspecialchars($filter['consulta']); } ?>">
+                <select name="grupo_sete">
+                    <option value="">Grupo Sete</option>
+                    <option value="sim" <?php if($grupoSete == 'sim'){ echo 'selected'; } ?>>Sim (internos)</option>
+                    <option value="nao" <?php if($grupoSete == 'nao'){ echo 'selected'; } ?>>Não (externos)</option>
+                </select>
                 <input type="submit" value="Buscar" class="but-procura">
                 <a href="voluntario_listar.php" title="Limpar Filtro">» Limpar Filtro</a>
             </form>
@@ -93,6 +105,7 @@ if (!empty($_SERVER['QUERY_STRING'])) {
                     <th width="150">CPF</th>
                     <th width="250">E-mail</th>
                     <th width="140">Telefone</th>
+                    <th width="100">Grupo Sete</th>
                     <th width="110">Participações</th>
                     <th width="90">Ação</th>
                 </tr>
@@ -106,6 +119,7 @@ if (!empty($_SERVER['QUERY_STRING'])) {
                         <td align="center"><?php echo $voluntario['cpf'] != NULL ? Documento::formatarCPF($voluntario['cpf']) : '<i>Não informado</i>'; ?></td>
                         <td><?php echo htmlspecialchars((string) $voluntario['email']); ?></td>
                         <td align="center"><?php echo Documento::formatarTelefone((string) $voluntario['telefone']); ?></td>
+                        <td align="center"><?php echo !empty($voluntario['grupo_sete']) ? 'Sim' : 'Não'; ?></td>
                         <td align="center"><?php echo $voluntario['total_inscricoes']; ?></td>
                         <td class="actions">
                             <a href="voluntario_detalhar.php?id=<?php echo $voluntario['id_voluntario']; ?>" title="Detalhar voluntário e participações" class="icon-search">Detalhar</a>

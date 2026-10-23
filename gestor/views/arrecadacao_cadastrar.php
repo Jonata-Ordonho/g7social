@@ -8,6 +8,7 @@ use App\Controllers\ProjetoController;
 use App\Controllers\ArrecadacaoController;
 use App\Controllers\DoadorController;
 use App\Controllers\LogController;
+use App\Helpers\Comprovante;
 use App\Helpers\Documento;
 use App\Models\Arrecadacao;
 
@@ -24,8 +25,6 @@ if($projeto == NULL){
     header("Location: projeto_listar.php?errorInfo=true");
     exit;
 }
-
-$doadores = $controllerDoador->getAllDonors();
 
 $dados = array(
     'id_doador' => '',
@@ -47,6 +46,11 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
     // Valor no formato 1.500,00
     $valor = str_replace(',', '.', str_replace('.', '', $dados['valor']));
 
+    // Comprovante é opcional
+    $arquivoComprovante = isset($_FILES['comprovante']) ? $_FILES['comprovante'] : NULL;
+    $temComprovante = Comprovante::foiEnviado($arquivoComprovante);
+    $nomeComprovante = NULL;
+
     if($dados['id_doador'] == 0 || $controllerDoador->getDonorByID($dados['id_doador']) == NULL){
         $erro = 'Selecione o doador.';
     }elseif(!strtotime($dados['data_arrecadacao'])){
@@ -55,6 +59,10 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
         $erro = 'Informe um valor válido para a doação em dinheiro.';
     }elseif($dados['tipo'] == 'itens' && $dados['descricao'] == ''){
         $erro = 'Descreva os itens doados.';
+    }elseif($temComprovante && Comprovante::validar($arquivoComprovante) != ''){
+        $erro = Comprovante::validar($arquivoComprovante);
+    }elseif($temComprovante && ($nomeComprovante = Comprovante::salvar($arquivoComprovante)) == NULL){
+        $erro = 'Não foi possível salvar o comprovante. Tente novamente.';
     }else{
         $objArrecadacao = new Arrecadacao;
         $objArrecadacao->setProjetoID($idProject);
@@ -63,6 +71,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
         $objArrecadacao->setValor($dados['tipo'] == 'dinheiro' ? number_format($valor, 2, '.', '') : NULL);
         $objArrecadacao->setDescricao($dados['tipo'] == 'itens' ? $dados['descricao'] : NULL);
         $objArrecadacao->setDataArrecadacao($dados['data_arrecadacao']);
+        $objArrecadacao->setComprovante($nomeComprovante);
 
         $idArrecadacao = $controllerArrecadacao->insertDonation($objArrecadacao);
 
@@ -72,8 +81,23 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
             header("Location: arrecadacao_listar.php?id_projeto=".$idProject."&newDonation=true");
             exit;
         }else{
+            // Não deixa arquivo órfão quando o registro não foi gravado
+            if($nomeComprovante != NULL){
+                Comprovante::excluir($nomeComprovante);
+            }
             $erro = 'Não foi possível cadastrar a arrecadação.';
         }
+    }
+}
+
+// Texto exibido no campo de busca quando já há doador escolhido (ex.: após erro de validação)
+$rotuloDoador = '';
+if($dados['id_doador'] != ''){
+    $doador = $controllerDoador->getDonorByID($dados['id_doador']);
+    if($doador != NULL){
+        $rotuloDoador = $doador['nome'].' - '.($doador['tipo'] == 'empresa' ? 'CNPJ '.Documento::formatarCNPJ($doador['documento']) : 'CPF '.Documento::formatarCPF($doador['documento']));
+    }else{
+        $dados['id_doador'] = '';
     }
 }
 
@@ -93,6 +117,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
     <script type="text/javascript" src="../../js/jquery.js"></script>
     <script type="text/javascript" src="../../js/jquery.mask.js"></script>
     <script type="text/javascript" src="../../js/parsley.min.js"></script>
+    <script type="text/javascript" src="../../js/autocomplete.js"></script>
 
     <script>
         $(document).ready(function(){
@@ -122,19 +147,17 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 
         <?php if($erro != ''){ echo '<span class="alerta">'.$erro.'</span>'; } ?>
 
-        <form method="POST" name="form1" id="form1" action="arrecadacao_cadastrar.php?id_projeto=<?php echo $idProject; ?>" data-parsley-validate="">
+        <form method="POST" name="form1" id="form1" action="arrecadacao_cadastrar.php?id_projeto=<?php echo $idProject; ?>" enctype="multipart/form-data" data-parsley-validate="">
             <div class="formulario">
                 <div>
-                    <label>Doador</label>
-                    <select name="id_doador" required>
-                        <option value="">Selecione o doador</option>
-                        <?php foreach ($doadores as $doador) { ?>
-                            <option value="<?php echo $doador['id_doador']; ?>" <?php if($dados['id_doador'] == $doador['id_doador']){ echo 'selected'; } ?>>
-                                <?php echo htmlspecialchars($doador['nome']).' - '.($doador['tipo'] == 'empresa' ? 'CNPJ '.Documento::formatarCNPJ($doador['documento']) : 'CPF '.Documento::formatarCPF($doador['documento'])); ?>
-                            </option>
-                        <?php } ?>
-                    </select>
+                    <label for="busca-doador">Doador</label>
+                    <div class="autocomplete">
+                        <input type="text" id="busca-doador" placeholder="Digite o nome, CPF/CNPJ ou e-mail" autocomplete="off" required data-url="doador_buscar.php" data-parsley-selecionado="#id_doador" data-parsley-selecionado-message="Selecione um doador da lista." data-parsley-errors-container="#erro-doador" value="<?php echo htmlspecialchars($rotuloDoador); ?>">
+                        <input type="hidden" name="id_doador" id="id_doador" value="<?php echo htmlspecialchars($dados['id_doador']); ?>">
+                        <ul class="autocomplete-lista"></ul>
+                    </div>
                     <a href="doador_cadastrar.php" title="Cadastrar novo doador">» Cadastrar novo doador</a>
+                    <div id="erro-doador"></div>
                 </div>
 
                 <div id="areas">
@@ -158,6 +181,12 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                 <div>
                     <label>Data da arrecadação</label>
                     <input type="date" name="data_arrecadacao" required value="<?php echo htmlspecialchars($dados['data_arrecadacao']); ?>">
+                </div>
+
+                <div>
+                    <label for="comprovante">Comprovante de recebimento <span>(opcional)</span></label>
+                    <input type="file" name="comprovante" id="comprovante" accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf">
+                    <span class="dica-campo">Nota fiscal, recibo etc. Arquivo JPG, PNG ou PDF de até 5 MB.</span>
                 </div>
 
                 <div class="acao-buts">

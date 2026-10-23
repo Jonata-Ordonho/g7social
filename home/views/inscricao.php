@@ -39,7 +39,8 @@ $dados = array(
     'nome' => '',
     'cpf' => '',
     'telefone' => '',
-    'email' => ''
+    'email' => '',
+    'grupo_sete' => false
 );
 
 $erro = '';
@@ -78,12 +79,14 @@ if($etapa == 'dados' && $envioCpf && $voluntarioExistente != NULL){
     $dados['nome'] = $voluntarioExistente['nome'];
     $dados['email'] = (string) $voluntarioExistente['email'];
     $dados['telefone'] = Documento::formatarTelefone((string) $voluntarioExistente['telefone']);
+    $dados['grupo_sete'] = !empty($voluntarioExistente['grupo_sete']);
 }
 
 if($etapa == 'dados' && $envioDados){
     $dados['nome'] = trim($_POST['nome']);
     $dados['telefone'] = trim($_POST['telefone']);
     $dados['email'] = trim($_POST['email']);
+    $dados['grupo_sete'] = isset($_POST['grupo_sete']);
 
     $telefone = Documento::somenteNumeros($dados['telefone']);
 
@@ -96,7 +99,7 @@ if($etapa == 'dados' && $envioDados){
     }else{
         // CPF novo: cria o voluntário. CPF já cadastrado: atualiza os dados conforme o formulário.
         $resultado = $controllerInscricao->registerInscription(array(
-            'nome' => $dados['nome'], 'cpf' => $cpf, 'email' => $dados['email'], 'telefone' => $telefone
+            'nome' => $dados['nome'], 'cpf' => $cpf, 'email' => $dados['email'], 'telefone' => $telefone, 'grupo_sete' => $dados['grupo_sete']
         ), $atividade, true);
 
         if($resultado['erro'] == ''){
@@ -283,6 +286,13 @@ if($etapa == 'dados' && $envioDados){
                                     <div class="campo">
                                         <label for="email">E-mail</label>
                                         <input type="email" name="email" id="email" maxlength="150" required autocomplete="email" value="<?php echo htmlspecialchars($dados['email']); ?>">
+                                    </div>
+
+                                    <div class="campo">
+                                        <label class="opcao-check">
+                                            <input type="checkbox" name="grupo_sete" value="1" <?php if($dados['grupo_sete']){ echo 'checked'; } ?>>
+                                            Faço parte do Grupo Sete
+                                        </label>
                                     </div>
     
                                     <div class="campo-oculto" aria-hidden="true">

@@ -30,7 +30,8 @@ $dados = array(
     'nome' => $voluntario['nome'],
     'cpf' => $voluntario['cpf'] != NULL ? Documento::formatarCPF($voluntario['cpf']) : '',
     'email' => (string) $voluntario['email'],
-    'telefone' => Documento::formatarTelefone((string) $voluntario['telefone'])
+    'telefone' => Documento::formatarTelefone((string) $voluntario['telefone']),
+    'grupo_sete' => !empty($voluntario['grupo_sete'])
 );
 
 $erro = '';
@@ -40,6 +41,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
     $dados['cpf'] = trim($_POST['cpf']);
     $dados['email'] = trim($_POST['email']);
     $dados['telefone'] = trim($_POST['telefone']);
+    $dados['grupo_sete'] = isset($_POST['grupo_sete']);
 
     $cpf = Documento::somenteNumeros($dados['cpf']);
     $telefone = Documento::somenteNumeros($dados['telefone']);
@@ -61,6 +63,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
         $objVoluntario->setCpf($cpf);
         $objVoluntario->setEmail($dados['email']);
         $objVoluntario->setTelefone($telefone != '' ? $telefone : NULL);
+        $objVoluntario->setGrupoSete($dados['grupo_sete']);
 
         if($controllerVoluntario->updateVolunteer($objVoluntario)){
             $controllerLogs->insertActionUserLog(17, $_SESSION['SS_UserID'], 'Voluntário ID '.$idVolunteer);
@@ -137,6 +140,10 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                 <div>
                     <label>Telefone <span>(opcional)</span></label>
                     <input type="text" name="telefone" id="telefone" placeholder="(00) 00000-0000" value="<?php echo htmlspecialchars($dados['telefone']); ?>">
+                </div>
+
+                <div>
+                    <label class="opcao-check"><input type="checkbox" name="grupo_sete" value="1" <?php if($dados['grupo_sete']){ echo 'checked'; } ?>> Faz parte do Grupo Sete (voluntário interno)</label>
                 </div>
 
                 <div class="acao-buts">

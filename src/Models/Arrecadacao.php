@@ -11,6 +11,7 @@ class Arrecadacao{
     private $valor;
     private $descricao;
     private $dataArrecadacao;
+    private $comprovante;
 
     /**
      * @return mixed
@@ -122,5 +123,21 @@ class Arrecadacao{
     public function setDataArrecadacao($dataArrecadacao)
     {
         $this->dataArrecadacao = $dataArrecadacao;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComprovante()
+    {
+        return $this->comprovante;
+    }
+
+    /**
+     * @param mixed $comprovante
+     */
+    public function setComprovante($comprovante)
+    {
+        $this->comprovante = $comprovante;
     }
 }

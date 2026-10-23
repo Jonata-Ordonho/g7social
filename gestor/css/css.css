@@ -1446,6 +1446,26 @@ a.indicador:hover {
     cursor: not-allowed;
 }
 
+.formulario label.opcao-check {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.formulario .comprovante-atual {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 18px;
+    margin-bottom: 8px;
+}
+
+.formulario .comprovante-atual a {
+    font-size: .85rem;
+    font-weight: 600;
+}
+
 .formulario .dica-campo {
     display: block;
     color: var(--texto-suave);
@@ -1453,10 +1473,64 @@ a.indicador:hover {
     margin-top: 4px;
 }
 
-.formulario > div > select + a {
+.formulario > div > select + a,
+.formulario > div > .autocomplete + a {
     display: inline-block;
     font-size: .8rem;
     margin: 6px 0 0 8px;
+}
+
+/* Campo com sugestões via AJAX (ex.: doador na arrecadação) */
+.formulario .autocomplete {
+    position: relative;
+    display: inline-block;
+    width: 360px;
+    max-width: 100%;
+    vertical-align: top;
+}
+
+.formulario .autocomplete input {
+    width: 100%;
+}
+
+.autocomplete-lista {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    z-index: 20;
+    max-height: 280px;
+    overflow-y: auto;
+    margin: 0;
+    padding: 4px 0;
+    list-style: none;
+    background-color: var(--superficie);
+    border: 1px solid var(--borda);
+    border-radius: var(--raio-pequeno);
+    box-shadow: var(--sombra-media);
+}
+
+.autocomplete-lista li {
+    padding: 8px 12px;
+    font-size: .85rem;
+    cursor: pointer;
+}
+
+.autocomplete-lista li small {
+    display: block;
+    color: var(--texto-suave);
+    font-size: .75rem;
+}
+
+.autocomplete-lista li.ativo,
+.autocomplete-lista li[data-id]:hover {
+    background-color: var(--azul-claro);
+}
+
+.autocomplete-lista li.vazio {
+    color: var(--texto-suave);
+    cursor: default;
 }
 
 /***** PAGINAÇÃO *****/
@@ -1721,7 +1795,8 @@ body#pag-login {
 
     .formulario input,
     .formulario select,
-    .formulario textarea {
+    .formulario textarea,
+    .formulario .autocomplete {
         width: 100%;
         max-width: 600px;
     }

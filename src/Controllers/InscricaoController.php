@@ -97,7 +97,7 @@ class InscricaoController{
      * Inscreve um voluntário numa atividade, usado no formulário público e no gestor.
      * Procura o voluntário pelo CPF; se não existir, cadastra. Os dados de um voluntário
      * já cadastrado não são alterados aqui (só pela tela de alteração do gestor).
-     * Espera dados já validados (CPF e telefone só com números).
+     * Espera dados já validados (CPF e telefone só com números; grupo_sete como bool).
      * Retorna array('erro' => mensagem ou '', 'id_inscricao' => id, 'novo_voluntario' => bool).
      */
     // $atualizarDados: quando o CPF já está no banco, grava o nome, e-mail e telefone informados (página pública)
@@ -119,6 +119,7 @@ class InscricaoController{
             $obj->setCpf($dados['cpf']);
             $obj->setEmail($dados['email']);
             $obj->setTelefone($dados['telefone'] != '' ? $dados['telefone'] : NULL);
+            $obj->setGrupoSete($dados['grupo_sete']);
             $idVoluntario = $controllerVoluntario->insertVolunteer($obj);
             $novo = true;
         } else {
@@ -131,6 +132,7 @@ class InscricaoController{
                 $obj->setCpf($voluntario['cpf']);
                 $obj->setEmail($dados['email']);
                 $obj->setTelefone($dados['telefone'] != '' ? $dados['telefone'] : NULL);
+                $obj->setGrupoSete($dados['grupo_sete']);
                 if (!$controllerVoluntario->updateVolunteer($obj)) {
                     return array('erro' => 'Não foi possível atualizar os seus dados. Tente novamente.', 'id_inscricao' => 0, 'novo_voluntario' => false);
                 }

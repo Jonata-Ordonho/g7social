@@ -71,6 +71,10 @@ $participacoes = $controllerVoluntario->getParticipations($idVolunteer);
                 <td><?php echo $voluntario['telefone'] != NULL ? Documento::formatarTelefone($voluntario['telefone']) : '<i>Não informado</i>'; ?></td>
             </tr>
             <tr>
+                <td class="rotulo">Grupo Sete:</td>
+                <td><?php echo !empty($voluntario['grupo_sete']) ? 'Sim (voluntário interno)' : 'Não (voluntário externo)'; ?></td>
+            </tr>
+            <tr>
                 <td class="rotulo">Cadastrado em:</td>
                 <td><?php echo date('d/m/Y \à\s H:i', strtotime($voluntario['data_registro'])); ?></td>
             </tr>

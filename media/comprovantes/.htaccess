@@ -1,0 +1,2 @@
+# Comprovantes só podem ser abertos pelo gestor (gestor/views/arrecadacao_comprovante.php), com login
+Require all denied

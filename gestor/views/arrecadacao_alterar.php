@@ -6,6 +6,7 @@ use App\Controllers\ProjetoController;
 use App\Controllers\ArrecadacaoController;
 use App\Controllers\DoadorController;
 use App\Controllers\LogController;
+use App\Helpers\Comprovante;
 use App\Helpers\Documento;
 use App\Models\Arrecadacao;
 
@@ -26,8 +27,6 @@ if($arrecadacao == NULL){
 $idProject = $arrecadacao['id_projeto'];
 $projeto = $controllerProjeto->getProjectByID($idProject);
 
-$doadores = $controllerDoador->getAllDonors();
-
 $dados = array(
     'id_doador' => $arrecadacao['id_doador'],
     'tipo' => $arrecadacao['tipo'],
@@ -35,6 +34,10 @@ $dados = array(
     'descricao' => (string) $arrecadacao['descricao'],
     'data_arrecadacao' => $arrecadacao['data_arrecadacao']
 );
+
+// Comprovante já gravado: confere se o arquivo ainda existe na pasta antes de exibi-lo
+$comprovanteAtual = isset($arrecadacao['comprovante']) ? (string) $arrecadacao['comprovante'] : '';
+$comprovanteExiste = Comprovante::existe($comprovanteAtual);
 
 $erro = '';
 
@@ -48,6 +51,12 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
     // Valor no formato 1.500,00
     $valor = str_replace(',', '.', str_replace('.', '', $dados['valor']));
 
+    // Comprovante: um novo arquivo substitui o atual; sem arquivo novo, mantém o atual ou remove se marcado
+    $arquivoComprovante = isset($_FILES['comprovante']) ? $_FILES['comprovante'] : NULL;
+    $temComprovante = Comprovante::foiEnviado($arquivoComprovante);
+    $removerComprovante = isset($_POST['remover_comprovante']);
+    $nomeComprovante = NULL;
+
     if($dados['id_doador'] == 0 || $controllerDoador->getDonorByID($dados['id_doador']) == NULL){
         $erro = 'Selecione o doador.';
     }elseif(!strtotime($dados['data_arrecadacao'])){
@@ -56,7 +65,16 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
         $erro = 'Informe um valor válido para a doação em dinheiro.';
     }elseif($dados['tipo'] == 'itens' && $dados['descricao'] == ''){
         $erro = 'Descreva os itens doados.';
+    }elseif($temComprovante && Comprovante::validar($arquivoComprovante) != ''){
+        $erro = Comprovante::validar($arquivoComprovante);
+    }elseif($temComprovante && ($nomeComprovante = Comprovante::salvar($arquivoComprovante)) == NULL){
+        $erro = 'Não foi possível salvar o comprovante. Tente novamente.';
     }else{
+        // Sem arquivo novo: mantém o atual, a não ser que tenha sido removido ou não exista mais na pasta
+        if(!$temComprovante && !$removerComprovante && $comprovanteExiste){
+            $nomeComprovante = $comprovanteAtual;
+        }
+
         $objArrecadacao = new Arrecadacao;
         $objArrecadacao->setArrecadacaoID($idDonation);
         $objArrecadacao->setDoadorID($dados['id_doador']);
@@ -64,15 +82,36 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
         $objArrecadacao->setValor($dados['tipo'] == 'dinheiro' ? number_format($valor, 2, '.', '') : NULL);
         $objArrecadacao->setDescricao($dados['tipo'] == 'itens' ? $dados['descricao'] : NULL);
         $objArrecadacao->setDataArrecadacao($dados['data_arrecadacao']);
+        $objArrecadacao->setComprovante($nomeComprovante);
 
         if($controllerArrecadacao->updateDonation($objArrecadacao)){
+            // Arquivo anterior substituído ou removido: apaga da pasta
+            if($comprovanteAtual != '' && $nomeComprovante != $comprovanteAtual){
+                Comprovante::excluir($comprovanteAtual);
+            }
+
             $controllerLogs->insertActionUserLog(8, $_SESSION['SS_UserID'], 'Arrecadação ID '.$idDonation.' - Projeto ID '.$idProject);
 
             header("Location: arrecadacao_listar.php?id_projeto=".$idProject."&updateDonation=true");
             exit;
         }else{
+            // Não deixa arquivo órfão quando o registro não foi gravado
+            if($temComprovante){
+                Comprovante::excluir($nomeComprovante);
+            }
             $erro = 'Não foi possível alterar a arrecadação.';
         }
+    }
+}
+
+// Texto exibido no campo de busca para o doador escolhido
+$rotuloDoador = '';
+if($dados['id_doador'] != ''){
+    $doador = $controllerDoador->getDonorByID($dados['id_doador']);
+    if($doador != NULL){
+        $rotuloDoador = $doador['nome'].' - '.($doador['tipo'] == 'empresa' ? 'CNPJ '.Documento::formatarCNPJ($doador['documento']) : 'CPF '.Documento::formatarCPF($doador['documento']));
+    }else{
+        $dados['id_doador'] = '';
     }
 }
 
@@ -92,6 +131,7 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
     <script type="text/javascript" src="../../js/jquery.js"></script>
     <script type="text/javascript" src="../../js/jquery.mask.js"></script>
     <script type="text/javascript" src="../../js/parsley.min.js"></script>
+    <script type="text/javascript" src="../../js/autocomplete.js"></script>
 
     <script>
         $(document).ready(function(){
@@ -121,18 +161,16 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 
         <?php if($erro != ''){ echo '<span class="alerta">'.$erro.'</span>'; } ?>
 
-        <form method="POST" name="form1" id="form1" action="arrecadacao_alterar.php?id=<?php echo $idDonation; ?>" data-parsley-validate="">
+        <form method="POST" name="form1" id="form1" action="arrecadacao_alterar.php?id=<?php echo $idDonation; ?>" enctype="multipart/form-data" data-parsley-validate="">
             <div class="formulario">
                 <div>
-                    <label>Doador</label>
-                    <select name="id_doador" required>
-                        <option value="">Selecione o doador</option>
-                        <?php foreach ($doadores as $doador) { ?>
-                            <option value="<?php echo $doador['id_doador']; ?>" <?php if($dados['id_doador'] == $doador['id_doador']){ echo 'selected'; } ?>>
-                                <?php echo htmlspecialchars($doador['nome']).' - '.($doador['tipo'] == 'empresa' ? 'CNPJ '.Documento::formatarCNPJ($doador['documento']) : 'CPF '.Documento::formatarCPF($doador['documento'])); ?>
-                            </option>
-                        <?php } ?>
-                    </select>
+                    <label for="busca-doador">Doador</label>
+                    <div class="autocomplete">
+                        <input type="text" id="busca-doador" placeholder="Digite o nome, CPF/CNPJ ou e-mail" autocomplete="off" required data-url="doador_buscar.php" data-parsley-selecionado="#id_doador" data-parsley-selecionado-message="Selecione um doador da lista." data-parsley-errors-container="#erro-doador" value="<?php echo htmlspecialchars($rotuloDoador); ?>">
+                        <input type="hidden" name="id_doador" id="id_doador" value="<?php echo htmlspecialchars($dados['id_doador']); ?>">
+                        <ul class="autocomplete-lista"></ul>
+                    </div>
+                    <div id="erro-doador"></div>
                 </div>
 
                 <div id="areas">
@@ -156,6 +194,20 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                 <div>
                     <label>Data da arrecadação</label>
                     <input type="date" name="data_arrecadacao" required value="<?php echo htmlspecialchars($dados['data_arrecadacao']); ?>">
+                </div>
+
+                <div>
+                    <label for="comprovante">Comprovante de recebimento <span>(opcional)</span></label>
+                    <?php if($comprovanteExiste){ ?>
+                        <div class="comprovante-atual">
+                            <a href="arrecadacao_comprovante.php?id=<?php echo $idDonation; ?>" target="_blank" title="Abrir o comprovante em uma nova aba" class="icon-attach">Ver comprovante atual</a>
+                            <label class="opcao-check"><input type="checkbox" name="remover_comprovante" value="1"> Remover comprovante</label>
+                        </div>
+                    <?php }elseif($comprovanteAtual != ''){ ?>
+                        <span class="alerta">O arquivo do comprovante desta arrecadação não foi encontrado no servidor. Envie o arquivo novamente.</span>
+                    <?php } ?>
+                    <input type="file" name="comprovante" id="comprovante" accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf">
+                    <span class="dica-campo">Nota fiscal, recibo etc. Arquivo JPG, PNG ou PDF de até 5 MB.<?php if($comprovanteExiste){ echo ' Enviar um novo arquivo substitui o atual.'; } ?></span>
                 </div>
 
                 <div class="acao-buts">
