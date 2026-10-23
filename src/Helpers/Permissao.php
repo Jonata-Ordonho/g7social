@@ -2,11 +2,13 @@
 
 namespace App\Helpers;
 
+// Regras de acesso por tipo de usuário:
+// - admin: acesso a todos os módulos
+// - gestor: acesso a tudo, menos cadastrar/alterar projetos sociais e o módulo de usuários
 class Permissao{
 
     // Tipos de usuário e seus nomes de exibição
     const TIPOS = array(
-        'admin_master' => 'Admin master (DEV)',
         'admin' => 'Administrador',
         'gestor' => 'Gestor'
     );
@@ -15,41 +17,55 @@ class Permissao{
         return isset(self::TIPOS[$tipo]) ? self::TIPOS[$tipo] : $tipo;
     }
 
-    // Somente admin master e admin cadastram e alteram projetos sociais
+    private static function tipoValido($tipoLogado){
+        return isset(self::TIPOS[$tipoLogado]);
+    }
+
+    // Somente o admin cadastra e altera projetos sociais
     public static function podeGerenciarProjetos($tipoLogado){
-        return in_array($tipoLogado, array('admin_master', 'admin'));
+        return $tipoLogado == 'admin';
     }
 
-    // Somente admin master e admin excluem inscrições de voluntários
-    public static function podeExcluirVoluntario($tipoLogado){
-        return in_array($tipoLogado, array('admin_master', 'admin'));
-    }
-
-    // Somente admin master e admin cadastram, alteram e ativam/desativam atividades
+    // Admin e gestor cadastram, alteram e ativam/desativam atividades
     public static function podeGerenciarAtividades($tipoLogado){
-        return in_array($tipoLogado, array('admin_master', 'admin'));
+        return self::tipoValido($tipoLogado);
     }
 
-    // Somente admin master e admin inscrevem voluntários pelo gestor e alteram os dados do banco de voluntários
+    // Admin e gestor inscrevem voluntários pelo gestor e alteram os dados do banco de voluntários
     public static function podeGerenciarVoluntarios($tipoLogado){
-        return in_array($tipoLogado, array('admin_master', 'admin'));
+        return self::tipoValido($tipoLogado);
     }
 
-    // Admin master e admin veem o bloco de usuários e podem cadastrar
+    // Admin e gestor excluem inscrições de voluntários
+    public static function podeExcluirVoluntario($tipoLogado){
+        return self::tipoValido($tipoLogado);
+    }
+
+    // Admin e gestor excluem arrecadações
+    public static function podeExcluirArrecadacao($tipoLogado){
+        return self::tipoValido($tipoLogado);
+    }
+
+    // Somente o admin acessa o módulo de usuários (listar, cadastrar e alterar)
     public static function podeGerenciarUsuarios($tipoLogado){
-        return in_array($tipoLogado, array('admin_master', 'admin'));
+        return $tipoLogado == 'admin';
     }
 
-    // Tipos que o usuário logado pode atribuir: admin master atribui qualquer tipo; admin cadastra apenas gestores
+    // Tipos que o usuário logado pode atribuir (o admin atribui qualquer tipo)
     public static function tiposPermitidos($tipoLogado){
-        if ($tipoLogado == 'admin_master') {
-            return self::TIPOS;
-        }
-        return array('gestor' => self::TIPOS['gestor']);
+        return $tipoLogado == 'admin' ? self::TIPOS : array();
     }
 
-    // Somente o admin master altera dados de usuários
+    // Somente o admin altera dados de usuários
     public static function podeAlterarUsuario($tipoLogado){
-        return $tipoLogado == 'admin_master';
+        return $tipoLogado == 'admin';
+    }
+
+    // O admin altera (e ativa/desativa) gestores e a própria conta, mas não outros admins
+    public static function podeAlterarEsteUsuario($tipoLogado, $idLogado, $usuarioAlvo){
+        if (!self::podeAlterarUsuario($tipoLogado)) {
+            return false;
+        }
+        return $usuarioAlvo['tipo'] != 'admin' || (int) $usuarioAlvo['id_usuario'] == (int) $idLogado;
     }
 }

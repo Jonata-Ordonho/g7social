@@ -25,7 +25,7 @@ if($atividade == NULL){
 
 $idProject = $atividade['id_projeto'];
 
-// Somente administradores alteram atividades
+// Confere a permissão para alterar atividades (regras em Permissao)
 if(!Permissao::podeGerenciarAtividades($_SESSION['SS_UserType'])){
     header("Location: atividade_listar.php?id_projeto=".$idProject."&semPermissao=true");
     exit;

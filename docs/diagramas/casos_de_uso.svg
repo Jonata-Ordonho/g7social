@@ -1,110 +1,97 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1650" height="1000" viewBox="0 0 1650 1000" font-family="Segoe UI, Inter, Arial, sans-serif">
-<defs>
-  <marker id="seta" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" orient="auto" markerUnits="userSpaceOnUse">
-    <path d="M1 1 L11 6 L1 11" fill="none" stroke="#4f5b6a" stroke-width="1.6"/></marker>
-  <marker id="heranca" viewBox="0 0 18 18" refX="17" refY="9" markerWidth="18" markerHeight="18" orient="auto" markerUnits="userSpaceOnUse">
-    <path d="M1 1 L17 9 L1 17 Z" fill="#fff" stroke="#1f2933" stroke-width="1.6"/></marker>
-</defs>
-<rect width="100%" height="100%" fill="#f3f5f8"/>
-<text x="40" y="40" font-size="22" font-weight="700" fill="#1f2933">G7 Social — Diagrama de Casos de Uso</text>
-<rect x="300" y="70" width="860" height="900" rx="12" fill="#fff" stroke="#9aa6b5" stroke-width="1.5"/>
-<text x="730" y="98" font-size="15" font-weight="700" text-anchor="middle" fill="#00649e">Gestor — área administrativa</text>
-<rect x="1210" y="270" width="270" height="470" rx="12" fill="#fff" stroke="#9aa6b5" stroke-width="1.5"/>
-<text x="1345" y="298" font-size="15" font-weight="700" text-anchor="middle" fill="#00649e">Home — página pública</text>
-<line x1="156" y1="365" x2="432" y2="140" stroke="#1f2933" stroke-width="1.3"/>
-<line x1="156" y1="365" x2="432" y2="215" stroke="#1f2933" stroke-width="1.3"/>
-<line x1="156" y1="365" x2="432" y2="290" stroke="#1f2933" stroke-width="1.3"/>
-<line x1="156" y1="365" x2="432" y2="375" stroke="#1f2933" stroke-width="1.3"/>
-<line x1="156" y1="365" x2="432" y2="450" stroke="#1f2933" stroke-width="1.3"/>
-<line x1="156" y1="365" x2="432" y2="535" stroke="#1f2933" stroke-width="1.3"/>
-<line x1="156" y1="365" x2="432" y2="620" stroke="#1f2933" stroke-width="1.3"/>
-<line x1="156" y1="730" x2="432" y2="720" stroke="#1f2933" stroke-width="1.3"/>
-<line x1="156" y1="730" x2="432" y2="800" stroke="#1f2933" stroke-width="1.3"/>
-<line x1="156" y1="880" x2="432" y2="895" stroke="#1f2933" stroke-width="1.3"/>
-<line x1="1529" y1="420" x2="1457" y2="360" stroke="#1f2933" stroke-width="1.3"/>
-<line x1="1529" y1="420" x2="1457" y2="495" stroke="#1f2933" stroke-width="1.3"/>
-<line x1="130" y1="692" x2="130" y2="448" stroke="#1f2933" stroke-width="1.5" marker-end="url(#heranca)"/>
-<line x1="130" y1="842" x2="130" y2="812" stroke="#1f2933" stroke-width="1.5" marker-end="url(#heranca)"/>
-<polyline points="802,260 690,284" fill="none" stroke="#4f5b6a" stroke-width="1.3" stroke-dasharray="6 4" marker-end="url(#seta)"/>
-<text x="745" y="260" font-size="11.5" fill="#4f5b6a" text-anchor="middle">«extend»</text>
-<polyline points="802,375 690,375" fill="none" stroke="#4f5b6a" stroke-width="1.3" stroke-dasharray="6 4" marker-end="url(#seta)"/>
-<text x="746" y="367" font-size="11.5" fill="#4f5b6a" text-anchor="middle">«extend»</text>
-<polyline points="815,535 690,535" fill="none" stroke="#4f5b6a" stroke-width="1.3" stroke-dasharray="6 4" marker-end="url(#seta)"/>
-<text x="750" y="527" font-size="11.5" fill="#4f5b6a" text-anchor="middle">«extend»</text>
-<polyline points="690,620 800,620" fill="none" stroke="#4f5b6a" stroke-width="1.3" stroke-dasharray="6 4" marker-end="url(#seta)"/>
-<text x="750" y="612" font-size="11.5" fill="#4f5b6a" text-anchor="middle">«include»</text>
-<polyline points="1345,527 1345,606" fill="none" stroke="#4f5b6a" stroke-width="1.3" stroke-dasharray="6 4" marker-end="url(#seta)"/>
-<text x="1395" y="572" font-size="11.5" fill="#4f5b6a" text-anchor="middle">«include»</text>
-<ellipse cx="560" cy="140" rx="128" ry="30" fill="#e6f2fa" stroke="#007DC5" stroke-width="1.6"/>
-<text x="560" y="145" font-size="13" text-anchor="middle" fill="#1f2933">Fazer login</text>
-<ellipse cx="560" cy="215" rx="128" ry="30" fill="#e6f2fa" stroke="#007DC5" stroke-width="1.6"/>
-<text x="560" y="220" font-size="13" text-anchor="middle" fill="#1f2933">Alterar dados pessoais</text>
-<ellipse cx="560" cy="290" rx="128" ry="30" fill="#e6f2fa" stroke="#007DC5" stroke-width="1.6"/>
-<text x="560" y="287" font-size="13" text-anchor="middle" fill="#1f2933">Consultar e alterar</text>
-<text x="560" y="303" font-size="13" text-anchor="middle" fill="#1f2933">projetos sociais</text>
-<ellipse cx="560" cy="375" rx="128" ry="30" fill="#e6f2fa" stroke="#007DC5" stroke-width="1.6"/>
-<text x="560" y="380" font-size="13" text-anchor="middle" fill="#1f2933">Gerenciar atividades</text>
-<ellipse cx="560" cy="450" rx="128" ry="30" fill="#e6f2fa" stroke="#007DC5" stroke-width="1.6"/>
-<text x="560" y="447" font-size="13" text-anchor="middle" fill="#1f2933">Gerenciar voluntários</text>
-<text x="560" y="463" font-size="13" text-anchor="middle" fill="#1f2933">da atividade</text>
-<ellipse cx="560" cy="535" rx="128" ry="30" fill="#e6f2fa" stroke="#007DC5" stroke-width="1.6"/>
-<text x="560" y="540" font-size="13" text-anchor="middle" fill="#1f2933">Gerenciar doadores</text>
-<ellipse cx="560" cy="620" rx="128" ry="30" fill="#e6f2fa" stroke="#007DC5" stroke-width="1.6"/>
-<text x="560" y="625" font-size="13" text-anchor="middle" fill="#1f2933">Gerenciar arrecadações</text>
-<ellipse cx="560" cy="720" rx="128" ry="30" fill="#fff1e6" stroke="#f60" stroke-width="1.6"/>
-<text x="560" y="725" font-size="13" text-anchor="middle" fill="#1f2933">Listar usuários</text>
-<ellipse cx="560" cy="800" rx="128" ry="30" fill="#fff1e6" stroke="#f60" stroke-width="1.6"/>
-<text x="560" y="805" font-size="13" text-anchor="middle" fill="#1f2933">Cadastrar usuário</text>
-<ellipse cx="560" cy="895" rx="128" ry="30" fill="#fdecec" stroke="#c53030" stroke-width="1.6"/>
-<text x="560" y="892" font-size="13" text-anchor="middle" fill="#1f2933">Alterar dados e status</text>
-<text x="560" y="908" font-size="13" text-anchor="middle" fill="#1f2933">de usuários</text>
-<ellipse cx="930" cy="255" rx="128" ry="30" fill="#f5f7fa" stroke="#8a94a3" stroke-width="1.6"/>
-<text x="930" y="252" font-size="13" text-anchor="middle" fill="#1f2933">Copiar link de inscrição</text>
-<text x="930" y="268" font-size="13" text-anchor="middle" fill="#1f2933">do projeto</text>
-<ellipse cx="930" cy="375" rx="128" ry="30" fill="#f5f7fa" stroke="#8a94a3" stroke-width="1.6"/>
-<text x="930" y="372" font-size="13" text-anchor="middle" fill="#1f2933">Ativar/desativar atividade</text>
-<text x="930" y="388" font-size="13" text-anchor="middle" fill="#1f2933">na página pública</text>
-<ellipse cx="930" cy="535" rx="128" ry="30" fill="#f5f7fa" stroke="#8a94a3" stroke-width="1.6"/>
-<text x="930" y="532" font-size="13" text-anchor="middle" fill="#1f2933">Detalhar doador</text>
-<text x="930" y="548" font-size="13" text-anchor="middle" fill="#1f2933">e suas doações</text>
-<ellipse cx="930" cy="620" rx="128" ry="30" fill="#f5f7fa" stroke="#8a94a3" stroke-width="1.6"/>
-<text x="930" y="625" font-size="13" text-anchor="middle" fill="#1f2933">Selecionar doador</text>
-<ellipse cx="1345" cy="360" rx="112" ry="30" fill="#e6f5ec" stroke="#2e9e5b" stroke-width="1.6"/>
-<text x="1345" y="357" font-size="13" text-anchor="middle" fill="#1f2933">Acessar página do projeto</text>
-<text x="1345" y="373" font-size="13" text-anchor="middle" fill="#1f2933">e ver as atividades</text>
-<ellipse cx="1345" cy="495" rx="112" ry="30" fill="#e6f5ec" stroke="#2e9e5b" stroke-width="1.6"/>
-<text x="1345" y="492" font-size="13" text-anchor="middle" fill="#1f2933">Inscrever-se em</text>
-<text x="1345" y="508" font-size="13" text-anchor="middle" fill="#1f2933">uma atividade</text>
-<ellipse cx="1345" cy="640" rx="112" ry="30" fill="#f5f7fa" stroke="#8a94a3" stroke-width="1.6"/>
-<text x="1345" y="637" font-size="13" text-anchor="middle" fill="#1f2933">Validar vagas e</text>
-<text x="1345" y="653" font-size="13" text-anchor="middle" fill="#1f2933">e-mail repetido</text>
-<circle cx="130" cy="337" r="11" fill="#fff" stroke="#007DC5" stroke-width="2"/>
-<path d="M130 348 V383 M108 361 H152 M130 383 L114 409 M130 383 L146 409" fill="none" stroke="#007DC5" stroke-width="2" stroke-linecap="round"/>
-<text x="130" y="429" font-size="13.5" font-weight="700" text-anchor="middle" fill="#1f2933">Gestor</text>
-<circle cx="130" cy="702" r="11" fill="#fff" stroke="#f60" stroke-width="2"/>
-<path d="M130 713 V748 M108 726 H152 M130 748 L114 774 M130 748 L146 774" fill="none" stroke="#f60" stroke-width="2" stroke-linecap="round"/>
-<text x="130" y="794" font-size="13.5" font-weight="700" text-anchor="middle" fill="#1f2933">Administrador</text>
-<circle cx="130" cy="852" r="11" fill="#fff" stroke="#c53030" stroke-width="2"/>
-<path d="M130 863 V898 M108 876 H152 M130 898 L114 924 M130 898 L146 924" fill="none" stroke="#c53030" stroke-width="2" stroke-linecap="round"/>
-<text x="130" y="944" font-size="13.5" font-weight="700" text-anchor="middle" fill="#1f2933">Admin master (DEV)</text>
-<circle cx="1555" cy="392" r="11" fill="#fff" stroke="#2e9e5b" stroke-width="2"/>
-<path d="M1555 403 V438 M1533 416 H1577 M1555 438 L1539 464 M1555 438 L1571 464" fill="none" stroke="#2e9e5b" stroke-width="2" stroke-linecap="round"/>
-<text x="1555" y="484" font-size="13.5" font-weight="700" text-anchor="middle" fill="#1f2933">Voluntário</text>
-<text x="1210" y="770" font-size="12" fill="#4f5b6a">Cada projeto tem um link («Copiar link de inscrição»).</text>
-<text x="1210" y="786" font-size="12" fill="#4f5b6a">A página lista só as atividades ativas e não encerradas;</text>
-<text x="1210" y="802" font-size="12" fill="#4f5b6a">atividades sem vagas aparecem com inscrição encerrada.</text>
-<rect x="1210" y="840" width="410" height="130" rx="8" fill="#fff" stroke="#c9d1db"/>
-<text x="1224" y="864" font-size="14" font-weight="700" fill="#1f2933">Legenda</text>
-<ellipse cx="1240" cy="884" rx="14" ry="8" fill="#e6f2fa" stroke="#007DC5" stroke-width="1.5"/>
-<text x="1260" y="888" font-size="11.5" fill="#1f2933">Todos os usuários do gestor</text>
-<ellipse cx="1440" cy="884" rx="14" ry="8" fill="#fff1e6" stroke="#f60" stroke-width="1.5"/>
-<text x="1460" y="888" font-size="11.5" fill="#1f2933">Administrador e admin master</text>
-<ellipse cx="1240" cy="910" rx="14" ry="8" fill="#fdecec" stroke="#c53030" stroke-width="1.5"/>
-<text x="1260" y="914" font-size="11.5" fill="#1f2933">Somente admin master</text>
-<ellipse cx="1440" cy="910" rx="14" ry="8" fill="#e6f5ec" stroke="#2e9e5b" stroke-width="1.5"/>
-<text x="1460" y="914" font-size="11.5" fill="#1f2933">Público (sem login)</text>
-<line x1="1226" y1="948" x2="1260" y2="948" stroke="#1f2933" stroke-width="1.5" marker-end="url(#heranca)"/>
-<text x="1270" y="952" font-size="11.5" fill="#1f2933">herda os casos de uso</text>
-<line x1="1406" y1="948" x2="1440" y2="948" stroke="#4f5b6a" stroke-width="1.3" stroke-dasharray="6 4" marker-end="url(#seta)"/>
-<text x="1450" y="952" font-size="11.5" fill="#1f2933">«include» / «extend»</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1056" viewBox="0 0 900 1056">
+<rect width="100%" height="100%" fill="#fff"/>
+<text x="450" y="34" font-family="Times New Roman, Times, serif" font-size="19" text-anchor="middle" fill="#000">Figura 2 - Diagrama de Caso de Uso</text>
+<rect x="30" y="50" width="840" height="956" fill="#fff" stroke="#333" stroke-width="1"/>
+<g stroke="#000" stroke-width="1.2">
+<line x1="162" y1="385" x2="325" y2="96"/>
+<line x1="162" y1="385" x2="325" y2="142"/>
+<line x1="162" y1="385" x2="325" y2="188"/>
+<line x1="738" y1="385" x2="575" y2="188"/>
+<line x1="162" y1="385" x2="325" y2="234"/>
+<line x1="738" y1="385" x2="575" y2="234"/>
+<line x1="162" y1="385" x2="325" y2="280"/>
+<line x1="738" y1="385" x2="575" y2="280"/>
+<line x1="162" y1="385" x2="325" y2="326"/>
+<line x1="738" y1="385" x2="575" y2="326"/>
+<line x1="162" y1="385" x2="325" y2="372"/>
+<line x1="738" y1="385" x2="575" y2="372"/>
+<line x1="162" y1="385" x2="325" y2="418"/>
+<line x1="738" y1="385" x2="575" y2="418"/>
+<line x1="162" y1="385" x2="325" y2="464"/>
+<line x1="738" y1="385" x2="575" y2="464"/>
+<line x1="162" y1="385" x2="325" y2="510"/>
+<line x1="738" y1="385" x2="575" y2="510"/>
+<line x1="162" y1="385" x2="325" y2="556"/>
+<line x1="738" y1="385" x2="575" y2="556"/>
+<line x1="162" y1="385" x2="325" y2="602"/>
+<line x1="738" y1="385" x2="575" y2="602"/>
+<line x1="162" y1="385" x2="325" y2="648"/>
+<line x1="738" y1="385" x2="575" y2="648"/>
+<line x1="162" y1="385" x2="325" y2="694"/>
+<line x1="738" y1="385" x2="575" y2="694"/>
+<line x1="450" y1="756" x2="450" y2="840"/>
+</g>
+<rect x="325" y="80" width="250" height="32" rx="16" fill="#0b0b6e"/>
+<text x="450" y="101" font-family="Segoe UI, Open Sans, Arial, sans-serif" font-size="12.5" font-weight="700" text-anchor="middle" fill="#fff">Manter Usuários</text>
+<rect x="325" y="126" width="250" height="32" rx="16" fill="#0b0b6e"/>
+<text x="450" y="147" font-family="Segoe UI, Open Sans, Arial, sans-serif" font-size="12.5" font-weight="700" text-anchor="middle" fill="#fff">Manter Projeto Social</text>
+<rect x="325" y="172" width="250" height="32" rx="16" fill="#0b0b6e"/>
+<text x="450" y="193" font-family="Segoe UI, Open Sans, Arial, sans-serif" font-size="12.5" font-weight="700" text-anchor="middle" fill="#fff">Realizar Login</text>
+<rect x="325" y="218" width="250" height="32" rx="16" fill="#0b0b6e"/>
+<text x="450" y="239" font-family="Segoe UI, Open Sans, Arial, sans-serif" font-size="12.5" font-weight="700" text-anchor="middle" fill="#fff">Alterar Dados Pessoais</text>
+<rect x="325" y="264" width="250" height="32" rx="16" fill="#0b0b6e"/>
+<text x="450" y="285" font-family="Segoe UI, Open Sans, Arial, sans-serif" font-size="12.5" font-weight="700" text-anchor="middle" fill="#fff">Visualizar Painel de Indicadores</text>
+<rect x="325" y="310" width="250" height="32" rx="16" fill="#0b0b6e"/>
+<text x="450" y="331" font-family="Segoe UI, Open Sans, Arial, sans-serif" font-size="12.5" font-weight="700" text-anchor="middle" fill="#fff">Manter Atividade</text>
+<rect x="325" y="356" width="250" height="32" rx="16" fill="#0b0b6e"/>
+<text x="450" y="377" font-family="Segoe UI, Open Sans, Arial, sans-serif" font-size="12.5" font-weight="700" text-anchor="middle" fill="#fff">Ativar/Desativar Atividade</text>
+<rect x="325" y="402" width="250" height="32" rx="16" fill="#0b0b6e"/>
+<text x="450" y="423" font-family="Segoe UI, Open Sans, Arial, sans-serif" font-size="12.5" font-weight="700" text-anchor="middle" fill="#fff">Manter Voluntário</text>
+<rect x="325" y="448" width="250" height="32" rx="16" fill="#0b0b6e"/>
+<text x="450" y="469" font-family="Segoe UI, Open Sans, Arial, sans-serif" font-size="12.5" font-weight="700" text-anchor="middle" fill="#fff">Manter Inscrição de Voluntário</text>
+<rect x="325" y="494" width="250" height="32" rx="16" fill="#0b0b6e"/>
+<text x="450" y="515" font-family="Segoe UI, Open Sans, Arial, sans-serif" font-size="12.5" font-weight="700" text-anchor="middle" fill="#fff">Manter Doador</text>
+<rect x="325" y="540" width="250" height="32" rx="16" fill="#0b0b6e"/>
+<text x="450" y="561" font-family="Segoe UI, Open Sans, Arial, sans-serif" font-size="12.5" font-weight="700" text-anchor="middle" fill="#fff">Manter Arrecadação</text>
+<rect x="325" y="586" width="250" height="32" rx="16" fill="#0b0b6e"/>
+<text x="450" y="607" font-family="Segoe UI, Open Sans, Arial, sans-serif" font-size="12.5" font-weight="700" text-anchor="middle" fill="#fff">Gerar Relatório Geral</text>
+<rect x="325" y="632" width="250" height="32" rx="16" fill="#0b0b6e"/>
+<text x="450" y="653" font-family="Segoe UI, Open Sans, Arial, sans-serif" font-size="12.5" font-weight="700" text-anchor="middle" fill="#fff">Gerar Relatório por Projeto</text>
+<rect x="325" y="678" width="250" height="32" rx="16" fill="#0b0b6e"/>
+<text x="450" y="699" font-family="Segoe UI, Open Sans, Arial, sans-serif" font-size="12.5" font-weight="700" text-anchor="middle" fill="#fff">Exportar Relatórios</text>
+<rect x="325" y="724" width="250" height="32" rx="16" fill="#0b0b6e"/>
+<text x="450" y="745" font-family="Segoe UI, Open Sans, Arial, sans-serif" font-size="12.5" font-weight="700" text-anchor="middle" fill="#fff">Realizar Inscrição Pública</text>
+<g font-family="Segoe UI, Open Sans, Arial, sans-serif">
+<g fill="#000">
+<circle cx="140" cy="364" r="9"/>
+<rect x="128" y="376" width="24" height="26" rx="5"/>
+<rect x="123" y="377" width="6" height="22" rx="3"/>
+<rect x="151" y="377" width="6" height="22" rx="3"/>
+<rect x="130" y="399" width="8" height="26" rx="3"/>
+<rect x="142" y="399" width="8" height="26" rx="3"/>
+</g>
+<rect x="95" y="443" width="90" height="32" rx="7" fill="#d9d9d9"/>
+<text x="140" y="463" font-size="11" font-weight="700" text-anchor="middle" fill="#111">Administrador</text>
+<g fill="#000">
+<circle cx="760" cy="364" r="9"/>
+<rect x="748" y="376" width="24" height="26" rx="5"/>
+<rect x="743" y="377" width="6" height="22" rx="3"/>
+<rect x="771" y="377" width="6" height="22" rx="3"/>
+<rect x="750" y="399" width="8" height="26" rx="3"/>
+<rect x="762" y="399" width="8" height="26" rx="3"/>
+</g>
+<rect x="715" y="443" width="90" height="32" rx="7" fill="#d9d9d9"/>
+<text x="760" y="463" font-size="11" font-weight="700" text-anchor="middle" fill="#111">Gestor</text>
+<g fill="#000">
+<circle cx="450" cy="855" r="9"/>
+<rect x="438" y="867" width="24" height="26" rx="5"/>
+<rect x="433" y="868" width="6" height="22" rx="3"/>
+<rect x="461" y="868" width="6" height="22" rx="3"/>
+<rect x="440" y="890" width="8" height="26" rx="3"/>
+<rect x="452" y="890" width="8" height="26" rx="3"/>
+</g>
+<rect x="405" y="934" width="90" height="32" rx="7" fill="#d9d9d9"/>
+<text x="450" y="954" font-size="11" font-weight="700" text-anchor="middle" fill="#111">Voluntário</text>
+</g>
+<text x="450" y="1036" font-family="Times New Roman, Times, serif" font-size="17" text-anchor="middle" fill="#000">Fonte: Autor</text>
 </svg>

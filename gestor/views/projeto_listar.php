@@ -168,7 +168,7 @@ if (!empty($_SERVER['QUERY_STRING'])) {
                             <?php if($gerenciaProjetos){ ?>
                                 <a href="projeto_alterar.php?id=<?php echo $projeto['id_projeto']; ?>" title="Alterar dados do projeto" class="icon-pencil">Alterar</a>
                             <?php }else{ ?>
-                                <a title="Somente administradores podem alterar projetos" class="icon-pencil desativar">Alterar</a>
+                                <a title="Somente o administrador pode cadastrar e alterar projetos" class="icon-pencil desativar">Alterar</a>
                             <?php } ?>
                             <a href="atividade_listar.php?id_projeto=<?php echo $projeto['id_projeto']; ?>" title="Atividades e voluntários" class="icon-calendar">Atividades</a>
                             <a href="arrecadacao_listar.php?id_projeto=<?php echo $projeto['id_projeto']; ?>" title="Arrecadações (doações das empresas)" class="icon-bank">Arrecadações</a>

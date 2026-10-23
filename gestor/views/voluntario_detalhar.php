@@ -47,7 +47,7 @@ $participacoes = $controllerVoluntario->getParticipations($idVolunteer);
         </h2>
 
         <?php if(isset($_GET['updateVolunteer'])){echo '<span class="alerta sucesso">Dados do voluntário alterados com sucesso!</span>';}?>
-        <?php if(isset($_GET['semPermissao'])){echo '<span class="alerta">Somente administradores podem alterar os dados dos voluntários.</span>';}?>
+        <?php if(isset($_GET['semPermissao'])){echo '<span class="alerta">Você não tem permissão para alterar os dados dos voluntários.</span>';}?>
 
         <table id="tab-detalhes" cellspacing="0" cellpadding="0">
             <tr>

@@ -23,7 +23,7 @@ if($atividade == NULL){
     exit;
 }
 
-// Somente administradores inscrevem voluntários pelo gestor
+// Confere a permissão para inscrever voluntários (regras em Permissao)
 if(!Permissao::podeGerenciarVoluntarios($_SESSION['SS_UserType'])){
     header("Location: inscricao_listar.php?id_atividade=".$idActivity."&semPermissaoInscrever=true");
     exit;

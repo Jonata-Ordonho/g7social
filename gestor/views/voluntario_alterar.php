@@ -20,7 +20,7 @@ if($voluntario == NULL){
     exit;
 }
 
-// Somente administradores alteram os dados do banco de voluntários
+// Confere a permissão para alterar voluntários (regras em Permissao)
 if(!Permissao::podeGerenciarVoluntarios($_SESSION['SS_UserType'])){
     header("Location: voluntario_detalhar.php?id=".$idVolunteer."&semPermissao=true");
     exit;

@@ -1,260 +1,176 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1460" height="800" viewBox="0 0 1460 800" font-family="Segoe UI, Inter, Arial, sans-serif">
-<defs>
-  <marker id="um" viewBox="0 0 20 20" refX="19" refY="10" markerWidth="20" markerHeight="20" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
-    <path d="M9 3 V17 M14 3 V17" stroke="#1f2933" stroke-width="1.8" fill="none"/></marker>
-  <marker id="zeroum" viewBox="0 0 24 20" refX="23" refY="10" markerWidth="24" markerHeight="20" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
-    <circle cx="8" cy="10" r="4.5" fill="#fff" stroke="#1f2933" stroke-width="1.8"/><path d="M17 3 V17" stroke="#1f2933" stroke-width="1.8"/></marker>
-  <marker id="muitos" viewBox="0 0 26 20" refX="25" refY="10" markerWidth="26" markerHeight="20" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
-    <circle cx="6" cy="10" r="4.5" fill="#fff" stroke="#1f2933" stroke-width="1.8"/><path d="M13 10 L25 2 M13 10 L25 10 M13 10 L25 18" stroke="#1f2933" stroke-width="1.8" fill="none"/></marker>
-  <filter id="sombra" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#101828" flood-opacity="0.12"/></filter>
-</defs>
-<rect width="100%" height="100%" fill="#f3f5f8"/>
-<text x="40" y="36" font-size="22" font-weight="700" fill="#1f2933">G7 Social — Diagrama de Entidade-Relacionamento</text>
-<polyline points="175,150 175,230" fill="none" stroke="#1f2933" stroke-width="1.6" marker-start="url(#um)" marker-end="url(#muitos)"/>
-<text x="183" y="196" font-size="12" font-style="italic" fill="#4f5b6a">classifica</text>
-<polyline points="400,250 320,250" fill="none" stroke="#1f2933" stroke-width="1.6" marker-start="url(#um)" marker-end="url(#muitos)"/>
-<text x="334" y="242" font-size="12" font-style="italic" fill="#4f5b6a">executa</text>
-<polyline points="680,150 770,150" fill="none" stroke="#1f2933" stroke-width="1.6" marker-start="url(#zeroum)" marker-end="url(#muitos)"/>
-<text x="698" y="142" font-size="12" font-style="italic" fill="#4f5b6a">cadastra</text>
-<polyline points="540,265 540,470 770,470" fill="none" stroke="#1f2933" stroke-width="1.6" marker-start="url(#zeroum)" marker-end="url(#muitos)"/>
-<text x="610" y="462" font-size="12" font-style="italic" fill="#4f5b6a">cadastra</text>
-<polyline points="610,60 610,48 1280,48 1280,60" fill="none" stroke="#1f2933" stroke-width="1.6" marker-start="url(#zeroum)" marker-end="url(#muitos)"/>
-<text x="1040" y="42" font-size="12" font-style="italic" fill="#4f5b6a">cadastra</text>
-<polyline points="910,334 910,400" fill="none" stroke="#1f2933" stroke-width="1.6" marker-start="url(#um)" marker-end="url(#muitos)"/>
-<text x="918" y="372" font-size="12" font-style="italic" fill="#4f5b6a">possui</text>
-<polyline points="770,640 680,640" fill="none" stroke="#1f2933" stroke-width="1.6" marker-start="url(#um)" marker-end="url(#muitos)"/>
-<text x="696" y="632" font-size="12" font-style="italic" fill="#4f5b6a">recebe</text>
-<polyline points="1050,200 1100,200 1100,480 1140,480" fill="none" stroke="#1f2933" stroke-width="1.6" marker-start="url(#um)" marker-end="url(#muitos)"/>
-<text x="1050" y="340" font-size="12" font-style="italic" fill="#4f5b6a">recebe</text>
-<polyline points="1280,288 1280,400" fill="none" stroke="#1f2933" stroke-width="1.6" marker-start="url(#um)" marker-end="url(#muitos)"/>
-<text x="1288" y="350" font-size="12" font-style="italic" fill="#4f5b6a">faz</text>
-<g filter="url(#sombra)"><rect x="40" y="60" width="280" height="90" rx="8" fill="#fff" stroke="#c9d1db"/></g>
-<path d="M40 96 V68 Q40 60 48 60 H312 Q320 60 320 68 V96 Z" fill="#007DC5"/>
-<text x="54" y="84" font-size="15" font-weight="700" fill="#fff">acoes</text>
-<rect x="50" y="104" width="26" height="15" rx="3" fill="#fff4d6"/>
-<text x="63" y="115.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#9a6b00">PK</text>
-<text x="84" y="116" font-size="13" fill="#1f2933" font-weight="700">id_acao</text>
-<text x="308" y="116" font-size="11.5" text-anchor="end" fill="#6f7a89">INT</text>
-<rect x="41" y="123" width="278" height="23" fill="#f5f7fa"/>
-<text x="84" y="139" font-size="13" fill="#1f2933">descricao</text>
-<text x="308" y="139" font-size="11.5" text-anchor="end" fill="#6f7a89">VARCHAR(100)</text>
-<g filter="url(#sombra)"><rect x="40" y="230" width="280" height="159" rx="8" fill="#fff" stroke="#c9d1db"/></g>
-<path d="M40 266 V238 Q40 230 48 230 H312 Q320 230 320 238 V266 Z" fill="#007DC5"/>
-<text x="54" y="254" font-size="15" font-weight="700" fill="#fff">logs</text>
-<rect x="50" y="274" width="26" height="15" rx="3" fill="#fff4d6"/>
-<text x="63" y="285.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#9a6b00">PK</text>
-<text x="84" y="286" font-size="13" fill="#1f2933" font-weight="700">id_log</text>
-<text x="308" y="286" font-size="11.5" text-anchor="end" fill="#6f7a89">INT</text>
-<rect x="41" y="293" width="278" height="23" fill="#f5f7fa"/>
-<rect x="50" y="297" width="26" height="15" rx="3" fill="#e6f2fa"/>
-<text x="63" y="308.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#00649e">FK</text>
-<text x="84" y="309" font-size="13" fill="#1f2933">id_acao</text>
-<text x="308" y="309" font-size="11.5" text-anchor="end" fill="#6f7a89">INT</text>
-<rect x="50" y="320" width="26" height="15" rx="3" fill="#e6f2fa"/>
-<text x="63" y="331.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#00649e">FK</text>
-<text x="84" y="332" font-size="13" fill="#1f2933">id_usuario</text>
-<text x="308" y="332" font-size="11.5" text-anchor="end" fill="#6f7a89">INT</text>
-<rect x="41" y="339" width="278" height="23" fill="#f5f7fa"/>
-<text x="84" y="355" font-size="13" fill="#1f2933">descricao</text>
-<text x="308" y="355" font-size="11.5" text-anchor="end" fill="#6f7a89">TEXT</text>
-<text x="84" y="378" font-size="13" fill="#1f2933">data_registro</text>
-<text x="308" y="378" font-size="11.5" text-anchor="end" fill="#6f7a89">DATETIME</text>
-<g filter="url(#sombra)"><rect x="400" y="60" width="280" height="205" rx="8" fill="#fff" stroke="#c9d1db"/></g>
-<path d="M400 96 V68 Q400 60 408 60 H672 Q680 60 680 68 V96 Z" fill="#007DC5"/>
-<text x="414" y="84" font-size="15" font-weight="700" fill="#fff">usuarios</text>
-<rect x="410" y="104" width="26" height="15" rx="3" fill="#fff4d6"/>
-<text x="423" y="115.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#9a6b00">PK</text>
-<text x="444" y="116" font-size="13" fill="#1f2933" font-weight="700">id_usuario</text>
-<text x="668" y="116" font-size="11.5" text-anchor="end" fill="#6f7a89">INT</text>
-<rect x="401" y="123" width="278" height="23" fill="#f5f7fa"/>
-<text x="444" y="139" font-size="13" fill="#1f2933">nome</text>
-<text x="668" y="139" font-size="11.5" text-anchor="end" fill="#6f7a89">VARCHAR(150)</text>
-<rect x="410" y="150" width="26" height="15" rx="3" fill="#eceff3"/>
-<text x="423" y="161.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#4f5b6a">UK</text>
-<text x="444" y="162" font-size="13" fill="#1f2933">email</text>
-<text x="668" y="162" font-size="11.5" text-anchor="end" fill="#6f7a89">VARCHAR(150)</text>
-<rect x="401" y="169" width="278" height="23" fill="#f5f7fa"/>
-<text x="444" y="185" font-size="13" fill="#1f2933">senha</text>
-<text x="668" y="185" font-size="11.5" text-anchor="end" fill="#6f7a89">CHAR(40)</text>
-<text x="444" y="208" font-size="13" fill="#1f2933">tipo</text>
-<text x="668" y="208" font-size="11.5" text-anchor="end" fill="#6f7a89">ENUM</text>
-<rect x="401" y="215" width="278" height="23" fill="#f5f7fa"/>
-<text x="444" y="231" font-size="13" fill="#1f2933">status</text>
-<text x="668" y="231" font-size="11.5" text-anchor="end" fill="#6f7a89">ENUM</text>
-<text x="444" y="254" font-size="13" fill="#1f2933">data_registro</text>
-<text x="668" y="254" font-size="11.5" text-anchor="end" fill="#6f7a89">DATETIME</text>
-<g filter="url(#sombra)"><rect x="400" y="560" width="280" height="182" rx="8" fill="#fff" stroke="#c9d1db"/></g>
-<path d="M400 596 V568 Q400 560 408 560 H672 Q680 560 680 568 V596 Z" fill="#007DC5"/>
-<text x="414" y="584" font-size="15" font-weight="700" fill="#fff">voluntarios</text>
-<rect x="410" y="604" width="26" height="15" rx="3" fill="#fff4d6"/>
-<text x="423" y="615.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#9a6b00">PK</text>
-<text x="444" y="616" font-size="13" fill="#1f2933" font-weight="700">id_voluntario</text>
-<text x="668" y="616" font-size="11.5" text-anchor="end" fill="#6f7a89">INT</text>
-<rect x="401" y="623" width="278" height="23" fill="#f5f7fa"/>
-<rect x="410" y="627" width="26" height="15" rx="3" fill="#e6f2fa"/>
-<text x="423" y="638.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#00649e">FK</text>
-<text x="444" y="639" font-size="13" fill="#1f2933">id_atividade</text>
-<text x="668" y="639" font-size="11.5" text-anchor="end" fill="#6f7a89">INT</text>
-<text x="444" y="662" font-size="13" fill="#1f2933">nome</text>
-<text x="668" y="662" font-size="11.5" text-anchor="end" fill="#6f7a89">VARCHAR(150)</text>
-<rect x="401" y="669" width="278" height="23" fill="#f5f7fa"/>
-<text x="444" y="685" font-size="13" fill="#1f2933">email</text>
-<text x="668" y="685" font-size="11.5" text-anchor="end" fill="#6f7a89">VARCHAR(150)</text>
-<text x="444" y="708" font-size="13" fill="#1f2933">telefone</text>
-<text x="668" y="708" font-size="11.5" text-anchor="end" fill="#6f7a89">VARCHAR(11)</text>
-<rect x="401" y="715" width="278" height="23" fill="#f5f7fa"/>
-<text x="444" y="731" font-size="13" fill="#1f2933">data_registro</text>
-<text x="668" y="731" font-size="11.5" text-anchor="end" fill="#6f7a89">DATETIME</text>
-<g filter="url(#sombra)"><rect x="770" y="60" width="280" height="274" rx="8" fill="#fff" stroke="#c9d1db"/></g>
-<path d="M770 96 V68 Q770 60 778 60 H1042 Q1050 60 1050 68 V96 Z" fill="#007DC5"/>
-<text x="784" y="84" font-size="15" font-weight="700" fill="#fff">projetos</text>
-<rect x="780" y="104" width="26" height="15" rx="3" fill="#fff4d6"/>
-<text x="793" y="115.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#9a6b00">PK</text>
-<text x="814" y="116" font-size="13" fill="#1f2933" font-weight="700">id_projeto</text>
-<text x="1038" y="116" font-size="11.5" text-anchor="end" fill="#6f7a89">INT</text>
-<rect x="771" y="123" width="278" height="23" fill="#f5f7fa"/>
-<text x="814" y="139" font-size="13" fill="#1f2933">titulo</text>
-<text x="1038" y="139" font-size="11.5" text-anchor="end" fill="#6f7a89">VARCHAR(200)</text>
-<text x="814" y="162" font-size="13" fill="#1f2933">descricao</text>
-<text x="1038" y="162" font-size="11.5" text-anchor="end" fill="#6f7a89">TEXT</text>
-<rect x="771" y="169" width="278" height="23" fill="#f5f7fa"/>
-<text x="814" y="185" font-size="13" fill="#1f2933">captacao_empresas</text>
-<text x="1038" y="185" font-size="11.5" text-anchor="end" fill="#6f7a89">ENUM</text>
-<text x="814" y="208" font-size="13" fill="#1f2933">captacao_voluntarios</text>
-<text x="1038" y="208" font-size="11.5" text-anchor="end" fill="#6f7a89">ENUM</text>
-<rect x="771" y="215" width="278" height="23" fill="#f5f7fa"/>
-<text x="814" y="231" font-size="13" fill="#1f2933">data_inicio</text>
-<text x="1038" y="231" font-size="11.5" text-anchor="end" fill="#6f7a89">DATE</text>
-<text x="814" y="254" font-size="13" fill="#1f2933">data_fim</text>
-<text x="1038" y="254" font-size="11.5" text-anchor="end" fill="#6f7a89">DATE</text>
-<rect x="771" y="261" width="278" height="23" fill="#f5f7fa"/>
-<rect x="780" y="265" width="26" height="15" rx="3" fill="#eceff3"/>
-<text x="793" y="276.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#4f5b6a">UK</text>
-<text x="814" y="277" font-size="13" fill="#1f2933">codigo</text>
-<text x="1038" y="277" font-size="11.5" text-anchor="end" fill="#6f7a89">CHAR(32)</text>
-<rect x="780" y="288" width="26" height="15" rx="3" fill="#e6f2fa"/>
-<text x="793" y="299.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#00649e">FK</text>
-<text x="814" y="300" font-size="13" fill="#1f2933">id_usuario</text>
-<text x="1038" y="300" font-size="11.5" text-anchor="end" fill="#6f7a89">INT</text>
-<rect x="771" y="307" width="278" height="23" fill="#f5f7fa"/>
-<text x="814" y="323" font-size="13" fill="#1f2933">data_registro</text>
-<text x="1038" y="323" font-size="11.5" text-anchor="end" fill="#6f7a89">DATETIME</text>
-<g filter="url(#sombra)"><rect x="770" y="400" width="280" height="343" rx="8" fill="#fff" stroke="#c9d1db"/></g>
-<path d="M770 436 V408 Q770 400 778 400 H1042 Q1050 400 1050 408 V436 Z" fill="#007DC5"/>
-<text x="784" y="424" font-size="15" font-weight="700" fill="#fff">atividades</text>
-<rect x="780" y="444" width="26" height="15" rx="3" fill="#fff4d6"/>
-<text x="793" y="455.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#9a6b00">PK</text>
-<text x="814" y="456" font-size="13" fill="#1f2933" font-weight="700">id_atividade</text>
-<text x="1038" y="456" font-size="11.5" text-anchor="end" fill="#6f7a89">INT</text>
-<rect x="771" y="463" width="278" height="23" fill="#f5f7fa"/>
-<rect x="780" y="467" width="26" height="15" rx="3" fill="#e6f2fa"/>
-<text x="793" y="478.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#00649e">FK</text>
-<text x="814" y="479" font-size="13" fill="#1f2933">id_projeto</text>
-<text x="1038" y="479" font-size="11.5" text-anchor="end" fill="#6f7a89">INT</text>
-<text x="814" y="502" font-size="13" fill="#1f2933">titulo</text>
-<text x="1038" y="502" font-size="11.5" text-anchor="end" fill="#6f7a89">VARCHAR(200)</text>
-<rect x="771" y="509" width="278" height="23" fill="#f5f7fa"/>
-<text x="814" y="525" font-size="13" fill="#1f2933">descricao</text>
-<text x="1038" y="525" font-size="11.5" text-anchor="end" fill="#6f7a89">TEXT</text>
-<text x="814" y="548" font-size="13" fill="#1f2933">local</text>
-<text x="1038" y="548" font-size="11.5" text-anchor="end" fill="#6f7a89">VARCHAR(200)</text>
-<rect x="771" y="555" width="278" height="23" fill="#f5f7fa"/>
-<text x="814" y="571" font-size="13" fill="#1f2933">data_inicio</text>
-<text x="1038" y="571" font-size="11.5" text-anchor="end" fill="#6f7a89">DATE</text>
-<text x="814" y="594" font-size="13" fill="#1f2933">data_fim</text>
-<text x="1038" y="594" font-size="11.5" text-anchor="end" fill="#6f7a89">DATE</text>
-<rect x="771" y="601" width="278" height="23" fill="#f5f7fa"/>
-<text x="814" y="617" font-size="13" fill="#1f2933">horario</text>
-<text x="1038" y="617" font-size="11.5" text-anchor="end" fill="#6f7a89">VARCHAR(100)</text>
-<text x="814" y="640" font-size="13" fill="#1f2933">vagas</text>
-<text x="1038" y="640" font-size="11.5" text-anchor="end" fill="#6f7a89">INT</text>
-<rect x="771" y="647" width="278" height="23" fill="#f5f7fa"/>
-<rect x="780" y="651" width="26" height="15" rx="3" fill="#eceff3"/>
-<text x="793" y="662.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#4f5b6a">UK</text>
-<text x="814" y="663" font-size="13" fill="#1f2933">codigo</text>
-<text x="1038" y="663" font-size="11.5" text-anchor="end" fill="#6f7a89">CHAR(32)</text>
-<text x="814" y="686" font-size="13" fill="#1f2933">status</text>
-<text x="1038" y="686" font-size="11.5" text-anchor="end" fill="#6f7a89">ENUM</text>
-<rect x="771" y="693" width="278" height="23" fill="#f5f7fa"/>
-<rect x="780" y="697" width="26" height="15" rx="3" fill="#e6f2fa"/>
-<text x="793" y="708.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#00649e">FK</text>
-<text x="814" y="709" font-size="13" fill="#1f2933">id_usuario</text>
-<text x="1038" y="709" font-size="11.5" text-anchor="end" fill="#6f7a89">INT</text>
-<text x="814" y="732" font-size="13" fill="#1f2933">data_registro</text>
-<text x="1038" y="732" font-size="11.5" text-anchor="end" fill="#6f7a89">DATETIME</text>
-<g filter="url(#sombra)"><rect x="1140" y="60" width="280" height="228" rx="8" fill="#fff" stroke="#c9d1db"/></g>
-<path d="M1140 96 V68 Q1140 60 1148 60 H1412 Q1420 60 1420 68 V96 Z" fill="#007DC5"/>
-<text x="1154" y="84" font-size="15" font-weight="700" fill="#fff">doadores</text>
-<rect x="1150" y="104" width="26" height="15" rx="3" fill="#fff4d6"/>
-<text x="1163" y="115.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#9a6b00">PK</text>
-<text x="1184" y="116" font-size="13" fill="#1f2933" font-weight="700">id_doador</text>
-<text x="1408" y="116" font-size="11.5" text-anchor="end" fill="#6f7a89">INT</text>
-<rect x="1141" y="123" width="278" height="23" fill="#f5f7fa"/>
-<text x="1184" y="139" font-size="13" fill="#1f2933">tipo</text>
-<text x="1408" y="139" font-size="11.5" text-anchor="end" fill="#6f7a89">ENUM</text>
-<text x="1184" y="162" font-size="13" fill="#1f2933">nome</text>
-<text x="1408" y="162" font-size="11.5" text-anchor="end" fill="#6f7a89">VARCHAR(200)</text>
-<rect x="1141" y="169" width="278" height="23" fill="#f5f7fa"/>
-<rect x="1150" y="173" width="26" height="15" rx="3" fill="#eceff3"/>
-<text x="1163" y="184.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#4f5b6a">UK</text>
-<text x="1184" y="185" font-size="13" fill="#1f2933">documento</text>
-<text x="1408" y="185" font-size="11.5" text-anchor="end" fill="#6f7a89">VARCHAR(14)</text>
-<text x="1184" y="208" font-size="13" fill="#1f2933">email</text>
-<text x="1408" y="208" font-size="11.5" text-anchor="end" fill="#6f7a89">VARCHAR(150)</text>
-<rect x="1141" y="215" width="278" height="23" fill="#f5f7fa"/>
-<text x="1184" y="231" font-size="13" fill="#1f2933">telefone</text>
-<text x="1408" y="231" font-size="11.5" text-anchor="end" fill="#6f7a89">VARCHAR(11)</text>
-<rect x="1150" y="242" width="26" height="15" rx="3" fill="#e6f2fa"/>
-<text x="1163" y="253.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#00649e">FK</text>
-<text x="1184" y="254" font-size="13" fill="#1f2933">id_usuario</text>
-<text x="1408" y="254" font-size="11.5" text-anchor="end" fill="#6f7a89">INT</text>
-<rect x="1141" y="261" width="278" height="23" fill="#f5f7fa"/>
-<text x="1184" y="277" font-size="13" fill="#1f2933">data_registro</text>
-<text x="1408" y="277" font-size="11.5" text-anchor="end" fill="#6f7a89">DATETIME</text>
-<g filter="url(#sombra)"><rect x="1140" y="400" width="280" height="228" rx="8" fill="#fff" stroke="#c9d1db"/></g>
-<path d="M1140 436 V408 Q1140 400 1148 400 H1412 Q1420 400 1420 408 V436 Z" fill="#007DC5"/>
-<text x="1154" y="424" font-size="15" font-weight="700" fill="#fff">arrecadacoes</text>
-<rect x="1150" y="444" width="26" height="15" rx="3" fill="#fff4d6"/>
-<text x="1163" y="455.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#9a6b00">PK</text>
-<text x="1184" y="456" font-size="13" fill="#1f2933" font-weight="700">id_arrecadacao</text>
-<text x="1408" y="456" font-size="11.5" text-anchor="end" fill="#6f7a89">INT</text>
-<rect x="1141" y="463" width="278" height="23" fill="#f5f7fa"/>
-<rect x="1150" y="467" width="26" height="15" rx="3" fill="#e6f2fa"/>
-<text x="1163" y="478.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#00649e">FK</text>
-<text x="1184" y="479" font-size="13" fill="#1f2933">id_projeto</text>
-<text x="1408" y="479" font-size="11.5" text-anchor="end" fill="#6f7a89">INT</text>
-<rect x="1150" y="490" width="26" height="15" rx="3" fill="#e6f2fa"/>
-<text x="1163" y="501.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#00649e">FK</text>
-<text x="1184" y="502" font-size="13" fill="#1f2933">id_doador</text>
-<text x="1408" y="502" font-size="11.5" text-anchor="end" fill="#6f7a89">INT</text>
-<rect x="1141" y="509" width="278" height="23" fill="#f5f7fa"/>
-<text x="1184" y="525" font-size="13" fill="#1f2933">tipo</text>
-<text x="1408" y="525" font-size="11.5" text-anchor="end" fill="#6f7a89">ENUM</text>
-<text x="1184" y="548" font-size="13" fill="#1f2933">valor</text>
-<text x="1408" y="548" font-size="11.5" text-anchor="end" fill="#6f7a89">DECIMAL(12,2)</text>
-<rect x="1141" y="555" width="278" height="23" fill="#f5f7fa"/>
-<text x="1184" y="571" font-size="13" fill="#1f2933">descricao</text>
-<text x="1408" y="571" font-size="11.5" text-anchor="end" fill="#6f7a89">TEXT</text>
-<text x="1184" y="594" font-size="13" fill="#1f2933">data_arrecadacao</text>
-<text x="1408" y="594" font-size="11.5" text-anchor="end" fill="#6f7a89">DATE</text>
-<rect x="1141" y="601" width="278" height="23" fill="#f5f7fa"/>
-<text x="1184" y="617" font-size="13" fill="#1f2933">data_registro</text>
-<text x="1408" y="617" font-size="11.5" text-anchor="end" fill="#6f7a89">DATETIME</text>
-<rect x="40" y="560" width="300" height="210" rx="8" fill="#fff" stroke="#c9d1db"/>
-<text x="54" y="586" font-size="14" font-weight="700" fill="#1f2933">Legenda</text>
-<line x1="56" y1="612" x2="116" y2="612" stroke="#1f2933" stroke-width="1.6" marker-end="url(#um)"/>
-<text x="130" y="616" font-size="12.5" fill="#1f2933">exatamente um</text>
-<line x1="56" y1="640" x2="116" y2="640" stroke="#1f2933" stroke-width="1.6" marker-end="url(#zeroum)"/>
-<text x="130" y="644" font-size="12.5" fill="#1f2933">zero ou um (opcional)</text>
-<line x1="56" y1="668" x2="116" y2="668" stroke="#1f2933" stroke-width="1.6" marker-end="url(#muitos)"/>
-<text x="130" y="672" font-size="12.5" fill="#1f2933">zero ou muitos</text>
-<rect x="56" y="695" width="26" height="15" rx="3" fill="#fff4d6"/>
-<text x="69" y="706" font-size="9.5" font-weight="700" text-anchor="middle" fill="#9a6b00">PK</text>
-<text x="92" y="706" font-size="12.5" fill="#1f2933">chave primária</text>
-<rect x="56" y="717" width="26" height="15" rx="3" fill="#e6f2fa"/>
-<text x="69" y="728" font-size="9.5" font-weight="700" text-anchor="middle" fill="#00649e">FK</text>
-<text x="92" y="728" font-size="12.5" fill="#1f2933">chave estrangeira</text>
-<rect x="56" y="739" width="26" height="15" rx="3" fill="#eceff3"/>
-<text x="69" y="750" font-size="9.5" font-weight="700" text-anchor="middle" fill="#4f5b6a">UK</text>
-<text x="92" y="750" font-size="12.5" fill="#1f2933">valor único</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1390" height="920" viewBox="0 0 1390 920">
+<defs><pattern id="pontos" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="0.9" fill="#c8c8c8"/></pattern></defs>
+<rect width="100%" height="100%" fill="#fff"/>
+<text x="695" y="34" font-family="Times New Roman, Times, serif" font-size="19" text-anchor="middle" fill="#000">Figura 3 - Diagrama Entidade e Relacionamento</text>
+<rect x="30" y="50" width="1330" height="820" fill="url(#pontos)" stroke="#222" stroke-width="1"/>
+<g font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#222">
+<line x1="235" y1="135.1" x2="330" y2="143.4" stroke="#333" stroke-width="1.2"/>
+<rect x="243" y="141.3" width="34" height="14" fill="#fff" opacity="0.85"/>
+<text x="260" y="152.3" text-anchor="middle">(1, 1)</text>
+<rect x="286.1" y="145.1" width="34" height="14" fill="#fff" opacity="0.85"/>
+<text x="303.1" y="156.1" text-anchor="middle">(0, n)</text>
+<line x1="630" y1="154.1" x2="495" y2="151.9" stroke="#333" stroke-width="1.2"/>
+<rect x="587.2" y="135.7" width="34" height="14" fill="#fff" opacity="0.85"/>
+<text x="604.2" y="146.7" text-anchor="middle">(1, 1)</text>
+<rect x="504.2" y="134.3" width="34" height="14" fill="#fff" opacity="0.85"/>
+<text x="521.2" y="145.3" text-anchor="middle">(0, n)</text>
+<line x1="712.5" y1="231" x2="712.5" y2="380" stroke="#333" stroke-width="1.2"/>
+<rect x="684.5" y="250" width="34" height="14" fill="#fff" opacity="0.85"/>
+<text x="701.5" y="261" text-anchor="middle">(0, 1)</text>
+<rect x="684.5" y="347" width="34" height="14" fill="#fff" opacity="0.85"/>
+<text x="701.5" y="358" text-anchor="middle">(0, n)</text>
+<line x1="795" y1="214.9" x2="970" y2="341.1" stroke="#333" stroke-width="1.2"/>
+<rect x="792.7" y="232.1" width="34" height="14" fill="#fff" opacity="0.85"/>
+<text x="809.7" y="243.1" text-anchor="middle">(0, 1)</text>
+<rect x="925.5" y="327.8" width="34" height="14" fill="#fff" opacity="0.85"/>
+<text x="942.5" y="338.8" text-anchor="middle">(0, n)</text>
+<line x1="630" y1="207.3" x2="305" y2="411.2" stroke="#333" stroke-width="1.2"/>
+<rect x="585.1" y="204.8" width="34" height="14" fill="#fff" opacity="0.85"/>
+<text x="602.1" y="215.8" text-anchor="middle">(0, 1)</text>
+<rect x="304.2" y="381.1" width="34" height="14" fill="#fff" opacity="0.85"/>
+<text x="321.2" y="392.1" text-anchor="middle">(0, n)</text>
+<line x1="795" y1="453.5" x2="970" y2="417.5" stroke="#333" stroke-width="1.2"/>
+<rect x="805.7" y="452" width="34" height="14" fill="#fff" opacity="0.85"/>
+<text x="822.7" y="463" text-anchor="middle">(1, 1)</text>
+<rect x="929.8" y="426.5" width="34" height="14" fill="#fff" opacity="0.85"/>
+<text x="946.8" y="437.5" text-anchor="middle">(0, n)</text>
+<line x1="630" y1="553.8" x2="534.7" y2="650" stroke="#333" stroke-width="1.2"/>
+<rect x="586.9" y="557.5" width="34" height="14" fill="#fff" opacity="0.85"/>
+<text x="603.9" y="568.5" text-anchor="middle">(1, 1)</text>
+<rect x="528.2" y="616.8" width="34" height="14" fill="#fff" opacity="0.85"/>
+<text x="545.2" y="627.8" text-anchor="middle">(0, n)</text>
+<line x1="293.2" y1="546" x2="381.8" y2="650" stroke="#333" stroke-width="1.2"/>
+<rect x="284.7" y="565.9" width="34" height="14" fill="#fff" opacity="0.85"/>
+<text x="301.7" y="576.9" text-anchor="middle">(1, 1)</text>
+<rect x="339.6" y="630.3" width="34" height="14" fill="#fff" opacity="0.85"/>
+<text x="356.6" y="641.3" text-anchor="middle">(0, n)</text>
+<line x1="1020.6" y1="521" x2="986.5" y2="650" stroke="#333" stroke-width="1.2"/>
+<rect x="986.4" y="536.3" width="34" height="14" fill="#fff" opacity="0.85"/>
+<text x="1003.4" y="547.3" text-anchor="middle">(1, 1)</text>
+<rect x="965.5" y="615.1" width="34" height="14" fill="#fff" opacity="0.85"/>
+<text x="982.5" y="626.1" text-anchor="middle">(0, n)</text>
+<line x1="1180" y1="690.5" x2="1055" y2="698" stroke="#333" stroke-width="1.2"/>
+<rect x="1136.4" y="674.1" width="34" height="14" fill="#fff" opacity="0.85"/>
+<text x="1153.4" y="685.1" text-anchor="middle">(1, 1)</text>
+<rect x="1063.3" y="678.5" width="34" height="14" fill="#fff" opacity="0.85"/>
+<text x="1080.3" y="689.5" text-anchor="middle">(0, n)</text>
+</g>
+<g font-family="Segoe UI, Arial, sans-serif">
+<rect x="70" y="90" width="165" height="76" fill="#fff" stroke="#555" stroke-width="1"/>
+<text x="152.5" y="106" font-size="12" font-weight="700" text-anchor="middle" fill="#000">acoes</text>
+<line x1="70" y1="114" x2="235" y2="114" stroke="#555"/>
+<text x="78" y="128" font-size="11.5" fill="#111">id_acao: PK</text>
+<text x="78" y="143" font-size="11.5" fill="#111">descricao</text>
+<line x1="70" y1="152" x2="235" y2="152" stroke="#555"/>
+</g>
+<g font-family="Segoe UI, Arial, sans-serif">
+<rect x="330" y="90" width="165" height="121" fill="#fff" stroke="#555" stroke-width="1"/>
+<text x="412.5" y="106" font-size="12" font-weight="700" text-anchor="middle" fill="#000">logs</text>
+<line x1="330" y1="114" x2="495" y2="114" stroke="#555"/>
+<text x="338" y="128" font-size="11.5" fill="#111">id_log: PK</text>
+<text x="338" y="143" font-size="11.5" fill="#111">id_acao: FK</text>
+<text x="338" y="158" font-size="11.5" fill="#111">id_usuario: FK</text>
+<text x="338" y="173" font-size="11.5" fill="#111">descricao</text>
+<text x="338" y="188" font-size="11.5" fill="#111">data_registro</text>
+<line x1="330" y1="197" x2="495" y2="197" stroke="#555"/>
+</g>
+<g font-family="Segoe UI, Arial, sans-serif">
+<rect x="630" y="80" width="165" height="151" fill="#fff" stroke="#555" stroke-width="1"/>
+<text x="712.5" y="96" font-size="12" font-weight="700" text-anchor="middle" fill="#000">usuarios</text>
+<line x1="630" y1="104" x2="795" y2="104" stroke="#555"/>
+<text x="638" y="118" font-size="11.5" fill="#111">id_usuario: PK</text>
+<text x="638" y="133" font-size="11.5" fill="#111">nome</text>
+<text x="638" y="148" font-size="11.5" fill="#111">email</text>
+<text x="638" y="163" font-size="11.5" fill="#111">senha</text>
+<text x="638" y="178" font-size="11.5" fill="#111">tipo</text>
+<text x="638" y="193" font-size="11.5" fill="#111">status</text>
+<text x="638" y="208" font-size="11.5" fill="#111">data_registro</text>
+<line x1="630" y1="217" x2="795" y2="217" stroke="#555"/>
+</g>
+<g font-family="Segoe UI, Arial, sans-serif">
+<rect x="140" y="380" width="165" height="166" fill="#fff" stroke="#555" stroke-width="1"/>
+<text x="222.5" y="396" font-size="12" font-weight="700" text-anchor="middle" fill="#000">doadores</text>
+<line x1="140" y1="404" x2="305" y2="404" stroke="#555"/>
+<text x="148" y="418" font-size="11.5" fill="#111">id_doador: PK</text>
+<text x="148" y="433" font-size="11.5" fill="#111">tipo</text>
+<text x="148" y="448" font-size="11.5" fill="#111">nome</text>
+<text x="148" y="463" font-size="11.5" fill="#111">documento</text>
+<text x="148" y="478" font-size="11.5" fill="#111">email</text>
+<text x="148" y="493" font-size="11.5" fill="#111">telefone</text>
+<text x="148" y="508" font-size="11.5" fill="#111">id_usuario: FK</text>
+<text x="148" y="523" font-size="11.5" fill="#111">data_registro</text>
+<line x1="140" y1="532" x2="305" y2="532" stroke="#555"/>
+</g>
+<g font-family="Segoe UI, Arial, sans-serif">
+<rect x="630" y="380" width="165" height="181" fill="#fff" stroke="#555" stroke-width="1"/>
+<text x="712.5" y="396" font-size="12" font-weight="700" text-anchor="middle" fill="#000">projetos</text>
+<line x1="630" y1="404" x2="795" y2="404" stroke="#555"/>
+<text x="638" y="418" font-size="11.5" fill="#111">id_projeto: PK</text>
+<text x="638" y="433" font-size="11.5" fill="#111">titulo</text>
+<text x="638" y="448" font-size="11.5" fill="#111">descricao</text>
+<text x="638" y="463" font-size="11.5" fill="#111">data_inicio</text>
+<text x="638" y="478" font-size="11.5" fill="#111">data_fim</text>
+<text x="638" y="493" font-size="11.5" fill="#111">arrecadacao_estimada</text>
+<text x="638" y="508" font-size="11.5" fill="#111">codigo</text>
+<text x="638" y="523" font-size="11.5" fill="#111">id_usuario: FK</text>
+<text x="638" y="538" font-size="11.5" fill="#111">data_registro</text>
+<line x1="630" y1="547" x2="795" y2="547" stroke="#555"/>
+</g>
+<g font-family="Segoe UI, Arial, sans-serif">
+<rect x="970" y="280" width="165" height="241" fill="#fff" stroke="#555" stroke-width="1"/>
+<text x="1052.5" y="296" font-size="12" font-weight="700" text-anchor="middle" fill="#000">atividades</text>
+<line x1="970" y1="304" x2="1135" y2="304" stroke="#555"/>
+<text x="978" y="318" font-size="11.5" fill="#111">id_atividade: PK</text>
+<text x="978" y="333" font-size="11.5" fill="#111">id_projeto: FK</text>
+<text x="978" y="348" font-size="11.5" fill="#111">titulo</text>
+<text x="978" y="363" font-size="11.5" fill="#111">descricao</text>
+<text x="978" y="378" font-size="11.5" fill="#111">local</text>
+<text x="978" y="393" font-size="11.5" fill="#111">data_inicio</text>
+<text x="978" y="408" font-size="11.5" fill="#111">data_fim</text>
+<text x="978" y="423" font-size="11.5" fill="#111">horario</text>
+<text x="978" y="438" font-size="11.5" fill="#111">vagas</text>
+<text x="978" y="453" font-size="11.5" fill="#111">codigo</text>
+<text x="978" y="468" font-size="11.5" fill="#111">status</text>
+<text x="978" y="483" font-size="11.5" fill="#111">id_usuario: FK</text>
+<text x="978" y="498" font-size="11.5" fill="#111">data_registro</text>
+<line x1="970" y1="507" x2="1135" y2="507" stroke="#555"/>
+</g>
+<g font-family="Segoe UI, Arial, sans-serif">
+<rect x="370" y="650" width="165" height="166" fill="#fff" stroke="#555" stroke-width="1"/>
+<text x="452.5" y="666" font-size="12" font-weight="700" text-anchor="middle" fill="#000">arrecadacoes</text>
+<line x1="370" y1="674" x2="535" y2="674" stroke="#555"/>
+<text x="378" y="688" font-size="11.5" fill="#111">id_arrecadacao: PK</text>
+<text x="378" y="703" font-size="11.5" fill="#111">id_projeto: FK</text>
+<text x="378" y="718" font-size="11.5" fill="#111">id_doador: FK</text>
+<text x="378" y="733" font-size="11.5" fill="#111">tipo</text>
+<text x="378" y="748" font-size="11.5" fill="#111">valor</text>
+<text x="378" y="763" font-size="11.5" fill="#111">descricao</text>
+<text x="378" y="778" font-size="11.5" fill="#111">data_arrecadacao</text>
+<text x="378" y="793" font-size="11.5" fill="#111">data_registro</text>
+<line x1="370" y1="802" x2="535" y2="802" stroke="#555"/>
+</g>
+<g font-family="Segoe UI, Arial, sans-serif">
+<rect x="890" y="650" width="165" height="106" fill="#fff" stroke="#555" stroke-width="1"/>
+<text x="972.5" y="666" font-size="12" font-weight="700" text-anchor="middle" fill="#000">inscricoes</text>
+<line x1="890" y1="674" x2="1055" y2="674" stroke="#555"/>
+<text x="898" y="688" font-size="11.5" fill="#111">id_inscricao: PK</text>
+<text x="898" y="703" font-size="11.5" fill="#111">id_voluntario: FK</text>
+<text x="898" y="718" font-size="11.5" fill="#111">id_atividade: FK</text>
+<text x="898" y="733" font-size="11.5" fill="#111">data_inscricao</text>
+<line x1="890" y1="742" x2="1055" y2="742" stroke="#555"/>
+</g>
+<g font-family="Segoe UI, Arial, sans-serif">
+<rect x="1180" y="610" width="165" height="151" fill="#fff" stroke="#555" stroke-width="1"/>
+<text x="1262.5" y="626" font-size="12" font-weight="700" text-anchor="middle" fill="#000">voluntarios</text>
+<line x1="1180" y1="634" x2="1345" y2="634" stroke="#555"/>
+<text x="1188" y="648" font-size="11.5" fill="#111">id_voluntario: PK</text>
+<text x="1188" y="663" font-size="11.5" fill="#111">nome</text>
+<text x="1188" y="678" font-size="11.5" fill="#111">cpf</text>
+<text x="1188" y="693" font-size="11.5" fill="#111">email</text>
+<text x="1188" y="708" font-size="11.5" fill="#111">telefone</text>
+<text x="1188" y="723" font-size="11.5" fill="#111">data_registro</text>
+<text x="1188" y="738" font-size="11.5" fill="#111">data_atualizacao</text>
+<line x1="1180" y1="747" x2="1345" y2="747" stroke="#555"/>
+</g>
+<text x="695" y="900" font-family="Times New Roman, Times, serif" font-size="17" text-anchor="middle" fill="#000">Fonte: Autor</text>
 </svg>

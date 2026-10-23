@@ -21,9 +21,8 @@ O **gestor** (área administrativa) controla projetos sociais, atividades, volun
 
 | Perfil | Acesso |
 |---|---|
-| `admin_master` | Conta de desenvolvimento. Acesso total, inclusive alterar dados e status de usuários. |
-| `admin` | Tudo do gestor + listar usuários e cadastrar novos gestores. Não altera usuários. |
-| `gestor` | Projetos, atividades, voluntários, doadores e arrecadações. |
+| `admin` | Acesso a todos os módulos, inclusive cadastrar/alterar projetos sociais e o módulo de usuários (cadastrar, alterar e ativar/desativar). |
+| `gestor` | Acesso a tudo (atividades, voluntários, doadores, arrecadações, relatórios), menos cadastrar/alterar projetos sociais e o módulo de usuários. |
 
 ## Requisitos
 
@@ -98,6 +97,16 @@ Os diagramas estão em [`docs/diagramas/`](docs/diagramas/):
 - [Diagrama de entidade-relacionamento](docs/diagramas/der.png)
 
 Os scripts `gerar_*.php` da mesma pasta recriam os SVGs quando o sistema mudar.
+
+As tabelas de requisitos estão em [`docs/requisitos/`](docs/requisitos/):
+
+- [Requisitos funcionais](docs/requisitos/tabela_requisitos_funcionais.png)
+- [Requisitos não funcionais](docs/requisitos/tabela_requisitos_nao_funcionais.png)
+- [Versão em texto](docs/requisitos/requisitos.md), para copiar para o documento
+
+O script `gerar_tabelas.php` recria os HTMLs e o texto; os PNGs são capturas dos HTMLs.
+
+As capturas de todas as telas do sistema (gestor e páginas públicas, com dados de exemplo) estão em [`docs/telas/`](docs/telas/), numeradas na ordem de navegação.
 
 ---
 

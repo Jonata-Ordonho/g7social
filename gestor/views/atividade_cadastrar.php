@@ -21,7 +21,7 @@ if($projeto == NULL){
     exit;
 }
 
-// Somente administradores cadastram atividades
+// Confere a permissão para cadastrar atividades (regras em Permissao)
 if(!Permissao::podeGerenciarAtividades($_SESSION['SS_UserType'])){
     header("Location: atividade_listar.php?id_projeto=".$idProject."&semPermissao=true");
     exit;

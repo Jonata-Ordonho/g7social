@@ -4,6 +4,9 @@ require_once __DIR__.'/../includes/verificar_login.php';
 
 use App\Controllers\ProjetoController;
 use App\Controllers\ArrecadacaoController;
+use App\Helpers\Permissao;
+
+$podeExcluir = Permissao::podeExcluirArrecadacao($_SESSION['SS_UserType']);
 
 $controllerProjeto = new ProjetoController;
 $controllerArrecadacao = new ArrecadacaoController;
@@ -65,6 +68,9 @@ foreach ($arrecadacoes as $arrecadacao) {
 
         <?php if(isset($_GET['newDonation'])){echo '<span class="alerta sucesso">Arrecadação cadastrada com sucesso!</span>';}?>
         <?php if(isset($_GET['updateDonation'])){echo '<span class="alerta sucesso">Arrecadação alterada com sucesso!</span>';}?>
+        <?php if(isset($_GET['deletedDonation'])){echo '<span class="alerta sucesso">Arrecadação excluída com sucesso!</span>';}?>
+        <?php if(isset($_GET['errorDelete'])){echo '<span class="alerta">Não foi possível excluir a arrecadação.</span>';}?>
+        <?php if(isset($_GET['semPermissao'])){echo '<span class="alerta">Você não tem permissão para excluir arrecadações.</span>';}?>
 
         <div id="filtro">
             <form name="form-busca" method="GET" action="" id="form-busca">
@@ -90,7 +96,7 @@ foreach ($arrecadacoes as $arrecadacao) {
                     <th width="90">Tipo</th>
                     <th>Descrição</th>
                     <th width="120">Valor</th>
-                    <th width="80">Ação</th>
+                    <th width="100">Ação</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -104,6 +110,14 @@ foreach ($arrecadacoes as $arrecadacao) {
                         <td align="right"><?php if($arrecadacao['valor'] != NULL){ echo 'R$ '.number_format($arrecadacao['valor'], 2, ',', '.'); } ?></td>
                         <td class="actions">
                             <a href="arrecadacao_alterar.php?id=<?php echo $arrecadacao['id_arrecadacao']; ?>" title="Alterar arrecadação" class="icon-pencil">Alterar</a>
+                            <?php if($podeExcluir){
+                                $resumoDoacao = $arrecadacao['tipo'] == 'dinheiro' ? 'de R$ '.number_format($arrecadacao['valor'], 2, ',', '.') : 'de itens';
+                                $mensagemExcluir = 'Deseja excluir a arrecadação '.$resumoDoacao.' de '.$arrecadacao['doador_nome'].' ('.date('d/m/Y', strtotime($arrecadacao['data_arrecadacao'])).')? Esta ação não pode ser desfeita.'; ?>
+                                <form method="POST" action="arrecadacao_excluir.php" onsubmit="return confirm(<?php echo htmlspecialchars(json_encode($mensagemExcluir), ENT_QUOTES); ?>);">
+                                    <input type="hidden" name="id_arrecadacao" value="<?php echo $arrecadacao['id_arrecadacao']; ?>">
+                                    <button type="submit" title="Excluir arrecadação" class="icon-trash acao-excluir">Excluir</button>
+                                </form>
+                            <?php } ?>
                         </td>
                     </tr>
                 <?php } ?>

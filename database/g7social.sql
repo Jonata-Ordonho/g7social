@@ -5,7 +5,7 @@ CREATE TABLE usuarios (
     nome VARCHAR(150) NOT NULL,
     email VARCHAR(150) NOT NULL,
     senha CHAR(40) NOT NULL,
-    tipo ENUM('admin_master', 'admin', 'gestor') NOT NULL DEFAULT 'gestor',
+    tipo ENUM('admin', 'gestor') NOT NULL DEFAULT 'gestor',
     status ENUM('on', 'off') NOT NULL DEFAULT 'on',
     data_registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id_usuario),
@@ -32,7 +32,7 @@ CREATE TABLE logs (
 INSERT INTO acoes (id_acao, descricao) VALUES (1, 'Login no gestor');
 
 -- Usuário inicial: admin master (conta DEV, senha: admin) - alterar após o primeiro acesso
-INSERT INTO usuarios (id_usuario, nome, email, senha, tipo) VALUES (1, 'Administrador', 'admin@g7social.local', SHA1('admin'), 'admin_master');
+INSERT INTO usuarios (id_usuario, nome, email, senha, tipo) VALUES (1, 'Administrador', 'admin@g7social.local', SHA1('admin'), 'admin');
 
 CREATE TABLE projetos (
     id_projeto INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -141,4 +141,5 @@ INSERT INTO acoes (id_acao, descricao) VALUES
 (15, 'Alteração de atividade da inscrição'),
 (16, 'Exclusão de inscrição de voluntário'),
 (17, 'Alteração de dados do voluntário'),
-(18, 'Exportação de relatório');
+(18, 'Exportação de relatório'),
+(19, 'Exclusão de arrecadação');

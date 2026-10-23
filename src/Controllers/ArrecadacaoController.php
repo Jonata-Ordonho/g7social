@@ -116,4 +116,17 @@ class ArrecadacaoController{
             echo $e->getMessage();
         }
     }
+
+    public function deleteDonation($idDonation){
+        try {
+            $query = "DELETE FROM arrecadacoes WHERE id_arrecadacao = :id";
+            $delete = $this->conn->connectBd()->prepare($query);
+            $delete->bindValue(':id', $idDonation, \PDO::PARAM_INT);
+            $delete->execute();
+
+            return $delete->rowCount() == 1;
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
 }

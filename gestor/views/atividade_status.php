@@ -24,7 +24,7 @@ if($atividade == NULL){
     exit;
 }
 
-// Somente administradores ativam/desativam atividades
+// Confere a permissão para ativar/desativar atividades (regras em Permissao)
 if(!Permissao::podeGerenciarAtividades($_SESSION['SS_UserType'])){
     header("Location: atividade_listar.php?id_projeto=".$atividade['id_projeto']."&semPermissao=true");
     exit;

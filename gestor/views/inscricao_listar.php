@@ -65,8 +65,8 @@ if(isset($_GET['movedVolunteer'])){
         <?php if(isset($_GET['newVolunteer'])){echo '<span class="alerta sucesso">'.($_GET['newVolunteer'] == 'existente' ? 'Voluntário já cadastrado no banco: inscrição realizada com sucesso!' : 'Voluntário cadastrado e inscrito com sucesso!').'</span>';}?>
         <?php if($atividadeDestino != NULL){echo '<span class="alerta sucesso">Inscrição transferida para a atividade "'.htmlspecialchars($atividadeDestino['titulo']).'".</span>';}?>
         <?php if(isset($_GET['deletedVolunteer'])){echo '<span class="alerta sucesso">Inscrição excluída com sucesso! O voluntário continua no banco de voluntários.</span>';}?>
-        <?php if(isset($_GET['semPermissao'])){echo '<span class="alerta">Somente administradores podem excluir inscrições.</span>';}?>
-        <?php if(isset($_GET['semPermissaoInscrever'])){echo '<span class="alerta">Somente administradores podem inscrever voluntários pelo gestor.</span>';}?>
+        <?php if(isset($_GET['semPermissao'])){echo '<span class="alerta">Você não tem permissão para excluir inscrições.</span>';}?>
+        <?php if(isset($_GET['semPermissaoInscrever'])){echo '<span class="alerta">Você não tem permissão para inscrever voluntários.</span>';}?>
         <?php if(isset($_GET['errorDelete'])){echo '<span class="alerta">Não foi possível excluir a inscrição.</span>';}?>
         <?php if($vagasEsgotadas){echo '<span class="alerta">Todas as vagas desta atividade foram preenchidas.</span>';}?>
 
@@ -121,7 +121,7 @@ if(isset($_GET['movedVolunteer'])){
                                     <button type="submit" title="Excluir inscrição" class="icon-trash acao-excluir">Excluir</button>
                                 </form>
                             <?php }else{ ?>
-                                <a title="Somente administradores podem excluir inscrições" class="icon-trash desativar">Excluir</a>
+                                <a title="Você não tem permissão para excluir inscrições. class="icon-trash desativar">Excluir</a>
                             <?php } ?>
                         </td>
                     </tr>

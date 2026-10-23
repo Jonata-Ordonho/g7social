@@ -52,7 +52,7 @@ $atividades = $controllerAtividade->getActivitiesByProject($idProject);
         <?php if(isset($_GET['newActivity'])){echo '<span class="alerta sucesso">Atividade cadastrada com sucesso!</span>';}?>
         <?php if(isset($_GET['updateActivity'])){echo '<span class="alerta sucesso">Atividade alterada com sucesso!</span>';}?>
         <?php if(isset($_GET['errorInfo'])){echo '<span class="alerta">Nenhum dado de atividade encontrado!</span>';}?>
-        <?php if(isset($_GET['semPermissao'])){echo '<span class="alerta">Somente administradores podem cadastrar, alterar, ativar ou desativar atividades.</span>';}?>
+        <?php if(isset($_GET['semPermissao'])){echo '<span class="alerta">Você não tem permissão para cadastrar, alterar, ativar ou desativar atividades.</span>';}?>
         <?php if(isset($_GET['statusActivity'])){echo '<span class="alerta sucesso">Atividade '.($_GET['statusActivity'] == 'off' ? 'desativada. Ela não aparece mais na página de inscrição do projeto.' : 'ativada. Ela passou a aparecer na página de inscrição do projeto.').'</span>';}?>
 
         <?php if(count($atividades) > 0){ ?>
@@ -106,11 +106,11 @@ $atividades = $controllerAtividade->getActivitiesByProject($idProject);
                             <?php if($gerenciaAtividades){ ?>
                                 <a href="atividade_alterar.php?id=<?php echo $atividade['id_atividade']; ?>" title="Alterar atividade" class="icon-pencil">Alterar</a>
                             <?php }else{ ?>
-                                <a title="Somente administradores podem alterar atividades" class="icon-pencil desativar">Alterar</a>
+                                <a title="Você não tem permissão para alterar atividades" class="icon-pencil desativar">Alterar</a>
                             <?php } ?>
                             <a href="inscricao_listar.php?id_atividade=<?php echo $atividade['id_atividade']; ?>" title="Voluntários da atividade" class="icon-users">Voluntários</a>
                             <?php if(!$gerenciaAtividades){ ?>
-                                <a title="Somente administradores podem ativar ou desativar atividades" class="<?php echo $atividade['status'] == 'on' ? 'icon-down-big' : 'icon-up-big'; ?> desativar"><?php echo $atividade['status'] == 'on' ? 'Desativar' : 'Ativar'; ?></a>
+                                <a title="Você não tem permissão para ativar ou desativar atividades" class="<?php echo $atividade['status'] == 'on' ? 'icon-down-big' : 'icon-up-big'; ?> desativar"><?php echo $atividade['status'] == 'on' ? 'Desativar' : 'Ativar'; ?></a>
                             <?php }elseif($atividade['status'] == 'on'){ ?>
                                 <form method="POST" action="atividade_status.php" onsubmit="return confirm('Deseja desativar esta atividade? Ela deixará de aparecer na página de inscrição do projeto.');">
                                     <input type="hidden" name="id_atividade" value="<?php echo $atividade['id_atividade']; ?>">

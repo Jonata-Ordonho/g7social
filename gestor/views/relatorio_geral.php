@@ -279,7 +279,7 @@ $queryExportar = http_build_query(array('inicio' => $inicio, 'fim' => $fim, 'exp
                 <?php if($maiorMes == 0){ ?>
                     <p class="painel-vazio">Nenhuma doação em dinheiro no período.</p>
                 <?php }else{ ?>
-                    <div class="grafico-colunas<?php if(count($arrecadacaoMes) > 12){ echo ' grafico-denso'; } ?>" role="img" aria-label="Gráfico de colunas da arrecadação em dinheiro por mês. Os valores estão na tabela abaixo.">
+                    <div class="grafico-colunas<?php if(count($arrecadacaoMes) > 8){ echo ' grafico-denso'; } ?>" role="img" aria-label="Gráfico de colunas da arrecadação em dinheiro por mês. Os valores estão na tabela abaixo.">
                         <?php foreach ($arrecadacaoMes as $m) {
                             $mesNome = $nomesMeses[substr($m['mes'], 5, 2)].'/'.substr($m['mes'], 2, 2);
                             $altura = $m['total'] > 0 ? max(2, round($m['total'] / $maiorMes * 100)) : 0; ?>

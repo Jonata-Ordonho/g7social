@@ -82,7 +82,8 @@ if (!empty($_SERVER['QUERY_STRING'])) {
         <?php if(isset($_GET['newUser'])){echo '<span class="alerta sucesso">Usuário cadastrado com sucesso!</span>';}?>
         <?php if(isset($_GET['updateUser'])){echo '<span class="alerta sucesso">Usuário alterado com sucesso!</span>';}?>
         <?php if(isset($_GET['errorInfo'])){echo '<span class="alerta">Nenhum dado de usuário encontrado!</span>';}?>
-        <?php if(isset($_GET['semPermissao'])){echo '<span class="alerta">Somente o admin master pode alterar os dados dos usuários.</span>';}?>
+        <?php if(isset($_GET['semPermissao'])){echo '<span class="alerta">Somente o administrador pode alterar os dados dos usuários.</span>';}?>
+        <?php if(isset($_GET['outroAdmin'])){echo '<span class="alerta">Um administrador não pode alterar nem desativar outro administrador.</span>';}?>
 
         <div id="filtro">
             <form name="form-busca" method="GET" action="" id="form-busca">
@@ -134,10 +135,12 @@ if (!empty($_SERVER['QUERY_STRING'])) {
                         <td><?php echo htmlspecialchars($usuario['email']); ?></td>
                         <td align="center"><?php echo Permissao::nomeTipo($usuario['tipo']); ?></td>
                         <td class="actions">
-                            <?php if(Permissao::podeAlterarUsuario($_SESSION['SS_UserType'])){ ?>
+                            <?php if(Permissao::podeAlterarEsteUsuario($_SESSION['SS_UserType'], $_SESSION['SS_UserID'], $usuario)){ ?>
                                 <a href="usuario_alterar.php?id=<?php echo $usuario['id_usuario']; ?>" title="Alterar usuário" class="icon-pencil">Alterar</a>
+                            <?php }elseif(Permissao::podeAlterarUsuario($_SESSION['SS_UserType'])){ ?>
+                                <a title="Um administrador não pode alterar nem desativar outro administrador" class="icon-pencil desativar">Alterar</a>
                             <?php }else{ ?>
-                                <a title="Somente o admin master pode alterar os dados dos usuários" class="icon-pencil desativar">Alterar</a>
+                                <a title="Somente o administrador pode alterar os dados dos usuários" class="icon-pencil desativar">Alterar</a>
                             <?php } ?>
                         </td>
                     </tr>

@@ -112,7 +112,7 @@ if (!empty($_SERVER['QUERY_STRING'])) {
                             <?php if($gerenciaVoluntarios){ ?>
                                 <a href="voluntario_alterar.php?id=<?php echo $voluntario['id_voluntario']; ?>" title="Alterar dados do voluntário" class="icon-pencil">Alterar</a>
                             <?php }else{ ?>
-                                <a title="Somente administradores podem alterar os dados dos voluntários" class="icon-pencil desativar">Alterar</a>
+                                <a title="Você não tem permissão para alterar os dados dos voluntários" class="icon-pencil desativar">Alterar</a>
                             <?php } ?>
                         </td>
                     </tr>

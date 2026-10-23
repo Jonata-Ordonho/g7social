@@ -1,115 +1,104 @@
 <?php
-// Gera o Diagrama de Entidade-Relacionamento (DER) do G7 Social em SVG
-$W = 1460; $H = 800;
-$LARG = 280; $CAB = 36; $LIN = 23;
-
-// [x, y, campos]  campo: [nome, tipo, chave]
-$ent = array(
- 'acoes' => array(40, 60, array(
-   array('id_acao', 'INT', 'PK'), array('descricao', 'VARCHAR(100)', ''))),
- 'logs' => array(40, 230, array(
-   array('id_log', 'INT', 'PK'), array('id_acao', 'INT', 'FK'), array('id_usuario', 'INT', 'FK'),
-   array('descricao', 'TEXT', ''), array('data_registro', 'DATETIME', ''))),
- 'usuarios' => array(400, 60, array(
-   array('id_usuario', 'INT', 'PK'), array('nome', 'VARCHAR(150)', ''), array('email', 'VARCHAR(150)', 'UK'),
-   array('senha', 'CHAR(40)', ''), array('tipo', 'ENUM', ''), array('status', 'ENUM', ''), array('data_registro', 'DATETIME', ''))),
- 'voluntarios' => array(400, 560, array(
-   array('id_voluntario', 'INT', 'PK'), array('id_atividade', 'INT', 'FK'), array('nome', 'VARCHAR(150)', ''),
-   array('email', 'VARCHAR(150)', ''), array('telefone', 'VARCHAR(11)', ''), array('data_registro', 'DATETIME', ''))),
- 'projetos' => array(770, 60, array(
-   array('id_projeto', 'INT', 'PK'), array('titulo', 'VARCHAR(200)', ''), array('descricao', 'TEXT', ''),
-   array('captacao_empresas', 'ENUM', ''), array('captacao_voluntarios', 'ENUM', ''), array('data_inicio', 'DATE', ''),
-   array('data_fim', 'DATE', ''), array('codigo', 'CHAR(32)', 'UK'), array('id_usuario', 'INT', 'FK'),
-   array('data_registro', 'DATETIME', ''))),
- 'atividades' => array(770, 400, array(
-   array('id_atividade', 'INT', 'PK'), array('id_projeto', 'INT', 'FK'), array('titulo', 'VARCHAR(200)', ''),
-   array('descricao', 'TEXT', ''), array('local', 'VARCHAR(200)', ''), array('data_inicio', 'DATE', ''),
-   array('data_fim', 'DATE', ''), array('horario', 'VARCHAR(100)', ''), array('vagas', 'INT', ''),
-   array('codigo', 'CHAR(32)', 'UK'), array('status', 'ENUM', ''), array('id_usuario', 'INT', 'FK'),
-   array('data_registro', 'DATETIME', ''))),
- 'doadores' => array(1140, 60, array(
-   array('id_doador', 'INT', 'PK'), array('tipo', 'ENUM', ''), array('nome', 'VARCHAR(200)', ''),
-   array('documento', 'VARCHAR(14)', 'UK'), array('email', 'VARCHAR(150)', ''), array('telefone', 'VARCHAR(11)', ''),
-   array('id_usuario', 'INT', 'FK'), array('data_registro', 'DATETIME', ''))),
- 'arrecadacoes' => array(1140, 400, array(
-   array('id_arrecadacao', 'INT', 'PK'), array('id_projeto', 'INT', 'FK'), array('id_doador', 'INT', 'FK'),
-   array('tipo', 'ENUM', ''), array('valor', 'DECIMAL(12,2)', ''), array('descricao', 'TEXT', ''),
-   array('data_arrecadacao', 'DATE', ''), array('data_registro', 'DATETIME', ''))),
-);
-
-function alt($campos) { global $CAB, $LIN; return $CAB + count($campos) * $LIN + 8; }
+// Gera o Diagrama de Entidade e Relacionamento (DER) do G7 Social em SVG (estilo do documento: fundo pontilhado,
+// entidades com campos PK/FK e cardinalidades nas pontas). Estrutura conferida com database/g7social.sql.
 function esc($t) { return htmlspecialchars($t, ENT_XML1); }
 
-$svg = array();
-$svg[] = '<svg xmlns="http://www.w3.org/2000/svg" width="'.$W.'" height="'.$H.'" viewBox="0 0 '.$W.' '.$H.'" font-family="Segoe UI, Inter, Arial, sans-serif">';
-$svg[] = '<defs>
-  <marker id="um" viewBox="0 0 20 20" refX="19" refY="10" markerWidth="20" markerHeight="20" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
-    <path d="M9 3 V17 M14 3 V17" stroke="#1f2933" stroke-width="1.8" fill="none"/></marker>
-  <marker id="zeroum" viewBox="0 0 24 20" refX="23" refY="10" markerWidth="24" markerHeight="20" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
-    <circle cx="8" cy="10" r="4.5" fill="#fff" stroke="#1f2933" stroke-width="1.8"/><path d="M17 3 V17" stroke="#1f2933" stroke-width="1.8"/></marker>
-  <marker id="muitos" viewBox="0 0 26 20" refX="25" refY="10" markerWidth="26" markerHeight="20" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
-    <circle cx="6" cy="10" r="4.5" fill="#fff" stroke="#1f2933" stroke-width="1.8"/><path d="M13 10 L25 2 M13 10 L25 10 M13 10 L25 18" stroke="#1f2933" stroke-width="1.8" fill="none"/></marker>
-  <filter id="sombra" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#101828" flood-opacity="0.12"/></filter>
-</defs>';
-$svg[] = '<rect width="100%" height="100%" fill="#f3f5f8"/>';
-$svg[] = '<text x="40" y="36" font-size="22" font-weight="700" fill="#1f2933">G7 Social — Diagrama de Entidade-Relacionamento</text>';
+$tituloFigura = 'Figura 3 - Diagrama Entidade e Relacionamento';
 
-// Relacionamentos: [pontos, marcador início (lado "1"), marcador fim (lado "N"), rótulo, x, y]
-$rel = array(
- array('175,150 175,230', 'um', 'muitos', 'classifica', 183, 196),
- array('400,250 320,250', 'um', 'muitos', 'executa', 334, 242),
- array('680,150 770,150', 'zeroum', 'muitos', 'cadastra', 698, 142),
- array('540,265 540,470 770,470', 'zeroum', 'muitos', 'cadastra', 610, 462),
- array('610,60 610,48 1280,48 1280,60', 'zeroum', 'muitos', 'cadastra', 1040, 42),
- array('910,334 910,400', 'um', 'muitos', 'possui', 918, 372),
- array('770,640 680,640', 'um', 'muitos', 'recebe', 696, 632),
- array('1050,200 1100,200 1100,480 1140,480', 'um', 'muitos', 'recebe', 1050, 340),
- array('1280,288 1280,400', 'um', 'muitos', 'faz', 1288, 350),
+// nome => [x, y, campos]  (dentro do quadro)
+$entidades = array(
+    'acoes' => array(40, 40, array('id_acao: PK', 'descricao')),
+    'logs' => array(300, 40, array('id_log: PK', 'id_acao: FK', 'id_usuario: FK', 'descricao', 'data_registro')),
+    'usuarios' => array(600, 30, array('id_usuario: PK', 'nome', 'email', 'senha', 'tipo', 'status', 'data_registro')),
+    'doadores' => array(110, 330, array('id_doador: PK', 'tipo', 'nome', 'documento', 'email', 'telefone', 'id_usuario: FK', 'data_registro')),
+    'projetos' => array(600, 330, array('id_projeto: PK', 'titulo', 'descricao', 'data_inicio', 'data_fim', 'arrecadacao_estimada', 'codigo', 'id_usuario: FK', 'data_registro')),
+    'atividades' => array(940, 230, array('id_atividade: PK', 'id_projeto: FK', 'titulo', 'descricao', 'local', 'data_inicio', 'data_fim', 'horario', 'vagas', 'codigo', 'status', 'id_usuario: FK', 'data_registro')),
+    'arrecadacoes' => array(340, 600, array('id_arrecadacao: PK', 'id_projeto: FK', 'id_doador: FK', 'tipo', 'valor', 'descricao', 'data_arrecadacao', 'data_registro')),
+    'inscricoes' => array(860, 600, array('id_inscricao: PK', 'id_voluntario: FK', 'id_atividade: FK', 'data_inscricao')),
+    'voluntarios' => array(1150, 560, array('id_voluntario: PK', 'nome', 'cpf', 'email', 'telefone', 'data_registro', 'data_atualizacao')),
 );
-foreach ($rel as $r) {
-    $svg[] = '<polyline points="'.$r[0].'" fill="none" stroke="#1f2933" stroke-width="1.6" marker-start="url(#'.$r[1].')" marker-end="url(#'.$r[2].')"/>';
-    $svg[] = '<text x="'.$r[4].'" y="'.$r[5].'" font-size="12" font-style="italic" fill="#4f5b6a">'.$r[3].'</text>';
+
+// [entidade do lado "um", cardinalidade dela, entidade do lado "muitos", cardinalidade dela]
+$relacoes = array(
+    array('acoes', '(1, 1)', 'logs', '(0, n)'),
+    array('usuarios', '(1, 1)', 'logs', '(0, n)'),
+    array('usuarios', '(0, 1)', 'projetos', '(0, n)'),
+    array('usuarios', '(0, 1)', 'atividades', '(0, n)'),
+    array('usuarios', '(0, 1)', 'doadores', '(0, n)'),
+    array('projetos', '(1, 1)', 'atividades', '(0, n)'),
+    array('projetos', '(1, 1)', 'arrecadacoes', '(0, n)'),
+    array('doadores', '(1, 1)', 'arrecadacoes', '(0, n)'),
+    array('atividades', '(1, 1)', 'inscricoes', '(0, n)'),
+    array('voluntarios', '(1, 1)', 'inscricoes', '(0, n)'),
+);
+
+// Medidas
+$LARG = 165; $CAB = 24; $LIN = 15; $RODAPE = 14;
+$quadroX = 30; $quadroY = 50; $quadroW = 1330; $quadroH = 820;
+$W = $quadroX * 2 + $quadroW;
+$H = $quadroY + $quadroH + 50;
+$fonte = 'Segoe UI, Arial, sans-serif';
+
+// Caixa de cada entidade em coordenadas absolutas
+$caixas = array();
+foreach ($entidades as $nome => $e) {
+    $h = $CAB + count($e[2]) * $LIN + 8 + $RODAPE;
+    $caixas[$nome] = array('x' => $quadroX + $e[0], 'y' => $quadroY + $e[1], 'w' => $LARG, 'h' => $h);
 }
 
-// Entidades
-foreach ($ent as $nome => $e) {
-    list($x, $y, $campos) = $e;
-    $h = alt($campos);
-    $svg[] = '<g filter="url(#sombra)"><rect x="'.$x.'" y="'.$y.'" width="'.$LARG.'" height="'.$h.'" rx="8" fill="#fff" stroke="#c9d1db"/></g>';
-    $svg[] = '<path d="M'.$x.' '.($y+$CAB).' V'.($y+8).' Q'.$x.' '.$y.' '.($x+8).' '.$y.' H'.($x+$LARG-8).' Q'.($x+$LARG).' '.$y.' '.($x+$LARG).' '.($y+8).' V'.($y+$CAB).' Z" fill="#007DC5"/>';
-    $svg[] = '<text x="'.($x+14).'" y="'.($y+24).'" font-size="15" font-weight="700" fill="#fff">'.esc($nome).'</text>';
-    foreach ($campos as $i => $c) {
-        $cy = $y + $CAB + 4 + $i * $LIN;
-        if ($i % 2 == 1) $svg[] = '<rect x="'.($x+1).'" y="'.$cy.'" width="'.($LARG-2).'" height="'.$LIN.'" fill="#f5f7fa"/>';
-        $ty = $cy + 16;
-        if ($c[2] != '') {
-            $cores = array('PK' => array('#fff4d6', '#9a6b00'), 'FK' => array('#e6f2fa', '#00649e'), 'UK' => array('#eceff3', '#4f5b6a'));
-            $svg[] = '<rect x="'.($x+10).'" y="'.($cy+4).'" width="26" height="15" rx="3" fill="'.$cores[$c[2]][0].'"/>';
-            $svg[] = '<text x="'.($x+23).'" y="'.($cy+15.5).'" font-size="9.5" font-weight="700" text-anchor="middle" fill="'.$cores[$c[2]][1].'">'.$c[2].'</text>';
-        }
-        $peso = $c[2] == 'PK' ? ' font-weight="700"' : '';
-        $svg[] = '<text x="'.($x+44).'" y="'.$ty.'" font-size="13" fill="#1f2933"'.$peso.'>'.esc($c[0]).'</text>';
-        $svg[] = '<text x="'.($x+$LARG-12).'" y="'.$ty.'" font-size="11.5" text-anchor="end" fill="#6f7a89">'.esc($c[1]).'</text>';
+// Ponto em que a reta entre os centros das caixas cruza a borda da caixa $a
+function borda($a, $b){
+    $cx = $a['x'] + $a['w'] / 2; $cy = $a['y'] + $a['h'] / 2;
+    $dx = ($b['x'] + $b['w'] / 2) - $cx; $dy = ($b['y'] + $b['h'] / 2) - $cy;
+    $tx = $dx != 0 ? ($a['w'] / 2) / abs($dx) : INF;
+    $ty = $dy != 0 ? ($a['h'] / 2) / abs($dy) : INF;
+    $t = min($tx, $ty);
+    return array($cx + $dx * $t, $cy + $dy * $t);
+}
+
+$svg = array();
+$svg[] = '<svg xmlns="http://www.w3.org/2000/svg" width="'.$W.'" height="'.$H.'" viewBox="0 0 '.$W.' '.$H.'">';
+$svg[] = '<defs><pattern id="pontos" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="0.9" fill="#c8c8c8"/></pattern></defs>';
+$svg[] = '<rect width="100%" height="100%" fill="#fff"/>';
+$svg[] = '<text x="'.($W / 2).'" y="'.($quadroY - 16).'" font-family="Times New Roman, Times, serif" font-size="19" text-anchor="middle" fill="#000">'.esc($tituloFigura).'</text>';
+$svg[] = '<rect x="'.$quadroX.'" y="'.$quadroY.'" width="'.$quadroW.'" height="'.$quadroH.'" fill="url(#pontos)" stroke="#222" stroke-width="1"/>';
+
+// Relacionamentos com as cardinalidades perto de cada ponta
+$svg[] = '<g font-family="'.$fonte.'" font-size="11" fill="#222">';
+foreach ($relacoes as $r) {
+    $a = $caixas[$r[0]]; $b = $caixas[$r[2]];
+    $pa = borda($a, $b); $pb = borda($b, $a);
+    $svg[] = '<line x1="'.round($pa[0], 1).'" y1="'.round($pa[1], 1).'" x2="'.round($pb[0], 1).'" y2="'.round($pb[1], 1).'" stroke="#333" stroke-width="1.2"/>';
+    $dx = $pb[0] - $pa[0]; $dy = $pb[1] - $pa[1];
+    $len = sqrt($dx * $dx + $dy * $dy);
+    $ux = $dx / $len; $uy = $dy / $len;
+    // Rótulo afastado da caixa e deslocado para o lado da linha
+    foreach (array(array($pa, 1, $r[1]), array($pb, -1, $r[3])) as $ponta) {
+        list($p, $sentido, $rotulo) = $ponta;
+        $lx = $p[0] + $ux * 26 * $sentido - $uy * 11;
+        $ly = $p[1] + $uy * 26 * $sentido + $ux * 11 + 4;
+        $svg[] = '<rect x="'.round($lx - 17, 1).'" y="'.round($ly - 11, 1).'" width="34" height="14" fill="#fff" opacity="0.85"/>';
+        $svg[] = '<text x="'.round($lx, 1).'" y="'.round($ly, 1).'" text-anchor="middle">'.esc($rotulo).'</text>';
     }
 }
+$svg[] = '</g>';
 
-// Legenda
-$lx = 40; $ly = 560;
-$svg[] = '<rect x="'.$lx.'" y="'.$ly.'" width="300" height="210" rx="8" fill="#fff" stroke="#c9d1db"/>';
-$svg[] = '<text x="'.($lx+14).'" y="'.($ly+26).'" font-size="14" font-weight="700" fill="#1f2933">Legenda</text>';
-$itens = array(array('um', 'exatamente um'), array('zeroum', 'zero ou um (opcional)'), array('muitos', 'zero ou muitos'));
-foreach ($itens as $i => $it) {
-    $yy = $ly + 52 + $i * 28;
-    $svg[] = '<line x1="'.($lx+16).'" y1="'.$yy.'" x2="'.($lx+76).'" y2="'.$yy.'" stroke="#1f2933" stroke-width="1.6" marker-end="url(#'.$it[0].')"/>';
-    $svg[] = '<text x="'.($lx+90).'" y="'.($yy+4).'" font-size="12.5" fill="#1f2933">'.$it[1].'</text>';
+// Entidades
+foreach ($entidades as $nome => $e) {
+    $c = $caixas[$nome];
+    $svg[] = '<g font-family="'.$fonte.'">';
+    $svg[] = '<rect x="'.$c['x'].'" y="'.$c['y'].'" width="'.$c['w'].'" height="'.$c['h'].'" fill="#fff" stroke="#555" stroke-width="1"/>';
+    $svg[] = '<text x="'.($c['x'] + $c['w'] / 2).'" y="'.($c['y'] + 16).'" font-size="12" font-weight="700" text-anchor="middle" fill="#000">'.esc($nome).'</text>';
+    $svg[] = '<line x1="'.$c['x'].'" y1="'.($c['y'] + $CAB).'" x2="'.($c['x'] + $c['w']).'" y2="'.($c['y'] + $CAB).'" stroke="#555"/>';
+    foreach ($e[2] as $i => $campo) {
+        $svg[] = '<text x="'.($c['x'] + 8).'" y="'.($c['y'] + $CAB + 14 + $i * $LIN).'" font-size="11.5" fill="#111">'.esc($campo).'</text>';
+    }
+    $svg[] = '<line x1="'.$c['x'].'" y1="'.($c['y'] + $c['h'] - $RODAPE).'" x2="'.($c['x'] + $c['w']).'" y2="'.($c['y'] + $c['h'] - $RODAPE).'" stroke="#555"/>';
+    $svg[] = '</g>';
 }
-$chaves = array(array('PK', '#fff4d6', '#9a6b00', 'chave primária'), array('FK', '#e6f2fa', '#00649e', 'chave estrangeira'), array('UK', '#eceff3', '#4f5b6a', 'valor único'));
-foreach ($chaves as $i => $k) {
-    $yy = $ly + 146 + $i * 22;
-    $svg[] = '<rect x="'.($lx+16).'" y="'.($yy-11).'" width="26" height="15" rx="3" fill="'.$k[1].'"/>';
-    $svg[] = '<text x="'.($lx+29).'" y="'.$yy.'" font-size="9.5" font-weight="700" text-anchor="middle" fill="'.$k[2].'">'.$k[0].'</text>';
-    $svg[] = '<text x="'.($lx+52).'" y="'.$yy.'" font-size="12.5" fill="#1f2933">'.$k[3].'</text>';
-}
+
+$svg[] = '<text x="'.($W / 2).'" y="'.($quadroY + $quadroH + 30).'" font-family="Times New Roman, Times, serif" font-size="17" text-anchor="middle" fill="#000">Fonte: Autor</text>';
 $svg[] = '</svg>';
-file_put_contents('C:/Sisitemas/g7social/docs/diagramas/der.svg', implode("\n", $svg));
-foreach ($ent as $n => $e) echo str_pad($n, 13) . " x={$e[0]} y={$e[1]} h=" . alt($e[2]) . " (fim y=" . ($e[1] + alt($e[2])) . ")\n";
+
+file_put_contents(__DIR__ . '/der.svg', implode("\n", $svg));
+echo "ok\n";

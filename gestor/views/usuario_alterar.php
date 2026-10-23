@@ -19,9 +19,15 @@ if($usuario == NULL){
     exit;
 }
 
-// Somente o admin master altera dados de usuários
+// Somente o admin altera dados de usuários
 if(!Permissao::podeAlterarUsuario($_SESSION['SS_UserType'])){
     header("Location: usuario_listar.php?semPermissao=true");
+    exit;
+}
+
+// Um admin não altera nem desativa outro admin (só a própria conta)
+if(!Permissao::podeAlterarEsteUsuario($_SESSION['SS_UserType'], $_SESSION['SS_UserID'], $usuario)){
+    header("Location: usuario_listar.php?outroAdmin=true");
     exit;
 }
 
